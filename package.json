@@ -1,0 +1,34 @@
+{
+  "name": "electron-ae",
+  "version": "1.0.0",
+  "description": "this is ae tool designed on electron platform",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prestart": "tsc",
+    "start": "electrion .",
+    "package": "electron-packager . AE --win --out ../AE --arch=x64 --app-version=1.0.0 --electron-version=8.0.0 --asar --ignore=data --ignore=AE-win32-x64 --extra-resource=libs --overwrite --download.mirrorOptions.mirror=https://npm.taobao.org/mirrors/electron/ --download.mirrorOptions.customDir=8.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/silenxiao/electron-ae.git"
+  },
+  "keywords": [
+    "ae",
+    "electron"
+  ],
+  "author": "silenxiao",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/silenxiao/electron-ae/issues"
+  },
+  "homepage": "https://github.com/silenxiao/electron-ae#readme",
+  "devDependencies": {
+    "electron": "^8.1.1",
+    "electron-packager": "^14.2.1"
+  },
+  "dependencies": {
+    "@types/images": "^2.2.2",
+    "images": "^3.0.2"
+  }
+}
