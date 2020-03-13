@@ -22661,7 +22661,7 @@ function onInit()
 		/**
 		 * @private 
 		 */
-		protected _words: WordText[] | null;
+		protected _words: laya.utils.WordText[] | null;
 
 		/**
 		 * @private 
@@ -24806,7 +24806,7 @@ declare module laya.filters {
 		 * @private 滤镜类型。
 		 */
 		readonly type: number;
-		static _filter: (sprite: Sprite, context: Context, x: number, y: number) => void;
+		static _filter: (sprite: laya.display.Sprite, context: laya.resource.Context, x: number, y: number) => void;
 	}
 
 }
@@ -45314,7 +45314,7 @@ declare module laya.webgl.text {
 		getNextChar(str: string): string | null;
 		filltext(ctx: laya.resource.Context, data: string | laya.utils.WordText, x: number, y: number, fontStr: string, color: string, strokeColor: string, lineWidth: number, textAlign: string, underLine?: number): void;
 		fillWords(ctx: laya.resource.Context, data: laya.utils.HTMLChar[], x: number, y: number, fontStr: string | laya.utils.FontInfo, color: string, strokeColor: string, lineWidth: number): void;
-		_fast_filltext(ctx: laya.resource.Context, data: string | laya.utils.WordText | null, htmlchars: HTMLChar[] | null, x: number, y: number, font: laya.utils.FontInfo, color: string, strokeColor: string, lineWidth: number, textAlign: number, underLine?: number): void;
+		_fast_filltext(ctx: laya.resource.Context, data: string | laya.utils.WordText | null, htmlchars: laya.utils.HTMLChar[] | null, x: number, y: number, font: laya.utils.FontInfo, color: string, strokeColor: string, lineWidth: number, textAlign: number, underLine?: number): void;
 
 		/**
 		 * 画出重新按照贴图顺序分组的文字。

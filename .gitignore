@@ -8,5 +8,6 @@
 # 忽略所有.o和 .a文件.
 #*.[oa]
 node_modules
-build
-!libs/build
+bin
+data
+*.log

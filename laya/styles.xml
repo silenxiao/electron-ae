@@ -1,0 +1,34 @@
+<res>
+   <item name="comp/checkbox.png" type="CheckBox" compress="0" pack="1" quality="80" props="sizeGrid=9,9,9,9" picType="0" scale="0"/>
+   <item name="comp/render_on.png" type="Image" compress="0" pack="1" quality="80" props="sizeGrid=3,3,3,3" picType="0" scale="0"/>
+   <item name="comp/render_select.png" type="Image" compress="0" pack="1" quality="80" props="sizeGrid=5,5,5,5" picType="0" scale="0"/>
+   <item name="comp/img_on.png" type="Image" compress="0" pack="1" quality="80" props="sizeGrid=3,3,3,3" picType="0" scale="0"/>
+   <item name="comp/img_select.png" type="Image" compress="0" pack="1" quality="80" props="sizeGrid=3,3,3,3" picType="0" scale="0"/>
+   <item name="comp/button.png" type="Button" compress="0" pack="0" quality="80" props="sizeGrid=5,5,5,5" picType="0" scale="0"/>
+   <item name="comp/line.png" type="Image" compress="0" pack="0" quality="80" props="sizeGrid=2,1,2,1" picType="0" scale="0"/>
+   <item name="comp/clip_lock1.png" type="CheckBox" compress="0" pack="0" quality="80" props="" picType="0" scale="0"/>
+   <item name="comp/combobox.png" type="ComboBox" compress="0" pack="0" quality="80" props="sizeGrid=1,18,14,4" picType="0" scale="0"/>
+   <item name="comp/tag.png" type="Image" compress="0" pack="0" quality="80" props="" picType="0" scale="0"/>
+   <item name="comp/arrow_right.png" type="Image" compress="0" pack="0" quality="80" props="" picType="0" scale="0"/>
+   <item name="comp/zoom_in.png" type="Button" compress="0" pack="0" quality="80" props="" picType="0" scale="0"/>
+   <item name="comp/zoom_out.png" type="Button" compress="0" pack="0" quality="80" props="" picType="0" scale="0"/>
+   <item name="comp/btn_lock.png" type="CheckBox" compress="0" pack="0" quality="80" props="" picType="0" scale="0"/>
+   <item name="comp/btn_hide.png" type="CheckBox" compress="0" pack="0" quality="80" props="" picType="0" scale="0"/>
+   <item name="comp/line1.png" type="Image" compress="0" pack="0" quality="80" props="sizeGrid=2,0,2,0" picType="0" scale="0"/>
+   <item name="comp/line2.png" type="Image" compress="0" pack="0" quality="80" props="sizeGrid=0,2,0,2" picType="0" scale="0"/>
+   <item name="comp/line3.png" type="Image" compress="0" pack="0" quality="80" props="sizeGrid=0,2,0,2" picType="0" scale="0"/>
+   <item name="comp/frame_bg.png" type="Image" compress="0" pack="0" quality="80" props="sizeGrid=4,4,4,4" picType="0" scale="0"/>
+   <item name="comp/frame_select.png" type="Image" compress="0" pack="0" quality="80" props="sizeGrid=4,5,4,4" picType="0" scale="0"/>
+   <item name="comp/frame_on.png" type="Image" compress="0" pack="0" quality="80" props="sizeGrid=4,5,4,4" picType="0" scale="0"/>
+   <item name="comp/combotimeline_20.png" type="ComboBox" compress="0" pack="0" quality="80" props="sizeGrid=2,15,2,2" picType="0" scale="0"/>
+   <item name="comp/frame_line.png" type="Image" compress="0" pack="0" quality="80" props="sizeGrid=2,0,2,0" picType="0" scale="0"/>
+   <item name="comp/ani_select.png" type="Image" compress="0" pack="0" quality="80" props="sizeGrid=4,4,4,4" picType="0" scale="0"/>
+   <item name="comp/ani_effect.png" type="Image" compress="0" pack="0" quality="80" props="sizeGrid=4,4,4,4" picType="0" scale="0"/>
+   <item name="comp/ani_hit.png" type="Image" compress="0" pack="0" quality="80" props="sizeGrid=4,4,4,4" picType="0" scale="0"/>
+   <item name="comp/line4.png" type="Image" compress="0" pack="0" quality="80" props="" picType="0" scale="0"/>
+   <item name="comp/img_select.jpg" type="Image" compress="0" pack="0" quality="80" props="sizeGrid=2,2,2,2" picType="0" scale="0"/>
+   <item name="comp/img_on.jpg" type="Image" compress="0" pack="0" quality="80" props="sizeGrid=2,2,2,2" picType="0" scale="0"/>
+   <item name="comp/hscroll.png" type="HScrollBar" compress="0" pack="0" quality="80" props="" picType="0" scale="0"/>
+   <item name="comp/ani_layer.png" type="Image" compress="0" pack="0" quality="80" props="sizeGrid=2,2,2,2" picType="0" scale="0"/>
+   <item name="comp/ani_layout.png" type="Image" compress="0" pack="0" quality="80" props="sizeGrid=2,2,2,2" picType="0" scale="0"/>
+</res>
