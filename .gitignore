@@ -8,6 +8,10 @@
 # 忽略所有.o和 .a文件.
 #*.[oa]
 node_modules
-bin
+bin/**
 data
 *.log
+dist
+!bin/index.html
+!bin/package.json
+!bin/index.js

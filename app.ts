@@ -9,8 +9,8 @@ let mainWindow: BrowserWindow;
 let createWindow = () => {
     mainWindow = new
         BrowserWindow({
-            width: 1416,
-            height: 980,
+            width: 1418,
+            height: 964,
             titleBarStyle: 'hidden',
             useContentSize: false,
             resizable: true,
@@ -23,7 +23,7 @@ let createWindow = () => {
     mainWindow.loadFile('index.html');
 
     //打开开发者工具
-    mainWindow.webContents.openDevTools();
+    //mainWindow.webContents.openDevTools();
 }
 
 app.whenReady().then(createWindow);

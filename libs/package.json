@@ -1,0 +1,19 @@
+{
+    "name": "electron-ae",
+    "version": "1.0.0",
+    "description": "this is ae tool designed on electron platform",
+    "main": "app.js",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/silenxiao/electron-ae.git"
+    },
+    "author": "silenxiao",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/silenxiao/electron-ae/issues"
+    },
+    "homepage": "https://github.com/silenxiao/electron-ae#readme",
+    "dependencies": {
+        "images": "^3.0.2"
+    }
+}

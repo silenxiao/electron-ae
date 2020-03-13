@@ -2,11 +2,12 @@
     "name": "electron-ae",
     "version": "1.0.0",
     "description": "this is ae tool designed on electron platform",
-    "main": "index.js",
+    "main": "app.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "prestart": "tsc",
-        "start": "electron ./bin/app.js"
+        "start": "electron ./bin/app.js",
+        "pack": "electron-builder"
     },
     "repository": {
         "type": "git",
@@ -16,6 +17,34 @@
         "ae",
         "electron"
     ],
+    "build": {
+        "productName": "AE",
+        "appId": "com.github.silenxiao",
+        "asar": false,
+        "files": [
+            {
+                "from": "libs/TP",
+                "to": "../libs/TP",
+                "filter": "**/**"
+            },
+            {
+                "from": "libs/images",
+                "to": "./node_modules/images",
+                "filter": "**/**"
+            },
+            {
+                "from": "bin",
+                "to": "./",
+                "filter": "**/*"
+            }
+        ],
+        "directories": {
+            "output": "dist"
+        },
+        "win": {
+            "target": "zip"
+        }
+    },
     "author": "silenxiao",
     "license": "ISC",
     "bugs": {
@@ -26,9 +55,8 @@
         "@types/images": "^2.2.2",
         "@types/node": "^12.0.12",
         "electron": "^8.1.1",
+        "electron-builder": "^22.4.1",
         "typescript": "^3.8.3"
     },
-    "dependencies": {
-        "images": "^3.0.2"
-    }
+    "dependencies": {}
 }
