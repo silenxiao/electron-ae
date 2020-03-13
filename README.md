@@ -61,3 +61,34 @@ else
 ```
 然后用 `node-gyp` 重新编译一下，将build目录拷贝到node_modules/images目录下  
 > 注意 `node-gyp` 请用python2的环境
+
+# 打包
+1. 以前使用 `electron-package` 进行打包的，网上查了一下 `electron-builder` 更为强大，根据网上教程安装好环境。
+2. 打包后觉得程序太大，看了一下打包后的目录，发现node_modules打包了很多库，网友的一篇 [你不知道的 Electron (二)：了解 Electron 打包](https://imweb.io/topic/5b6817b5f6734fdf12b4b09c) 给了我一些启发：  
+我的工具中只用到了 `images` 这一个第三方库，而 `images` 库运行又依赖于一个 `mkdirp`的库，看了一下 `mkdirp`库的代码，只有一个js文件，将其拷贝到 `images` 的 `scripts`目录，
+修改代码的引用，由于我只用到 `images` 库中图片裁剪功能，只需要 `build/Release/binding.node`文件，删除其他文件，库少了很多。
+
+3. 修改 `electron-builder` 的打包参数，其参数在 `package.json` 的 `build`节点， 将需要打包的程序白名单按目录规则列到 `files`中。
+
+4. 在 `bin` 新建一个 `package.json`文件，配置打包后 `electron` 的运行参数
+```
+{
+    "name": "electron-ae",
+    "version": "1.0.0",
+    "description": "this is ae tool designed on electron platform",
+    "main": "app.js",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/silenxiao/electron-ae.git"
+    },
+    "author": "silenxiao",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/silenxiao/electron-ae/issues"
+    },
+    "homepage": "https://github.com/silenxiao/electron-ae#readme",
+    "dependencies": {
+        "images": "^3.0.2"
+    }
+}
+```
