@@ -20,7 +20,7 @@
     "build": {
         "productName": "AE",
         "appId": "com.github.silenxiao",
-        "asar": false,
+        "asar": true,
         "files": [
             {
                 "from": "libs/TP",
