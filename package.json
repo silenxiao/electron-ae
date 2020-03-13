@@ -23,11 +23,6 @@
         "asar": true,
         "files": [
             {
-                "from": "libs/TP",
-                "to": "../libs/TP",
-                "filter": "**/**"
-            },
-            {
                 "from": "libs/images",
                 "to": "./node_modules/images",
                 "filter": "**/**"
@@ -36,6 +31,13 @@
                 "from": "bin",
                 "to": "./",
                 "filter": "**/*"
+            }
+        ],
+        "extraResources": [
+            {
+                "from": "libs/TP",
+                "to": "${arch}/../libs/TP",
+                "filter": "**/**"
             }
         ],
         "directories": {
