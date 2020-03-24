@@ -180,7 +180,7 @@ export default class FramePanel extends ui.scene.FramePanelUI {
         if (index >= 0) {
             this.renderList[index].selected = true;
             this.aniSelectedIndex = index;
-            if (this.curAniEnity) {
+            if (!this.curAniEnity) {
                 this.curAniEnity = aniEntityDict.get(this.dataList[index]) as AniEntity;
                 this.curAniEnity.selected = true;
                 this.curAniEnity.sysFrameDataToPanel();

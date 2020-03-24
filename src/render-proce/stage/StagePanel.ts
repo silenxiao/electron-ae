@@ -17,9 +17,12 @@ export default class StagePanel extends ui.scene.StagePanelUI {
     focusTarget: Laya.Sprite;
     isPlay: boolean;
     frameIndex: number = 0;
+    scaleContain: Laya.Sprite;
     constructor() {
         super();
         this.showList = new Map<string, AniEntity>();
+        this.scaleContain = new Laya.Sprite();
+        this.imagepanel.addChild(this.scaleContain);
     }
 
     onEnable() {
@@ -62,6 +65,7 @@ export default class StagePanel extends ui.scene.StagePanelUI {
             });
         }
     }
+
     onClick(evt: Laya.Event) {
         this.focusTarget = evt.target
     }

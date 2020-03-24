@@ -60,7 +60,6 @@ ipcMain.on('save-ani-file', (event, fileName: string, framesData: FrameData) => 
     let filePath: string = path.join(ENV_PATH.CONF_PATH, fileName + '.json');
     let framesDataStr = JSON.stringify(framesData, null, 4);
     fs.writeFileSync(filePath, framesDataStr);
-    event.sender.send('selected-ani-conf', fileName, framesDataStr);
 })
 
 //读取动画配置

@@ -10,6 +10,7 @@ import { ipcRenderer } from "electron";
 let imgBG: Laya.Image;
 let coordinateX: Laya.Image;
 let coordinateY: Laya.Image;
+let scaleContain: Laya.Sprite;
 
 let bgLock: Laya.CheckBox;
 let bgX: Laya.TextInput;
@@ -18,9 +19,12 @@ let txtBGUrl: Laya.TextInput;
 let isDraging = false;
 let txtCoordinateX: Laya.TextInput;
 let txtCoordinateY: Laya.TextInput;
+let btnHide: Laya.CheckBox;
 let isBGLocked = false;
 
+
 export function imgBGHandle(mainUI: StagePanel) {
+
     imgBG = mainUI.imgBG;
     imgBG.on(Laya.Event.MOUSE_DOWN, null, onMouseDown);
     imgBG.on(Laya.Event.MOUSE_UP, null, onMouseUp);
@@ -28,6 +32,8 @@ export function imgBGHandle(mainUI: StagePanel) {
 
     coordinateX = mainUI.coordinateX;
     coordinateY = mainUI.coordinateY;
+
+    scaleContain = mainUI.scaleContain;
 }
 
 export function stagePropertyHandle(panel: AttrPanel) {
@@ -45,7 +51,6 @@ export function stagePropertyHandle(panel: AttrPanel) {
     let bgReset = panel.bgReset;
     bgReset.toolTip = '重置背景参数';
     bgReset.on(Laya.Event.CLICK, null, onBGReset);
-
 
     let bgSave = panel.bgSave;
     bgSave.toolTip = '保存背景参数';
@@ -75,6 +80,9 @@ export function stagePropertyHandle(panel: AttrPanel) {
     txtCoordinateY = panel.txtCoordinateY;
     txtCoordinateY.toolTip = '坐标系y轴的位置';
     txtCoordinateY.on(Laya.Event.INPUT, null, txtCoordinateYInput);
+
+    btnHide = panel.btnHide;
+    btnHide.on(Laya.Event.CLICK, null, onCoorHide);
 
     let btCurAniCoordReset = panel.btCurAniCoordReset;
     btCurAniCoordReset.on(Laya.Event.CLICK, null, onCurAniCoordReset);
@@ -153,6 +161,8 @@ function onCoordReset() {
     globalDao.coordinateY = coordinateY.y = confParam.bgParam.coordinateY;
     txtCoordinateX.text = globalDao.coordinateX.toString();
     txtCoordinateY.text = globalDao.coordinateY.toString();
+
+    buildScale();
 }
 
 //坐标系参数保存
@@ -171,12 +181,92 @@ function onAllAniCoordReset() {
 
 function txtCoordinateXInput() {
     globalDao.coordinateX = coordinateX.x = Number(txtCoordinateX.text);
+    buildScale();
 }
 
 function txtCoordinateYInput() {
     globalDao.coordinateY = coordinateY.y = Number(txtCoordinateY.text);
+    buildScale();
+}
+
+function onCoorHide() {
+    scaleContain.visible = !btnHide.selected;
 }
 
 function toSaveConfig() {
     ipcRenderer.send('save-conf-data', confParam);
+}
+
+/** 构建刻度尺 */
+function buildScale() {
+    let c = scaleContain;
+    c.removeChildren();
+    //计算x刻度
+    let coordY = coordinateY.y;
+    for (let i = coordY - 30; i > 0; i -= 30) {
+        let t = new CoorScale(true);
+        c.addChild(t);
+        t.setScalVal((i - coordY).toString());
+        t.x = coordinateX.x;
+        t.y = i;
+    }
+    for (let i = coordY + 30; i < 590; i += 30) {
+        let t = new CoorScale(true);
+        c.addChild(t);
+        t.setScalVal((i - coordY).toString());
+        t.x = coordinateX.x;
+        t.y = i;
+    }
+
+    //计算y刻度
+    let coordX = coordinateX.x;
+    for (let i = coordX - 30; i > 0; i -= 30) {
+        let t = new CoorScale(false);
+        c.addChild(t);
+        t.setScalVal((i - coordX).toString());
+        t.y = coordinateY.y - 9;
+        t.x = i;
+    }
+    for (let i = coordX + 30; i < 860; i += 30) {
+        let t = new CoorScale(false);
+        c.addChild(t);
+        t.setScalVal((i - coordX).toString());
+        t.y = coordinateY.y - 9;
+        t.x = i;
+    }
+}
+
+
+class CoorScale extends Laya.Sprite {
+    img: Laya.Image;
+    label: Laya.Label;
+    isAxis: boolean;
+    constructor(isAxis: boolean) {
+        super();
+        this.isAxis = isAxis;
+        this.img = new Laya.Image();
+        this.addChild(this.img);
+
+        this.label = new Laya.Label();
+        this.addChild(this.label);
+
+
+        if (isAxis) {
+            this.img.skin = "comp/line2.png";
+            this.label.x = 12;
+            this.label.y = -4;
+        } else {
+            this.label.width = 50;
+            this.label.align = 'center';
+            this.img.skin = "comp/line1.png";
+            this.label.y = -12;
+            this.label.x = -25;
+        }
+        this.label.color = '#FFFFFF';
+        this.label.text = '120';
+    }
+
+    setScalVal(val: string) {
+        this.label.text = val;
+    }
 }

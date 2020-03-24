@@ -40,6 +40,7 @@ export module ui.scene {
 		public btAllAniCoordReset:Laya.Button;
 		public txtCoordinateX:Laya.TextInput;
 		public txtCoordinateY:Laya.TextInput;
+		public btnHide:Laya.CheckBox;
 		public btnUp:Laya.Button;
 		public btnDown:Laya.Button;
 		public btnOffsetReset:Laya.Button;
@@ -102,7 +103,7 @@ export module ui.scene {
         }
     }
     REG("ui.scene.FramePanelUI",FramePanelUI);
-    export class StagePanelUI extends Scene {
+    export class StagePanelUI extends Laya.Scene {
 		public ani1:Laya.FrameAnimation;
 		public tab1:Laya.Panel;
 		public imagepanel:Laya.Panel;

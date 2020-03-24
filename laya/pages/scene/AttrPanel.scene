@@ -1,12 +1,12 @@
 {
     "x":0,
     "type":"Scene",
-    "selectedBox":44,
-    "selecteID":74,
+    "selectedBox":16,
+    "selecteID":77,
     "searchKey":"Scene",
     "props":{"width":265,"sceneColor":"#000000","runtime":"render-proce/attr/AttrPanel.ts","height":900},
     "nodeParent":-1,
-    "maxID":77,
+    "maxID":78,
     "label":"Scene",
     "isOpen":true,
     "isDirectory":true,
@@ -207,13 +207,14 @@
                     "props":{"y":114,"x":8,"width":259,"var":"coordinatepanel","height":110},
                     "nodeParent":3,
                     "label":"coordinatepanel",
-                    "isOpen":false,
+                    "isOpen":true,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
                     "compId":16,
                     "child":[
                         {
+                            "x":45,
                             "type":"Button",
                             "searchKey":"Button,coordReset",
                             "props":{"y":2,"x":197,"width":44,"var":"coordReset","stateNum":"2","skin":"comp/btn_reset.png","scaleY":0.5,"scaleX":0.5,"height":40},
@@ -227,6 +228,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"Button",
                             "searchKey":"Button,coordSave",
                             "props":{"y":5,"x":222,"width":26,"var":"coordSave","stateNum":"2","skin":"comp/btn_save.png","scaleY":0.5,"scaleX":0.5,"height":28},
@@ -240,6 +242,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image",
                             "props":{"y":6,"x":5,"width":14,"skin":"comp/arrow_right.png","scaleY":0.6,"scaleX":0.6,"height":18},
@@ -253,6 +256,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"Button",
                             "searchKey":"Button,btCurAniCoordReset",
                             "props":{"y":77,"x":31,"width":80,"var":"btCurAniCoordReset","skin":"comp/button.png","labelSize":12,"labelFont":"Microsoft YaHei","labelColors":"#c1c1c1","label":"当前","height":24},
@@ -267,6 +271,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"Button",
                             "searchKey":"Button,btAllAniCoordReset",
                             "props":{"y":77,"x":151,"width":80,"var":"btAllAniCoordReset","skin":"comp/button.png","labelSize":12,"labelFont":"Microsoft YaHei","labelColors":"#c1c1c1","label":"全部","height":24},
@@ -281,6 +286,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"Text",
                             "searchKey":"Text",
                             "props":{"y":5.5,"x":18,"text":"坐标系","fontSize":14,"font":"Microsoft YaHei","color":"#cccccc"},
@@ -294,6 +300,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"Text",
                             "searchKey":"Text",
                             "props":{"y":32,"x":16,"width":18,"text":"x","height":18,"fontSize":12,"font":"Microsoft YaHei","color":"#cccccc"},
@@ -307,6 +314,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"Text",
                             "searchKey":"Text",
                             "props":{"y":32,"x":136,"width":18,"text":"y","height":18,"fontSize":12,"font":"Microsoft YaHei","color":"#cccccc"},
@@ -321,6 +329,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"Text",
                             "searchKey":"Text",
                             "props":{"y":52,"x":30,"width":131,"valign":"middle","text":"同步坐标系的动画","height":22,"fontSize":12,"font":"Microsoft YaHei","color":"#cccccc"},
@@ -335,6 +344,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"TextInput",
                             "searchKey":"TextInput,txtCoordinateX",
                             "props":{"y":28,"x":31,"width":85,"var":"txtCoordinateX","text":"430","height":20,"color":"#cccccc","bgColor":"#1f1f1f"},
@@ -348,6 +358,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"TextInput",
                             "searchKey":"TextInput,txtCoordinateY",
                             "props":{"y":28,"x":151,"width":85,"var":"txtCoordinateY","text":"515","height":20,"color":"#cccccc","bgColor":"#1f1f1f"},
@@ -357,6 +368,21 @@
                             "isAniNode":true,
                             "hasChild":false,
                             "compId":27,
+                            "child":[
+                                ]
+                        },
+                        {
+                            "x":45,
+                            "type":"CheckBox",
+                            "searchKey":"CheckBox,btnHide",
+                            "props":{"y":6,"x":176,"width":28,"var":"btnHide","stateNum":"2","skin":"comp/clip_hide.png","selected":false,"scaleY":0.6,"scaleX":0.6,"labelSize":12,"labelPadding":"2","labelFont":"Microsoft YaHei","labelColors":"#cccccc","height":26},
+                            "nodeParent":16,
+                            "label":"btnHide",
+                            "isOpen":true,
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":77,
                             "child":[
                                 ]
                         }],

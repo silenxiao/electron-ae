@@ -29,7 +29,7 @@ export function aniSaveHandle(editor: AttrPanel) {
 
     ipcRenderer.send('read-ani-confs');
 
-    ipcRenderer.on('selected-ani-conf', (event, fileName, framesDataStr) => {
+    ipcRenderer.on('read-ani-conf', (event, fileName, framesDataStr) => {
 
         if (globalDao.curAniName == '') return;
         let aniEntity: AniEntity = <AniEntity>aniEntityDict.get(globalDao.curAniName);
