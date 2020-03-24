@@ -36,6 +36,11 @@ export module utils {
     export let saveAEImg = (dstPath: string, imgIndex: number, pivot: Point, srcPath: string, x: number, y: number) => {
         var dst = Images(1024, 1024);
         var dstPath = path.join(dstPath, ('00' + imgIndex).slice(-3) + '.png');
-        dst.draw(Images(srcPath), x + 512 - pivot.x, y + 512 - pivot.y).save(dstPath);
+        var srcImg;
+        if (srcPath == '')
+            srcImg = Images(srcPath);
+        else
+            srcImg = Images(2, 2);
+        dst.draw(srcImg, x + 512 - pivot.x, y + 512 - pivot.y).save(dstPath);
     }
 }

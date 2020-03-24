@@ -43,10 +43,11 @@ let analyzeDirectory = (sender: WebContents, rootPath: string) => {
             if (extname == ".jpg" || extname == ".png") {
                 aniInfo.images.push(filePath);
                 aniInfo.frameIndxs.push(indx);
-                aniInfo.frameEffects.push({ isEffect: false, isHit: false, hitType: 0, offsetX: 0, offsetY: 0, layLevel: 0, copyIndex: indx, indxId: indx });
+                aniInfo.frameEffects.push({ isEffect: false, isHit: false, hitType: 0, offsetX: 0, offsetY: 0, layLevel: 0, copyIndex: indx, indxId: indx, isBlank: false });
                 indx++;
                 aniInfo.pivot.x = Images(filePath).size().width >> 1;
                 aniInfo.pivot.y = Images(filePath).size().height >> 1;
+                aniInfo.pivotIsDefaut = true;
             }
         }
     })
@@ -64,6 +65,7 @@ let analyzeAtlasFile = (sender: WebContents, atlasPath: string) => {
     let aniName = path.basename(atlasPath, extname)
     if (aniDict.get(aniName)) {
         sender.send('global-error', `${aniName} 动画已存在`);
+        return;
     }
     if (extname != '.atlas') {
         //拖拽是文件，不解析
@@ -98,14 +100,14 @@ let analyzeAtlasFile = (sender: WebContents, atlasPath: string) => {
     for (let index in atlasInfo.frames) {
         let frame = atlasInfo.frames[index];
         if (!frame.ani) {
-            frame.ani = <FrameEffect>{ isEffect: false, isHit: false, hitType: 0, offsetX: 0, offsetY: 0, layLevel: 0, copyIndex: indx, indxId: indx }
+            frame.ani = <FrameEffect>{ isEffect: false, isHit: false, hitType: 0, offsetX: 0, offsetY: 0, layLevel: 0, copyIndex: indx, indxId: indx, isBlank: false }
         } else {
             frame.ani.indxId = indx;
         }
 
         let frameIndx = frame.ani.copyIndex;
         //当前帧未生成图片
-        if (!aniInfo.images[frameIndx]) {
+        if (!aniInfo.images[frameIndx] && !frame.ani.isBlank) {
             pivotx = Number(frame.sourceSize.w) >> 1;
             pivoty = Number(frame.sourceSize.h) >> 1;
             var dst = Images(frame.sourceSize.w, frame.sourceSize.h);
@@ -119,10 +121,13 @@ let analyzeAtlasFile = (sender: WebContents, atlasPath: string) => {
         aniInfo.frameEffects.push(frame.ani);
         aniInfo.frameIndxs.push(frameIndx);
     }
-    if (atlasInfo.pivot)
+    if (atlasInfo.pivot) {
         aniInfo.pivot = atlasInfo.pivot;
-    else
+        aniInfo.pivotIsDefaut = false;
+    } else {
         aniInfo.pivot = { x: pivotx, y: pivoty };
+        aniInfo.pivotIsDefaut = true;
+    }
 
     if (aniInfo.images.length > 0) {
         aniDict.set(aniName, aniInfo);

@@ -41,8 +41,9 @@ ipcMain.on('save-ae', (event, aniName, frameEffects: FrameEffect[]) => {
     }
     for (let i = 0; i < total; i++) {
         let frameEffect = frameEffects[i];
-        if (frameEffect.copyIndex < 0) continue;
-        utils.saveAEImg(savePath, imgIndex, aniInfo.pivot, aniInfo.images[frameEffect.copyIndex], frameEffect.offsetX, frameEffect.offsetY);
+        if (frameEffect.isBlank)
+            utils.saveAEImg(savePath, imgIndex, aniInfo.pivot, '', frameEffect.offsetX, frameEffect.offsetY);
+        else utils.saveAEImg(savePath, imgIndex, aniInfo.pivot, aniInfo.images[frameEffect.copyIndex], frameEffect.offsetX, frameEffect.offsetY);
         imgIndex++;
     }
     event.sender.send('save-ae-succ', aniName, savePath);
@@ -57,7 +58,6 @@ ipcMain.on('save-atlas', (event, aniName, frameEffects) => {
 //保存动画配置
 ipcMain.on('save-ani-file', (event, fileName: string, framesData: FrameData) => {
     let filePath: string = path.join(ENV_PATH.CONF_PATH, fileName + '.json');
-
     let framesDataStr = JSON.stringify(framesData, null, 4);
     fs.writeFileSync(filePath, framesDataStr);
     event.sender.send('selected-ani-conf', fileName, framesDataStr);
@@ -76,7 +76,7 @@ ipcMain.on('read-ani-conf-dialog', (event) => {
         let filePath = files[0];
         var fileName = path.basename(filePath, '.json');
         let framesDataStr = fs.readFileSync(filePath).toString();
-        event.sender.send('selected-ani-conf', fileName, framesDataStr);
+        event.sender.send('read-ani-conf', fileName, framesDataStr);
     }
 });
 
@@ -95,7 +95,7 @@ ipcMain.on('read-ani-confs', (event) => {
                 if (extname == ".json") {
                     let confName = path.basename(filePath, '.json');
                     let framesDataStr = fs.readFileSync(filePath).toString();
-                    event.sender.send('selected-ani-conf', confName, framesDataStr);
+                    event.sender.send('load-ani-conf', confName, framesDataStr);
                 }
             }
         })

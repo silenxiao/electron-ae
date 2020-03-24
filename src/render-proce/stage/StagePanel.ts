@@ -143,16 +143,21 @@ export default class StagePanel extends ui.scene.StagePanelUI {
     onMove(offsetX: number, offsetY: number) {
         if (globalDao.curAniName == '') return;
         let aniEnty: AniEntity = aniEntityDict.get(globalDao.curAniName);
-        let x = aniEnty.image.x;
-        x += offsetX;
-        let y = aniEnty.image.y;
-        y += offsetY;
+        if (globalDao.frameDrag) {
+            let x = aniEnty.image.x;
+            x += offsetX;
+            let y = aniEnty.image.y;
+            y += offsetY;
 
-        sysAniFrameOffset(x, y);
+            sysAniFrameOffset(x, y);
 
-        EvtCenter.send(AE_Event.ANI_FRAME_EVENT, [ANI_FRAME_TYPE.ANI_FRAME_OFFSETX, x]);
+            EvtCenter.send(AE_Event.ANI_FRAME_EVENT, [ANI_FRAME_TYPE.ANI_FRAME_OFFSETX, x]);
 
-        EvtCenter.send(AE_Event.ANI_FRAME_EVENT, [ANI_FRAME_TYPE.ANI_FRAME_OFFSETY, y]);
+            EvtCenter.send(AE_Event.ANI_FRAME_EVENT, [ANI_FRAME_TYPE.ANI_FRAME_OFFSETY, y]);
+        } else {
+            aniEnty.x += offsetX;
+            aniEnty.y += offsetY;
+        }
     }
 
     getCurAniEntity(): AniEntity {

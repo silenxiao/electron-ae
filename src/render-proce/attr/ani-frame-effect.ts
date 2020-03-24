@@ -9,6 +9,7 @@ let chkHit: Laya.CheckBox;
 let grpHit: Laya.RadioGroup;
 let grpLayer: Laya.RadioGroup;
 let frameEffect: FrameEffect;
+let chkBlank: Laya.CheckBox;
 export function aniFrameEffectHandle(editor: AttrPanel) {
 
     let btnEffReset = editor.btnEffReset;
@@ -30,6 +31,9 @@ export function aniFrameEffectHandle(editor: AttrPanel) {
 
     grpLayer = editor.grpLayer;
     grpLayer.on(Laya.Event.CHANGE, null, onGrpLayer);
+
+    chkBlank = editor.chkBlank;
+    chkBlank.on(Laya.Event.CHANGE, null, onChkBlank);
 }
 
 /* 位置重置 */
@@ -44,12 +48,13 @@ function onEffSave() {
 /**
  * 同步当前帧的效果
  */
-export function sysAniFrameEffect(_frameEffect = { isEffect: false, isHit: false, hitType: 0, offsetX: 0, offsetY: 0, layLevel: 0, copyIndex: 0, indxId: 0 }) {
+export function sysAniFrameEffect(_frameEffect = { isEffect: false, isHit: false, hitType: 0, offsetX: 0, offsetY: 0, layLevel: 0, copyIndex: 0, indxId: 0, isBlank: false }) {
     frameEffect = _frameEffect;
     chkEffect.selected = frameEffect.isEffect;
     chkHit.selected = frameEffect.isHit;
     grpHit.selectedIndex = frameEffect.hitType;
     grpLayer.selectedIndex = frameEffect.layLevel;
+    chkBlank.selected = frameEffect.isBlank;
 }
 
 function onChkEffect() {
@@ -58,6 +63,11 @@ function onChkEffect() {
     updateFramePanelData(globalDao.curAniName);
 }
 
+function onChkBlank() {
+    if (globalDao.curAniName == '') return;
+    frameEffect.isBlank = chkBlank.selected;
+    updateFramePanelData(globalDao.curAniName);
+}
 
 function onChkHit() {
     if (globalDao.curAniName == "") return;

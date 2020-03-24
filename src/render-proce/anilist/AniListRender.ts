@@ -82,6 +82,10 @@ export default class AniListRender extends Laya.Box {
         EvtCenter.send(AE_Event.ANI_DEL, this.aniName);
     }
 
+    reset() {
+        this.imgSelect.visible = false;
+        this.checkBox.selected = false;
+    }
     /**
      * 添加到舞台
      */

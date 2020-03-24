@@ -18,7 +18,7 @@ export default class AniEntity extends Laya.Sprite {
     defFrameEffects: FrameEffect[] = [];
     //修改后的帧信息
     frameEffects: FrameEffect[] = [];
-    //导入的配置名
+    //导入的配置
     confName: string = '';
     //帧数据的唯一id
     indxId: number;
@@ -103,9 +103,9 @@ export default class AniEntity extends Laya.Sprite {
     //获取帧的效果数据
     private getFrameEffect(frameIndx: number): FrameEffect {
         if (frameIndx >= this.totalFrameNum)
-            return { isEffect: false, isHit: false, hitType: 0, offsetX: 0, offsetY: 0, layLevel: 0, copyIndex: -1, indxId: frameIndx };
+            return { isEffect: false, isHit: false, hitType: 0, offsetX: 0, offsetY: 0, layLevel: 0, copyIndex: -1, indxId: frameIndx, isBlank: false };
         if (!this.frameEffects[frameIndx])
-            this.frameEffects[frameIndx] = { isEffect: false, isHit: false, hitType: 0, offsetX: 0, offsetY: 0, layLevel: 0, copyIndex: frameIndx, indxId: frameIndx }
+            this.frameEffects[frameIndx] = { isEffect: false, isHit: false, hitType: 0, offsetX: 0, offsetY: 0, layLevel: 0, copyIndex: frameIndx, indxId: frameIndx, isBlank: false }
         return this.frameEffects[frameIndx];
     }
 
@@ -125,7 +125,7 @@ export default class AniEntity extends Laya.Sprite {
         } else {
             for (let i = this.blankNum; i < num; i++) {
                 this.frameIndxs.splice(0, 0, -1);
-                this.frameEffects.splice(0, 0, { isEffect: false, isHit: false, hitType: 0, offsetX: 0, offsetY: 0, layLevel: 0, copyIndex: -1, indxId: this.indxId });
+                this.frameEffects.splice(0, 0, { isEffect: false, isHit: false, hitType: 0, offsetX: 0, offsetY: 0, layLevel: 0, copyIndex: -1, indxId: this.indxId, isBlank: true });
                 this.indxId++;
             }
         }
@@ -361,11 +361,16 @@ export default class AniEntity extends Laya.Sprite {
 
     ///设置帧特效数据
     setCmmEffect(confName: string) {
-        if (confName == "")
-            this.confName = confName;
         let frameEffects: FrameEffect[] = cmmAniConf.get(confName);
+        this.setConfEffect(confName, frameEffects);
+    }
+
+    setConfEffect(confName: string, frameEffects: FrameEffect[]) {
+        this.confName = confName;
         if (frameEffects == null) {
             frameEffects = JSON.parse(JSON.stringify(this.aniInfo.frameEffects));
+        } else {
+            frameEffects = JSON.parse(JSON.stringify(frameEffects));
         }
         this.frameIndxs = [];
         for (let i = 0; i < frameEffects.length; i++) {

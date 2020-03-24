@@ -1,4 +1,4 @@
-// v1.4.0
+// v1.5.0
 // publish 2.x 也是用这个文件，需要做兼容
 let isPublish2 = process.argv[2].includes("publish_vivogame.js") && process.argv[3].includes("--evn=publish2");
 // 获取Node插件和工作路径
@@ -75,14 +75,15 @@ gulp.task("preCreate_VIVO", copyLibsTask, function() {
 });
 
 gulp.task("copyPlatformFile_VIVO", ["preCreate_VIVO"], function() {
+	return;
 	// 如果不是vivo快游戏
-	if (platform !== "vivogame") {
-		return;
-	}
-	let vivoAdapterPath = path.join(layarepublicPath, "LayaAirProjectPack", "lib", "data", "vivofiles");
-	let copyLibsList = [`${vivoAdapterPath}/**/*.*`];
-	var stream = gulp.src(copyLibsList);
-	return stream.pipe(gulp.dest(tempReleaseDir));
+	// if (platform !== "vivogame") {
+	// 	return;
+	// }
+	// let vivoAdapterPath = path.join(layarepublicPath, "LayaAirProjectPack", "lib", "data", "vivofiles");
+	// let copyLibsList = [`${vivoAdapterPath}/**/*.*`];
+	// var stream = gulp.src(copyLibsList);
+	// return stream.pipe(gulp.dest(tempReleaseDir));
 });
 
 // 检查是否全局安装了qgame
@@ -114,7 +115,7 @@ gulp.task("createGlobalQGame_VIVO", packfiletask, function() {
 				resolve();
 			}
 		});
-		childProcess.exec("mg -v", { cwd: `${projDir}/node_modules` }, function(error, stdout, stderr) {
+		childProcess.exec("mg -v", function(error, stdout, stderr) {
 			if (!stdout) { // 获取  @vivo-minigame/cli 本地版本号失败
 				console.log("Failed to get the local version number");
 				resolve();
@@ -129,8 +130,10 @@ gulp.task("createGlobalQGame_VIVO", packfiletask, function() {
 			}
 		});
 		setTimeout(() => {
-			if (!isGetLocal || !isGetRemote) {
-				console.log("Failed to get the local or remote version number");
+			// 如果获取到了本地版本号，但未获取到远程版本号，默认通过
+			if (isGetLocal && !isGetRemote) {
+				isUpdateGlobalQGame = false;
+				console.log("Gets the version number timeout, does not get the remote version number, but the local version number exists, passes by default");
 				resolve();
 				return;
 			}
@@ -226,8 +229,93 @@ gulp.task("createProj_VIVO", ["createGlobalQGame_VIVO"], function() {
 	});
 });
 
+// 检查是否安装了adapter
+gulp.task("createAdapter_VIVO", ["createProj_VIVO"], function() {
+	// 如果不是vivo快游戏
+	if (platform !== "vivogame") {
+		return;
+	}
+	// npm view @qgame/adapter version
+	// npm i -S @qgame/adapter@latest
+	let remoteVersion, localVersion;
+	let isGetRemote, isGetLocal;
+	let isUpdateAdapter = true;
+	return new Promise((resolve, reject) => { // 远程版本号
+		childProcess.exec("npm view @qgame/adapter version", function(error, stdout, stderr) {
+			if (!stdout) { // 获取 @vivo-minigame/cli 远程版本号失败
+				console.log("Failed to get the remote adapter version number");
+				resolve();
+				return;
+			}
+			remoteVersion = stdout.replace(/[\r\n]/g, "").trim();
+			isGetRemote = true;
+			if (isGetRemote && isGetLocal) {
+				isUpdateAdapter = remoteVersion != localVersion;
+				console.log(`remoteVersion: ${remoteVersion}, localVersion: ${localVersion}`);
+				resolve();
+			}
+		});
+		childProcess.exec("npm ls @qgame/adapter version", { cwd: projDir }, function(error, stdout, stderr) {
+			if (!stdout) { // 获取  @vivo-minigame/cli 本地版本号失败
+				console.log("Failed to get the local adapter version number");
+				resolve();
+				return;
+			}
+			let info = stdout.split("@qgame/adapter@"); //@qgame/adapter@1.0.3
+			info = Array.isArray(info) && info[1] && info[1].replace(/[\r\n]/g, "").trim();
+			localVersion = info;
+			isGetLocal = true;
+			if (isGetRemote && isGetLocal) {
+				isUpdateAdapter = remoteVersion != localVersion;
+				console.log(`remoteVersion: ${remoteVersion}, localVersion: ${localVersion}`);
+				resolve();
+			}
+		});
+		setTimeout(() => {
+			// 如果获取到了本地版本号，但未获取到远程版本号，默认通过
+			if (!isGetLocal || !isGetRemote) {
+				console.log("Failed to get the local or remote version number");
+				resolve();
+				return;
+			}
+		}, 10000);
+	}).then(() => {
+		return new Promise((resolve, reject) => {
+			if (!isUpdateAdapter) {
+				resolve();
+				return;
+			}
+			console.log("安装@qgame/adapter");
+			// npm i -S @qgame/adapter@latest
+			let cmd = `npm${commandSuffix}`;
+			let args = ["install", "-S", "@qgame/adapter@latest"];
+			let opts = {
+				shell: true,
+				cwd: projDir
+			};
+			let cp = childProcess.spawn(cmd, args, opts);
+			
+			cp.stdout.on('data', (data) => {
+				console.log(`stdout: ${data}`);
+			});
+	
+			cp.stderr.on('data', (data) => {
+				console.log(`stderr: ${data}`);
+				// reject();
+			});
+	
+			cp.on('close', (code) => {
+				console.log(`2 end) npm i -S @qgame/adapter@latest：${code}`);
+				resolve();
+			});
+		});
+	}).catch((e) => {
+		console.log("catch e", e);
+	});
+});
+
 // 拷贝文件到vivo快游戏
-gulp.task("copyFileToProj_VIVO", ["createProj_VIVO"], function() {
+gulp.task("copyFileToProj_VIVO", ["createAdapter_VIVO"], function() {
 	// 如果不是vivo快游戏
 	if (platform !== "vivogame") {
 		return;
@@ -415,7 +503,7 @@ gulp.task("modifyFile_VIVO", ["deleteSignFile_VIVO"], function() {
 	}
 	let indexJsStr = (versionCon && versionCon["index.js"]) ? versionCon["index.js"] :  "index.js";
 	// 修改game.js文件
-	let content = `require("./qgame-adapter.js");\nif(!window.navigator)\n\twindow.navigator = {};\nwindow.navigator.userAgent = 'Mozilla/5.0 (Linux; Android 5.1.1; Nexus 6 Build/LYZ28E) AppleWebKit/603.1.30 (KHTML, like Gecko) Mobile/14E8301 VVGame NetType/WIFI Language/zh_CN';
+	let content = `require("@qgame/adapter");\nif(!window.navigator)\n\twindow.navigator = {};\nwindow.navigator.userAgent = 'Mozilla/5.0 (Linux; Android 5.1.1; Nexus 6 Build/LYZ28E) AppleWebKit/603.1.30 (KHTML, like Gecko) Mobile/14E8301 VVGame NetType/WIFI Language/zh_CN';
 require("./libs/laya.vvmini.js");\nrequire("./index.js");`;
 	let gameJsPath = path.join(projSrc, "game.js");
 	fs.writeFileSync(gameJsPath, content, "utf8");
@@ -503,8 +591,6 @@ gulp.task("dealEngineFolder1_VIVO", ["version_VIVO"], function() {
 		return;
 	}
 
-	let adapterOriginalPath = path.join(projDir, "src", "qgame-adapter.js");
-
 	// 不想写一堆task任务，500ms默认拷贝完成吧
 	// 未来有了更好的解决方案再修改
 	return new Promise(function(resolve, reject) {
@@ -514,16 +600,9 @@ gulp.task("dealEngineFolder1_VIVO", ["version_VIVO"], function() {
 		return stream.pipe(gulp.dest(projDir));
 	}).then(function() {
 		return new Promise(function(resolve, reject) {
-			// 将adapter.js拷贝到engine文件夹中
-			setTimeout(resolve, 500);
-			var stream = gulp.src([adapterOriginalPath]);
-			return stream.pipe(gulp.dest(`${projDir}/engine`));
-		});
-	}).then(function() {
-		return new Promise(function(resolve, reject) {
 			// 删掉src下的engine和adapter
 			setTimeout(resolve, 500);
-			return del([engineFolder, adapterOriginalPath], { force: true });
+			return del([engineFolder], { force: true });
 		});
 	}).catch(function(err) {
 		console.log(err);
@@ -556,47 +635,10 @@ gulp.task("dealNoCompile1_VIVO", ["dealEngineFolder2_VIVO"], function() {
 		return;
 	}
 
-	// let indexJsStr = (versionCon && versionCon["index.js"]) ? versionCon["index.js"] :  "index.js";
-	// let bundleJsStr = (versionCon && versionCon["js/bundle.js"]) ? versionCon["js/bundle.js"] :  "js/bundle.js";
-	// let box2dJsStr = (versionCon && versionCon["libs/box2d.js"]) ? versionCon["libs/box2d.js"] :  "libs/box2d.js";
-	// let physicsJsStr = (versionCon && versionCon["libs/laya.physics.js"]) ? versionCon["libs/laya.physics.js"] :  "libs/laya.physics.js";
-	// let physics3DJsStr = (versionCon && versionCon["libs/laya.physics3D.js"]) ? versionCon["libs/laya.physics3D.js"] :  "libs/laya.physics3D.js";
-
-	// // 修改index.js，去掉物理库前面的libs
-	// let filePath = path.join(projSrc, indexJsStr);
-	// let fileContent = fs.readFileSync(filePath, "utf8");
-	// let physicsNameList = [];
-
-	// if (fileContent.includes(bundleJsStr)) {
-	// 	let adapterJsPath = path.join(projSrc, bundleJsStr);
-	// 	physicsNameList.push(bundleJsStr);
-	// 	physicsLibsPathList.push(adapterJsPath);
-	// }
-	// if (fileContent.includes(box2dJsStr)) {
-	// 	let libPath = path.join(projSrc, box2dJsStr);
-	// 	physicsNameList.push(box2dJsStr);
-	// 	physicsLibsPathList.push(libPath);
-	// }
-	// if (fileContent.includes(physicsJsStr)) {
-	// 	let libPath = path.join(projSrc, physicsJsStr);
-	// 	physicsNameList.push(physicsJsStr);
-	// 	physicsLibsPathList.push(libPath);
-	// }
-	// if (fileContent.includes(physics3DJsStr)) {
-	// 	let libPath = path.join(projSrc, physics3DJsStr);
-	// 	physicsNameList.push(physics3DJsStr);
-	// 	physicsLibsPathList.push(libPath);
-	// }
-	// if (physicsLibsPathList.length > 0) {
-	// 	let adapterJsPath = path.join(projSrc, "qgame-adapter.js");
-	// 	physicsNameList.push("qgame-adapter.js");
-	// 	physicsLibsPathList.push(adapterJsPath);
-	// }
-
-
-	// 将js/bundle.js | libs/*.* qgame-adapter.js 全放到engine文件夹中
+	// 将js/bundle.js | libs/*.* 全放到engine文件夹中
 	let indexJsStr = (versionCon && versionCon["index.js"]) ? versionCon["index.js"] :  "index.js";
 	let bundleJsStr = (versionCon && versionCon["js/bundle.js"]) ? versionCon["js/bundle.js"] :  "js/bundle.js";
+	let layaJsStr = (versionCon && versionCon["laya.js"]) ? versionCon["laya.js"] :  "laya.js";
 
 	// 修改index.js，去掉物理库前面的libs
 	let filePath = path.join(projSrc, indexJsStr);
@@ -608,6 +650,11 @@ gulp.task("dealNoCompile1_VIVO", ["dealEngineFolder2_VIVO"], function() {
 		physicsNameList.push(bundleJsStr);
 		physicsLibsPathList.push(adapterJsPath);
 	}
+	if (fileContent.includes(layaJsStr)) {
+		let layaJsPath = path.join(projSrc, layaJsStr);
+		physicsNameList.push(layaJsStr);
+		physicsLibsPathList.push(layaJsPath);
+	}
 	let libsList = fs.readdirSync(path.join(projSrc, "libs"));
 	let libsFileName, libsFilePath;
 	for (let i = 0, len = libsList.length; i < len; i++) {
@@ -616,16 +663,11 @@ gulp.task("dealNoCompile1_VIVO", ["dealEngineFolder2_VIVO"], function() {
 		physicsNameList.push(`libs/${libsFileName}`);
 		physicsLibsPathList.push(libsFilePath);
 	}
-	if (physicsLibsPathList.length > 0) {
-		let adapterJsPath = path.join(projSrc, "qgame-adapter.js");
-		physicsNameList.push("qgame-adapter.js");
-		physicsLibsPathList.push(adapterJsPath);
-	}
 
 	// 修改配置文件
 	configVivoConfigFile(physicsNameList);
 
-	// 将物理库、qgame-adapter.js拷贝到engine中
+	// 将物理库拷贝到engine中
 	var stream = gulp.src(physicsLibsPathList, {base: projSrc});
 	return stream.pipe(gulp.dest(path.join(projDir, "engine")));
 });

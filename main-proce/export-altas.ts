@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 import childProcess from 'child_process';
 import { utils } from "./utils";
-import { ENV_PATH } from "./main-dao"
+import { ENV_PATH, aniDict } from "./main-dao"
 import { WebContents } from "electron";
 
 //导出AE
@@ -14,7 +14,7 @@ export let exportAtlas = (sender: WebContents, aniName: string, images: string[]
         fs.mkdirSync(outputpath);
     }
     utils.mkdirsSync(tmpAtlasFolder);
-    copyFile(images, tmpAtlasFolder);
+    let indexToPng = copyFile(frameEffects, images, tmpAtlasFolder);
 
     let cmd = `"${ENV_PATH.ROOT_PATH}/libs/TP/atlas-generator" -S 2048 -s 2048 ${tempFolder} -o ${outputpath} --dataFormat atlas --scale 1 --force -c`;
 
@@ -29,15 +29,16 @@ export let exportAtlas = (sender: WebContents, aniName: string, images: string[]
             if (err) {
                 sender.send('global-error', err.message);
             } else {
-                mergeAtlasConf(outputpath, aniName, frameEffects)
+                mergeAtlasConf(outputpath, aniName, frameEffects, indexToPng)
                 sender.send('save-atlas-succ', aniName, outputpath);
             }
         }
     )
 }
 
-function mergeAtlasConf(dirname: string, aniName: string, frameEffects: FrameEffect[]) {
+function mergeAtlasConf(dirname: string, aniName: string, frameEffects: FrameEffect[], indexToPng: number[]) {
     //读取原始的atlas配置
+    let aniInfo = aniDict.get(aniName);
     let filePath = path.join(dirname, `${aniName}.atlas`);
     let atlasJson = JSON.parse(fs.readFileSync(filePath, { encoding: 'UTF-8' }));
     let atlasframes = [];
@@ -67,42 +68,70 @@ function mergeAtlasConf(dirname: string, aniName: string, frameEffects: FrameEff
             pivot_y = sourceSizeH - y;
         }
 
-        if (hmax < h) {
-            hmax = h;
+        if (hmax < h + y) {
+            hmax = h + y;
         }
         atlasframes.push(frame);
     }
     let mWidth = rmax - lmin;
-    let mHight = hmax;
+    let mHight = hmax - tmin;
 
     //合并atlas配置和帧信息
     let atlasInfo: AtlasInfo = <AtlasInfo>{};// = { };
     let frameDatas: FrameData[] = [];
-    atlasInfo.pivot = { x: pivot_x, y: pivot_y };
+    if (aniInfo.pivotIsDefaut)
+        atlasInfo.pivot = { x: pivot_x, y: pivot_y };
+    else
+        atlasInfo.pivot = aniInfo.pivot;
     atlasInfo.meta = atlasmeta;
     atlasInfo.frames = frameDatas;
     for (let i = 0; i < frameEffects.length; i++) {
         let frameEffect = frameEffects[i];
-        frameDatas[i] = JSON.parse(JSON.stringify(atlasframes[frameEffect.copyIndex]));
+        if (frameEffect.isBlank) {
+            frameDatas[i] = genBlankFrame(mWidth, mHight, frameEffect);
+        } else {
+            frameDatas[i] = JSON.parse(JSON.stringify(atlasframes[indexToPng[frameEffect.copyIndex]]));
 
-        frameDatas[i].spriteSourceSize.x = Number(frameDatas[i].spriteSourceSize.x) - lmin;
-        frameDatas[i].spriteSourceSize.y = Number(frameDatas[i].spriteSourceSize.y) - tmin;
+            frameDatas[i].spriteSourceSize.x = Number(frameDatas[i].spriteSourceSize.x) - lmin;
+            frameDatas[i].spriteSourceSize.y = Number(frameDatas[i].spriteSourceSize.y) - tmin;
 
-        frameDatas[i].sourceSize = { h: mHight, w: mWidth };
-        frameDatas[i].ani = frameEffect;
+            frameDatas[i].sourceSize = { h: mHight, w: mWidth };
+            frameEffect.copyIndex = indexToPng[frameEffect.copyIndex];
+            frameDatas[i].ani = frameEffect;
+        }
     }
-
     fs.writeFileSync(filePath, JSON.stringify(atlasInfo));
-
 }
 
 
-function copyFile(images: string[], tempFolder: string) {
+function copyFile(frameEffects: FrameEffect[], images: string[], tempFolder: string): number[] {
+    let isBlankInxs = [];
+    let indexToPng: number[] = [];
+    for (let frameEffect of frameEffects) {
+        if (frameEffect.isBlank) isBlankInxs.push(frameEffect.copyIndex);
+    }
+    let pngIndex = 0;
     for (let i = 0; i < images.length; i++) {
+        if (isBlankInxs.indexOf(i) >= 0) continue;
         let image = images[i];
         if (image != "" && fs.existsSync(image)) {
-            let fileName = path.basename(image);
-            fs.copyFileSync(image, path.join(tempFolder, fileName));
+            fs.copyFileSync(image, path.join(tempFolder, ('00' + pngIndex).slice(-3) + '.png'));
+            indexToPng[i] = pngIndex;
+            pngIndex++;
         }
     }
+    return indexToPng;
+}
+
+function genBlankFrame(mWidth: number, mHight: number, frameEffect: FrameEffect) {
+    let blankFrame = <FrameData>{};
+    let frame = { h: 1, idx: 0, w: 1, x: 0, y: 0 };
+    let sourceSize = { h: mHight, w: mWidth };
+    let spriteSourceSize = { x: 0, y: 0 };
+    blankFrame.frame = frame;
+    blankFrame.sourceSize = sourceSize;
+    blankFrame.spriteSourceSize = spriteSourceSize;
+    frameEffect.copyIndex = -1;
+    blankFrame.ani = frameEffect;
+    return blankFrame;
 }

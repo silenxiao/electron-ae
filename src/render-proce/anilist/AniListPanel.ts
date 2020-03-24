@@ -62,6 +62,7 @@ export default class LeftPanel extends ui.scene.AniListPanelUI {
     onAniDel(aniName: string) {
         let index = this.dataList.indexOf(aniName);
         if (index >= 0) {
+            this.renderList[index].reset();
             this.dataList.splice(index, 1);
             this.delAniByName(aniName)
         }
@@ -69,6 +70,7 @@ export default class LeftPanel extends ui.scene.AniListPanelUI {
 
     onDelAll() {
         while (this.dataList.length > 0) {
+            this.renderList[this.dataList.length - 1].reset();
             let aniName = this.dataList.pop();
             this.delAniByName(aniName)
         }

@@ -58,6 +58,7 @@ export module ui.scene {
 		public grpLayer:Laya.RadioGroup;
 		public btnEffSave:Laya.Button;
 		public btnEffReset:Laya.Button;
+		public chkBlank:Laya.CheckBox;
 		public outpanel:Laya.Panel;
 		public btnAtlas:Laya.Button;
 		public btnAE:Laya.Button;

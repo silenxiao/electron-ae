@@ -174,14 +174,17 @@ export default class FramePanel extends ui.scene.FramePanelUI {
         let index = this.dataList.indexOf(aniName);
         if (this.aniSelectedIndex != index) {
             this.renderList[this.aniSelectedIndex].selected = false;
-            this.curAniEnity.selected = false;
+            if (this.curAniEnity)
+                this.curAniEnity.selected = false;
         }
         if (index >= 0) {
             this.renderList[index].selected = true;
             this.aniSelectedIndex = index;
-            this.curAniEnity = aniEntityDict.get(this.dataList[index]) as AniEntity;
-            this.curAniEnity.selected = true;
-            this.curAniEnity.sysFrameDataToPanel();
+            if (this.curAniEnity) {
+                this.curAniEnity = aniEntityDict.get(this.dataList[index]) as AniEntity;
+                this.curAniEnity.selected = true;
+                this.curAniEnity.sysFrameDataToPanel();
+            }
         }
         globalDao.curAniName = aniName;
         setTxtCurAniName(aniName);

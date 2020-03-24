@@ -6,6 +6,7 @@ declare class AniInfo {
     aniPath: string;
     /** 轴心 */
     pivot: Point;
+    pivotIsDefaut: boolean;
     /**动画分解后的图片地址 */
     images: string[]
     /** 序列帧对应序列图id */
@@ -69,6 +70,7 @@ declare class FrameEffect {
     copyIndex: number;
     /** 唯一id */
     indxId: number;
+    isBlank: boolean;
 }
 
 declare class Point {

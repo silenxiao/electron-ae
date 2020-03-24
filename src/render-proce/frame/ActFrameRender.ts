@@ -26,7 +26,7 @@ export default class ActFrameRender extends Laya.Box {
         this.frameHit.visible = val.isHit;
         this.frameLayer.visible = (val.layLevel != 0);
 
-        if (val.copyIndex == -1) {
+        if (val.isBlank) {
             this.txtFrame.text = '•';
         } else {
             this.txtFrame.text = val.copyIndex.toString();

@@ -1,12 +1,12 @@
 {
     "x":0,
     "type":"Scene",
-    "selectedBox":2,
-    "selecteID":3,
+    "selectedBox":44,
+    "selecteID":74,
     "searchKey":"Scene",
     "props":{"width":265,"sceneColor":"#000000","runtime":"render-proce/attr/AttrPanel.ts","height":900},
     "nodeParent":-1,
-    "maxID":74,
+    "maxID":77,
     "label":"Scene",
     "isOpen":true,
     "isDirectory":true,
@@ -198,7 +198,7 @@
                             "child":[
                                 ]
                         }],
-                    "$LOCKED":true
+                    "$LOCKED":false
                 },
                 {
                     "x":30,
@@ -360,7 +360,7 @@
                             "child":[
                                 ]
                         }],
-                    "$LOCKED":true,
+                    "$LOCKED":false,
                     "$HIDDEN":false
                 },
                 {
@@ -598,7 +598,7 @@
                     "x":30,
                     "type":"Panel",
                     "searchKey":"Panel,effectpanel",
-                    "props":{"y":328,"x":8,"width":259,"var":"effectpanel","height":181},
+                    "props":{"y":328,"x":8,"width":259,"var":"effectpanel","height":274},
                     "nodeParent":3,
                     "label":"effectpanel",
                     "isOpen":true,
@@ -629,6 +629,7 @@
                             "props":{"y":31,"x":16,"var":"chkEffect","skin":"comp/checkbox.png","labelSize":12,"labelPadding":"1","labelFont":"Microsoft YaHei","labelColors":"#cccccc,#ff0000,#32cc6b","label":"Effect帧"},
                             "nodeParent":44,
                             "label":"chkEffect",
+                            "isOpen":true,
                             "isDirectory":false,
                             "isAniNode":true,
                             "hasChild":false,
@@ -798,13 +799,57 @@
                             "compId":57,
                             "child":[
                                 ]
+                        },
+                        {
+                            "x":45,
+                            "type":"CheckBox",
+                            "searchKey":"CheckBox,chkBlank",
+                            "props":{"y":206,"x":16,"width":57,"var":"chkBlank","skin":"comp/checkbox.png","labelSize":12,"labelPadding":"1","labelFont":"Microsoft YaHei","labelColors":"#cccccc,#ff0000,#32cc6b","label":"空白帧","height":15},
+                            "nodeParent":44,
+                            "label":"chkBlank",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":74,
+                            "child":[
+                                ]
+                        },
+                        {
+                            "x":45,
+                            "type":"Text",
+                            "searchKey":"Text",
+                            "props":{"y":185,"x":18,"text":"其他","fontSize":14,"font":"Microsoft YaHei","color":"#cccccc","bold":false},
+                            "nodeParent":44,
+                            "label":"Text",
+                            "isOpen":true,
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":75,
+                            "child":[
+                                ]
+                        },
+                        {
+                            "x":45,
+                            "type":"Image",
+                            "searchKey":"Image",
+                            "props":{"y":185,"x":5,"width":14,"skin":"comp/arrow_right.png","scaleY":0.6,"scaleX":0.6,"height":18},
+                            "nodeParent":44,
+                            "label":"Image",
+                            "isOpen":true,
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":76,
+                            "child":[
+                                ]
                         }]
                 },
                 {
                     "x":30,
                     "type":"Image",
                     "searchKey":"Image,line2",
-                    "props":{"y":512,"x":5,"width":255,"skin":"comp/line3.png","name":"line2","height":1},
+                    "props":{"y":624,"x":5,"width":255,"skin":"comp/line3.png","name":"line2","height":1},
                     "nodeParent":3,
                     "label":"line2",
                     "isOpen":true,
@@ -819,7 +864,7 @@
                     "x":30,
                     "type":"Panel",
                     "searchKey":"Panel,outpanel",
-                    "props":{"y":582,"x":8,"width":259,"var":"outpanel","height":91},
+                    "props":{"y":685,"x":8,"width":259,"var":"outpanel","height":91},
                     "nodeParent":3,
                     "label":"outpanel",
                     "isOpen":true,
@@ -936,7 +981,7 @@
                     "x":30,
                     "type":"Panel",
                     "searchKey":"Panel,inpanel",
-                    "props":{"y":523,"x":8,"width":259,"var":"inpanel","height":59},
+                    "props":{"y":625,"x":8,"width":259,"var":"inpanel","height":59},
                     "nodeParent":3,
                     "label":"inpanel",
                     "isOpen":true,
@@ -1034,7 +1079,7 @@
                                 ]
                         }]
                 }],
-            "$LOCKED":true
+            "$LOCKED":false
         }],
     "animations":[
         {

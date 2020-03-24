@@ -30,6 +30,13 @@ export function aniSaveHandle(editor: AttrPanel) {
     ipcRenderer.send('read-ani-confs');
 
     ipcRenderer.on('selected-ani-conf', (event, fileName, framesDataStr) => {
+
+        if (globalDao.curAniName == '') return;
+        let aniEntity: AniEntity = <AniEntity>aniEntityDict.get(globalDao.curAniName);
+        aniEntity.setConfEffect(fileName, <FrameEffect[]>JSON.parse(framesDataStr));
+    });
+
+    ipcRenderer.on('load-ani-conf', (event, fileName, framesDataStr) => {
         addConf(fileName, framesDataStr);
     });
 
@@ -70,6 +77,7 @@ export function aniSaveHandle(editor: AttrPanel) {
 }
 
 export function setConfName(confName: string) {
+    if (cbbConf.labels.indexOf(confName) < 0) return;
     if (confName == '') {
         cbbConf.selectedIndex = 0;
     } else {
@@ -110,6 +118,7 @@ function onBtnConfClick() {
     if (globalDao.curAniName == '') return;
     let aniEntity: AniEntity = <AniEntity>aniEntityDict.get(globalDao.curAniName);
     ipcRenderer.send('save-ani-file', globalDao.curAniName, aniEntity.frameEffects);
+    addConf(globalDao.curAniName, JSON.stringify(aniEntity.frameEffects))
 }
 
 function onBtnReadConf() {
