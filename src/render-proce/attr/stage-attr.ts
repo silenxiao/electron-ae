@@ -190,7 +190,7 @@ function txtCoordinateYInput() {
 }
 
 function onCoorHide() {
-    scaleContain.visible = !btnHide.selected;
+    coordinateX.visible = coordinateY.visible = scaleContain.visible = !btnHide.selected;
 }
 
 function toSaveConfig() {
