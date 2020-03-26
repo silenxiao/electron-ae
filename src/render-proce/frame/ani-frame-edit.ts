@@ -19,7 +19,7 @@ export function aniFrameEdit(editor: FramePanel) {
     dataList = editor.dataList;
     cursor = editor.cursor;
     cursor.x = 4;
-    renderList = editor.renderList;
+    renderList = editor.nameRenderList;
     listAniName = editor.listAniName;
 }
 
@@ -45,13 +45,19 @@ export function copyFrame(curAniEnity: AniEntity) {
     if (curAniEnity == null) return;
 
     let index = dataList.indexOf(curAniEnity.aniInfo.aniName);
-    //增加一帧
-    if (globalDao.curFrameIndex == frameCopy.copyFrameIndex) {
-        curAniEnity.insertFrame();
-        listActAni.changeItem(index, curAniEnity.aniInfo.aniName);
+    //复制一帧
+    if (frameCopy.beginIdx == frameCopy.endIdx) {
+        //增加一帧
+        if (globalDao.curFrameIndex == frameCopy.beginIdx) {
+            curAniEnity.insertFrame(globalDao.curFrameIndex);
+            listActAni.changeItem(index, curAniEnity.aniInfo.aniName);
+        } else {
+            //覆盖当前帧
+            curAniEnity.rewriteCurFrame(frameCopy.beginIdx);
+            listActAni.changeItem(index, curAniEnity.aniInfo.aniName);
+        }
     } else {
-        //覆盖当前帧
-        curAniEnity.rewriteCurFrame(frameCopy.copyFrameIndex);
+        curAniEnity.insertRangeFrame(frameCopy.beginIdx, frameCopy.endIdx);
         listActAni.changeItem(index, curAniEnity.aniInfo.aniName);
     }
 }

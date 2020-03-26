@@ -99,6 +99,7 @@ function mergeAtlasConf(dirname: string, aniName: string, frameEffects: FrameEff
             frameEffect.copyIndex = indexToPng[frameEffect.copyIndex];
             frameDatas[i].ani = frameEffect;
         }
+        delete frameEffect['isBlank'];
     }
     fs.writeFileSync(filePath, JSON.stringify(atlasInfo));
 }

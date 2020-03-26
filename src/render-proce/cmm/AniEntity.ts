@@ -4,6 +4,7 @@ import { setCurFrameIndex, updateFramePanelData } from "../frame/ani-frame-edit"
 import { sysAniFrameOffset } from "../attr/ani-frame-offset";
 import { sysAniFrameEffect } from "../attr/ani-frame-effect";
 import { setConfName } from "../attr/ani-save";
+import PartEntity from "./PartEntity";
 
 /**
  * 主场景中显示的实体对象
@@ -22,6 +23,8 @@ export default class AniEntity extends Laya.Sprite {
     confName: string = '';
     //帧数据的唯一id
     indxId: number;
+    /**  */
+    container: Laya.Sprite;
     //当前显示对象
     image: Laya.Sprite;
 
@@ -34,10 +37,21 @@ export default class AniEntity extends Laya.Sprite {
     blankNum = 0;
 
     glowFilter = new Laya.GlowFilter("#ff0000", 5, 0, 0);
+    //展示
+    effectEntity: Map<number, PartEntity>;
+    hitEntity: Map<number, PartEntity>;
+    hasHero: boolean = false;
+    heroEntity: PartEntity;
+    hasEnemy: boolean = false;
+    enemyEntity: PartEntity;
+    totalFrameNum: number;
+    aniFrameNum: number;
 
     constructor(val: AniInfo) {
         super()
         this.aniInfo = val;
+        this.effectEntity = new Map<number, PartEntity>();
+        this.hitEntity = new Map<number, PartEntity>();
 
         this.frameIndxs = JSON.parse(JSON.stringify(val.frameIndxs));
         this.indxId = this.frameIndxs.length;
@@ -46,14 +60,17 @@ export default class AniEntity extends Laya.Sprite {
         //设置点击区域
         this.hitArea = new Laya.Rectangle(-512, -1024, 1024, 2048);
 
+        this.container = new Laya.Sprite();
+        this.addChild(this.container);
+
         this.image = new Laya.Sprite();
-        this.addChild(this.image);
+        this.container.addChild(this.image);
 
         this.isResLoaded = false;
         if (val.images.length > 0) {
             Laya.loader.load(val.images, Laya.Handler.create(this, this.onAssetsLoaded));
         }
-
+        this.aniFrameNum = this.totalFrameNum = this.frameIndxs.length;
         //拖拽
         this.on(Laya.Event.MOUSE_DOWN, this, this.onMouseDown);
         this.on(Laya.Event.MOUSE_UP, this, this.onMouseUp);
@@ -68,20 +85,21 @@ export default class AniEntity extends Laya.Sprite {
         this.setTexture(this.curFrameIndex);
     }
 
-    get totalFrameNum() {
-        return this.frameIndxs.length;
-    }
-
-
     //设置帧纹理
     setTexture(frameIndx: number) {
         this.curFrameIndex = frameIndx;
         if (!this.isResLoaded) return;
         if (frameIndx >= this.totalFrameNum || frameIndx == -1) {
+            this.playOver();
             this.image.texture = null;
             return;
         }
-        let resPath = this.aniInfo.images[this.frameIndxs[frameIndx]];
+        let playIndex = frameIndx
+        //播放最后一帧
+        if (frameIndx >= this.aniFrameNum) {
+            playIndex = this.aniFrameNum - 1;
+        }
+        let resPath = this.aniInfo.images[this.frameIndxs[playIndex]];
         if (resPath != '' && resPath != undefined) {
             let texture = Laya.loader.getRes(resPath);
             this.image.texture = Laya.loader.getRes(resPath);
@@ -90,30 +108,81 @@ export default class AniEntity extends Laya.Sprite {
         } else {
             this.image.texture = null;
         }
-        let frameEffect = this.getFrameEffect(frameIndx);
+        let frameEffect = this.getFrameEffect(playIndex);
         this.setImageOffset(frameEffect.offsetX, frameEffect.offsetY);
+
+        if (frameEffect.isEffect) {
+            let party = this.effectEntity.get(this.curFrameIndex);
+            if (party) {
+                this.addChild(party);
+                party.isActive = true;
+                if (this.totalFrameNum < party.totalFrameNum) this.totalFrameNum = party.totalFrameNum;
+            }
+        }
+
+        if (frameEffect.isHit) {
+            let party = this.hitEntity.get(this.curFrameIndex);
+            if (party) {
+                this.addChild(party);
+                party.isActive = true;
+                if (this.totalFrameNum < party.totalFrameNum) this.totalFrameNum = party.totalFrameNum;
+            }
+
+            if (this.enemyEntity && this.enemyEntity.isActive) {
+                this.enemyEntity.setBeginIndex(frameIndx);
+                if (this.totalFrameNum < this.enemyEntity.totalFrameNum) this.totalFrameNum = this.enemyEntity.totalFrameNum;
+            }
+        }
+        if (this.enemyEntity && this.enemyEntity.isActive) {
+            this.enemyEntity.setTexture(frameIndx)
+        }
+
+        this.effectEntity.forEach(val => {
+            if (val.isActive) val.setTexture(frameIndx)
+        });
+        this.hitEntity.forEach(val => {
+            if (val.isActive) val.setTexture(frameIndx)
+        })
+
+        if (this.heroEntity && this.heroEntity.isActive) {
+            if (this.totalFrameNum < this.heroEntity.totalFrameNum) this.totalFrameNum = this.heroEntity.totalFrameNum;
+            this.heroEntity.setTexture(frameIndx);
+        }
+
+        if (frameIndx >= this.totalFrameNum - 1) {
+            this.playOver();
+        }
+    }
+
+    playOver() {
+        this.totalFrameNum = this.aniFrameNum;
+        EvtCenter.send(AE_Event.ANI_PLAYOVER, this.aniInfo.aniName);
     }
 
     //设置当前帧的附加信息
     private setImageOffset(offsetX: number, offsetY: number) {
-        this.image.x = offsetX;
-        this.image.y = offsetY;
+        this.container.x = offsetX;
+        this.container.y = offsetY;
     }
 
     //获取帧的效果数据
     private getFrameEffect(frameIndx: number): FrameEffect {
-        if (frameIndx >= this.totalFrameNum)
-            return { isEffect: false, isHit: false, hitType: 0, offsetX: 0, offsetY: 0, layLevel: 0, copyIndex: -1, indxId: frameIndx, isBlank: false };
+        if (frameIndx >= this.aniFrameNum)
+            this.frameEffects[frameIndx] = { isEffect: false, isHit: false, hitXY: [0, 0], offsetX: 0, offsetY: 0, layLevel: 0, copyIndex: -1, indxId: frameIndx, isBlank: false };
         if (!this.frameEffects[frameIndx])
-            this.frameEffects[frameIndx] = { isEffect: false, isHit: false, hitType: 0, offsetX: 0, offsetY: 0, layLevel: 0, copyIndex: frameIndx, indxId: frameIndx, isBlank: false }
+            this.frameEffects[frameIndx] = { isEffect: false, isHit: false, hitXY: [0, 0], offsetX: 0, offsetY: 0, layLevel: 0, copyIndex: frameIndx, indxId: frameIndx, isBlank: false }
         return this.frameEffects[frameIndx];
     }
 
     //同步帧数据到面板
     sysFrameDataToPanel() {
+        if (this.curFrameIndex >= this.aniFrameNum) return;
         let frameEffect: FrameEffect = this.getFrameEffect(this.curFrameIndex);
         sysAniFrameOffset(frameEffect.offsetX, frameEffect.offsetY);
-        sysAniFrameEffect(frameEffect);
+        sysAniFrameEffect(frameEffect,
+            this.getEffectName(this.curFrameIndex), this.getHitName(this.curFrameIndex),
+            this.hasHero, this.heroEntity?.aniInfo.aniName,
+            this.hasEnemy, this.enemyEntity?.aniInfo.aniName);
     }
 
     //增加空白帧
@@ -125,11 +194,12 @@ export default class AniEntity extends Laya.Sprite {
         } else {
             for (let i = this.blankNum; i < num; i++) {
                 this.frameIndxs.splice(0, 0, -1);
-                this.frameEffects.splice(0, 0, { isEffect: false, isHit: false, hitType: 0, offsetX: 0, offsetY: 0, layLevel: 0, copyIndex: -1, indxId: this.indxId, isBlank: true });
+                this.frameEffects.splice(0, 0, { isEffect: false, isHit: false, hitXY: [0, 0], offsetX: 0, offsetY: 0, layLevel: 0, copyIndex: -1, indxId: this.indxId, isBlank: true });
                 this.indxId++;
             }
         }
         this.blankNum = num;
+        this.aniFrameNum = this.totalFrameNum = this.frameIndxs.length;
         this.setTexture(this.curFrameIndex);
     }
     //增加复制帧
@@ -152,15 +222,32 @@ export default class AniEntity extends Laya.Sprite {
         let t = this.blankNum;
         this.blankNum = 0;
         this.addBlankFrame(t);
+        this.aniFrameNum = this.totalFrameNum = this.frameIndxs.length;
         this.setTexture(this.curFrameIndex);
     }
 
     //插入当前帧
-    insertFrame() {
-        this.frameIndxs.splice(this.curFrameIndex, 0, this.frameIndxs[this.curFrameIndex]);
-        let frameEffect = this.getCopyFrameEffect(this.curFrameIndex);
+    insertFrame(frameIndex: number) {
+        this.frameIndxs.splice(this.curFrameIndex, 0, this.frameIndxs[frameIndex]);
+        let frameEffect = this.getCopyFrameEffect(frameIndex);
         this.frameEffects.splice(this.curFrameIndex, 0, frameEffect);
+        this.aniFrameNum = this.totalFrameNum = this.frameIndxs.length;
     }
+
+    /**插入多帧 */
+    insertRangeFrame(beginIndex: number, endIndex: number) {
+        let copyIndexs: number[] = [];
+        let copyEffects: FrameEffect[] = [];
+        for (let i = beginIndex; i <= endIndex; i++) {
+            copyIndexs.push(this.frameIndxs[i]);
+            copyEffects.push(this.getCopyFrameEffect(i))
+        }
+
+        this.frameIndxs.splice(this.curFrameIndex, 0, ...copyIndexs);
+        this.frameEffects.splice(this.curFrameIndex, 0, ...copyEffects);
+        this.aniFrameNum = this.totalFrameNum = this.frameIndxs.length;
+    }
+
 
     private getCopyFrameEffect(index: number): FrameEffect {
         let frameData = JSON.parse(JSON.stringify(this.getFrameEffect(index)));
@@ -184,6 +271,7 @@ export default class AniEntity extends Laya.Sprite {
         this.frameIndxs.splice(this.curFrameIndex, 1);
         this.frameEffects.splice(this.curFrameIndex, 1);
         this.setTexture(this.curFrameIndex);
+        this.aniFrameNum = this.totalFrameNum = this.frameIndxs.length;
     }
 
 
@@ -207,7 +295,7 @@ export default class AniEntity extends Laya.Sprite {
         if (this.isLocked) return;
         this.isDraging = true;
         if (globalDao.frameDrag) {
-            this.image.startDrag();
+            this.container.startDrag();
         } else {
             this.startDrag();
         }
@@ -217,10 +305,10 @@ export default class AniEntity extends Laya.Sprite {
         if (this.isDraging) {
             this.isDraging = false;
             if (globalDao.frameDrag) {
-                this.image.stopDrag();
-                this.getFrameEffect(this.curFrameIndex).offsetX = this.image.x;
-                this.getFrameEffect(this.curFrameIndex).offsetY = this.image.y;
-                sysAniFrameOffset(this.image.x, this.image.y)
+                this.container.stopDrag();
+                this.getFrameEffect(this.curFrameIndex).offsetX = this.container.x;
+                this.getFrameEffect(this.curFrameIndex).offsetY = this.container.y;
+                sysAniFrameOffset(this.container.x, this.container.y);
             } else {
                 this.stopDrag();
             }
@@ -268,23 +356,23 @@ export default class AniEntity extends Laya.Sprite {
                 this.saveCurFrameOffsetData();
                 break;
             case ANI_FRAME_TYPE.ANI_FRAME_OFFSETX:
-                this.getFrameEffect(this.curFrameIndex).offsetX = this.image.x = val;
+                this.getFrameEffect(this.curFrameIndex).offsetX = this.container.x = val;
                 break;
             case ANI_FRAME_TYPE.ANI_FRAME_OFFSETY:
-                this.getFrameEffect(this.curFrameIndex).offsetY = this.image.y = val;
+                this.getFrameEffect(this.curFrameIndex).offsetY = this.container.y = val;
                 break;
             case ANI_FRAME_TYPE.ANI_FRAME_OFFSETX_RESET:
                 if (this.curFrameIndex > 0)
-                    this.getFrameEffect(this.curFrameIndex).offsetX = this.image.x = this.frameEffects[this.curFrameIndex - 1].offsetX;
+                    this.getFrameEffect(this.curFrameIndex).offsetX = this.container.x = this.frameEffects[this.curFrameIndex - 1].offsetX;
                 else
-                    this.getFrameEffect(this.curFrameIndex).offsetX = this.image.x = 0;
+                    this.getFrameEffect(this.curFrameIndex).offsetX = this.container.x = 0;
                 sysAniFrameOffset(this.image.x, this.image.y);
                 break;
             case ANI_FRAME_TYPE.ANI_FRAME_OFFSETY_RESET:
                 if (this.curFrameIndex > 0)
-                    this.getFrameEffect(this.curFrameIndex).offsetY = this.image.y = this.frameEffects[this.curFrameIndex - 1].offsetY;
+                    this.getFrameEffect(this.curFrameIndex).offsetY = this.container.y = this.frameEffects[this.curFrameIndex - 1].offsetY;
                 else
-                    this.getFrameEffect(this.curFrameIndex).offsetY = this.image.y = 0;
+                    this.getFrameEffect(this.curFrameIndex).offsetY = this.container.y = 0;
                 sysAniFrameOffset(this.image.x, this.image.y);
                 break;
         }
@@ -321,9 +409,9 @@ export default class AniEntity extends Laya.Sprite {
         if (defFrameEffect) {
             frameEffect.isEffect = defFrameEffect.isEffect;
             frameEffect.isHit = defFrameEffect.isHit;
-            frameEffect.hitType = defFrameEffect.hitType;
+            frameEffect.hitXY = defFrameEffect.hitXY;
             frameEffect.layLevel = defFrameEffect.layLevel;
-            sysAniFrameEffect(frameEffect);
+            this.sysFrameDataToPanel();
         }
     }
 
@@ -334,7 +422,7 @@ export default class AniEntity extends Laya.Sprite {
         if (defFrameEffect) {
             defFrameEffect.isEffect = frameEffect.isEffect;
             defFrameEffect.isHit = frameEffect.isHit;
-            defFrameEffect.hitType = frameEffect.hitType;
+            defFrameEffect.hitXY = frameEffect.hitXY;
             defFrameEffect.layLevel = frameEffect.layLevel;
         } else {
             this.defFrameEffects[frameEffect.indxId] = JSON.parse(JSON.stringify(frameEffect));
@@ -345,7 +433,7 @@ export default class AniEntity extends Laya.Sprite {
     resetFramesData() {
         this.frameEffects = JSON.parse(JSON.stringify(this.aniInfo.frameEffects));
         this.frameIndxs = JSON.parse(JSON.stringify(this.aniInfo.frameIndxs));
-        let total = this.totalFrameNum - 1;
+        let total = this.aniFrameNum - 1;
         if (this.curFrameIndex > total) {
             this.setTexture(total);
             setCurFrameIndex(total, this)
@@ -355,8 +443,14 @@ export default class AniEntity extends Laya.Sprite {
 
     //保存帧数据
     saveFramesData() {
-        this.aniInfo.frameEffects = JSON.parse(JSON.stringify(this.frameEffects));
-        this.aniInfo.frameIndxs = JSON.parse(JSON.stringify(this.frameIndxs));
+        this.aniInfo.frameIndxs = [];
+        this.aniInfo.frameEffects = []
+        for (let i = 0; i < this.frameIndxs.length; i++) {
+            if (this.frameIndxs[i] != -1) {
+                this.aniInfo.frameIndxs.push(this.frameIndxs[i]);
+                this.aniInfo.frameEffects.push(JSON.parse(JSON.stringify(this.frameEffects[i])));
+            }
+        }
     }
 
     ///设置帧特效数据
@@ -387,6 +481,93 @@ export default class AniEntity extends Laya.Sprite {
             this.sysFrameDataToPanel();
         }
         this.setTexture(this.curFrameIndex);
+    }
+
+    bindEffect(val: PartEntity) {
+        this.effectEntity.set(this.curFrameIndex, val);
+        val.setBeginIndex(this.curFrameIndex);
+        this.sysFrameDataToPanel();
+    }
+
+    getEffectName(frameIndex: number) {
+        let enity = this.effectEntity.get(frameIndex);
+        if (enity) {
+            return enity.aniInfo.aniName;
+        }
+        return "";
+    }
+
+    bindHit(val: PartEntity) {
+        this.hitEntity.set(this.curFrameIndex, val);
+        val.setBeginIndex(this.curFrameIndex);
+        this.sysFrameDataToPanel();
+    }
+
+    getHitName(frameIndex: number) {
+        let enity = this.hitEntity.get(frameIndex);
+        if (enity) {
+            return enity.aniInfo.aniName;
+        }
+        return "";
+    }
+
+    bindHero(val: PartEntity) {
+        this.heroEntity = val;
+        val.isActive = this.hasHero;
+        if (this.hasHero) {
+            this.addChildAt(this.heroEntity, 0);
+            this.addBlankFrame(this.heroEntity.effectFrameIndex);
+            updateFramePanelData(this.aniInfo.aniName);
+        }
+        this.sysFrameDataToPanel();
+    }
+
+    bindEnemy(val: PartEntity) {
+        this.enemyEntity = val;
+        val.setScale(true);
+        val.isActive = this.hasEnemy;
+        if (this.hasEnemy) {
+            this.addChild(this.enemyEntity);
+            this.enemyEntity.x = 500;
+            this.x = 160;
+        }
+        this.sysFrameDataToPanel();
+    }
+
+    updateHero(val: boolean) {
+        this.hasHero = val;
+        if (!this.heroEntity) return;
+        if (val) {
+            //显示绑定的模型
+            this.addChildAt(this.heroEntity, 0);
+            this.addBlankFrame(this.heroEntity.effectFrameIndex);
+        } else {
+            this.removeChild(this.heroEntity);
+            this.addBlankFrame(0);
+        }
+        updateFramePanelData(this.aniInfo.aniName);
+        this.heroEntity.isActive = val;
+    }
+
+    updateEnemy(val: boolean) {
+        this.hasEnemy = val;
+        if (!this.enemyEntity) return;
+        if (val) {
+            this.addChild(this.enemyEntity)
+            this.enemyEntity.x = 500;
+            this.x = 160;
+        } else {
+            this.removeChild(this.enemyEntity);
+        }
+        this.enemyEntity.isActive = val;
+    }
+
+    updateLayer(val: number) {
+        if (val == 0) {
+            this.addChildAt(this.image, this.numChildren);
+        } else {
+            this.addChildAt(this.image, 0);
+        }
     }
 
     //实体销毁

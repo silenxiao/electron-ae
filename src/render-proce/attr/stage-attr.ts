@@ -90,8 +90,8 @@ export function stagePropertyHandle(panel: AttrPanel) {
     let btAllAniCoordReset = panel.btAllAniCoordReset;
     btAllAniCoordReset.on(Laya.Event.CLICK, null, onAllAniCoordReset);
 
-    ipcRenderer.send('read-conf-data');
-    ipcRenderer.on('read-conf-data', (event, confData) => {
+    ipcRenderer.send('r2m_read-conf');
+    ipcRenderer.on('m2r_read-conf', (event, confData) => {
         confParam.frameRate = confData.frameRate;
         confParam.bgParam = confData.bgParam;
         confParam.frameIntev = confData.frameIntev;
@@ -194,7 +194,7 @@ function onCoorHide() {
 }
 
 function toSaveConfig() {
-    ipcRenderer.send('save-conf-data', confParam);
+    ipcRenderer.send('r2m_save-conf', confParam);
 }
 
 /** 构建刻度尺 */

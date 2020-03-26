@@ -13,7 +13,7 @@ import ActFrameRender from "../frame/ActFrameRender";
 
 export default class StagePanel extends ui.scene.StagePanelUI {
     showList: Map<string, AniEntity>;
-    totalFrameNum: number = 0;
+    playList: string[] = [];
     focusTarget: Laya.Sprite;
     isPlay: boolean;
     frameIndex: number = 0;
@@ -37,6 +37,7 @@ export default class StagePanel extends ui.scene.StagePanelUI {
         EvtCenter.on(AE_Event.ANI_TO_STAGE, this, this.onAddToStage);
         EvtCenter.on(AE_Event.ANI_REMOVE_STAGE, this, this.onRemoveToStage);
         EvtCenter.on(AE_Event.ANI_TO_PLAY, this, this.onAniToPlay);
+        EvtCenter.on(AE_Event.ANI_PLAYOVER, this, this.playOver)
 
         aniToStageHandle(this);
     }
@@ -57,12 +58,23 @@ export default class StagePanel extends ui.scene.StagePanelUI {
         if (this.showList.has(name)) {
             this.container.removeChild(this.showList.get(name));
             this.showList.delete(name);
-            this.totalFrameNum = 0;
-            this.showList.forEach(val => {
-                if (this.totalFrameNum < val.totalFrameNum) {
-                    this.totalFrameNum = val.totalFrameNum;
-                }
-            });
+            this.playOver(name);
+        }
+    }
+
+    playOver(val: string) {
+        let index = this.playList.indexOf(val);
+        if (index < 0) return;
+        this.playList.splice(index, 1);
+        if (this.playList.length == 0) {
+            this.frameIndex = 0;
+            if (!globalDao.isLoopPlay) {
+                EvtCenter.send(AE_Event.ANI_TO_PLAY, false);
+            } else {
+                this.showList.forEach((val, key) => {
+                    this.playList.push(key);
+                });
+            }
         }
     }
 
@@ -74,20 +86,18 @@ export default class StagePanel extends ui.scene.StagePanelUI {
     onAniToPlay(val: boolean) {
         this.isPlay = val;
         if (val) {
-            this.totalFrameNum = 0;
-            this.showList.forEach(val => {
-                if (this.totalFrameNum < val.totalFrameNum) {
-                    this.totalFrameNum = val.totalFrameNum;
-                }
+            this.showList.forEach((val, key) => {
+                this.playList.push(key);
             });
+            this.frameIndex = globalDao.curFrameIndex;
             Laya.timer.loop(1000 / confParam.frameRate, this, this.loop);
         }
-        else
+        else {
             Laya.timer.clear(this, this.loop);
+        }
     }
 
     loop() {
-        if (this.frameIndex > this.totalFrameNum - 1) this.frameIndex = 0;
         setAllAniFrameIndex(this.frameIndex);
         setCurFrameIndex(this.frameIndex, this.getCurAniEntity());
         this.frameIndex++;
@@ -125,7 +135,8 @@ export default class StagePanel extends ui.scene.StagePanelUI {
                 //复制当前帧
                 frameCopy.isCopyFrame = true;
                 frameCopy.copyAniName = globalDao.curAniName;
-                frameCopy.copyFrameIndex = globalDao.curFrameIndex;
+                frameCopy.beginIdx = globalDao.copyIndexRang[0];
+                frameCopy.endIdx = globalDao.copyIndexRang[1];
                 return;
             }
         }

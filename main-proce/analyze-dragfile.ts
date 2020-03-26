@@ -8,20 +8,23 @@ import { utils } from './utils';
 /** 分析拖拽的文件 */
 export let analyzeDragFile = (sender: WebContents, dirname: string) => {
     let stat = fs.lstatSync(dirname);
+    let aniInfo: AniInfo;
     //如果是图集
     if (stat.isFile()) {
-        analyzeAtlasFile(sender, dirname);
+        aniInfo = analyzeAtlasFile(sender, dirname);
     } else {
-        analyzeDirectory(sender, dirname);
+        aniInfo = analyzeDirectory(sender, dirname);
     }
+    if (aniInfo)
+        sender.send('drag-ani', aniInfo);
 }
 
 //如果拖拽的是文件夹，未打包的圖片集合
-let analyzeDirectory = (sender: WebContents, rootPath: string) => {
+let analyzeDirectory = (sender: WebContents, rootPath: string): AniInfo => {
     var aniName = path.basename(rootPath);
     if (aniDict.get(aniName)) {
         sender.send('ae-error', '列表中存在相同的动画:' + aniName);
-        return;
+        return null;
     }
 
     let aniInfo: AniInfo = <AniInfo>{};
@@ -43,7 +46,7 @@ let analyzeDirectory = (sender: WebContents, rootPath: string) => {
             if (extname == ".jpg" || extname == ".png") {
                 aniInfo.images.push(filePath);
                 aniInfo.frameIndxs.push(indx);
-                aniInfo.frameEffects.push({ isEffect: false, isHit: false, hitType: 0, offsetX: 0, offsetY: 0, layLevel: 0, copyIndex: indx, indxId: indx, isBlank: false });
+                aniInfo.frameEffects.push({ isEffect: false, isHit: false, hitXY: [0, 0], offsetX: 0, offsetY: 0, layLevel: 0, copyIndex: indx, indxId: indx, isBlank: false });
                 indx++;
                 aniInfo.pivot.x = Images(filePath).size().width >> 1;
                 aniInfo.pivot.y = Images(filePath).size().height >> 1;
@@ -53,30 +56,31 @@ let analyzeDirectory = (sender: WebContents, rootPath: string) => {
     })
     if (aniInfo.images.length > 0) {
         aniDict.set(aniName, aniInfo);
-        sender.send('drag-ani', aniInfo);
+        return aniInfo;
     } else {
         sender.send('global-error', `${aniName} 资源目录解析失败`);
+        return null;
     }
 }
 
 //如果拖拽的是图集
-let analyzeAtlasFile = (sender: WebContents, atlasPath: string) => {
+export let analyzeAtlasFile = (sender: WebContents, atlasPath: string, isTest: boolean = false): AniInfo => {
     let extname = path.extname(atlasPath)
     let aniName = path.basename(atlasPath, extname)
-    if (aniDict.get(aniName)) {
+    if (aniDict.get(aniName) && !isTest) {
         sender.send('global-error', `${aniName} 动画已存在`);
-        return;
+        return null;
     }
     if (extname != '.atlas') {
         //拖拽是文件，不解析
         sender.send('global-error', '请拖拽存放【序列图文件夹】或者 【图集.atlas】文件');
-        return;
+        return null;
     }
 
     var imgPath = atlasPath.replace(".atlas", ".png");
     if (!fs.existsSync(imgPath)) {
         sender.send('global-error', `找不到 ${aniName}.atlas 对于的图集图片`);
-        return;
+        return null;
     }
 
     let aniInfo: AniInfo = <AniInfo>{};
@@ -100,8 +104,13 @@ let analyzeAtlasFile = (sender: WebContents, atlasPath: string) => {
     for (let index in atlasInfo.frames) {
         let frame = atlasInfo.frames[index];
         if (!frame.ani) {
-            frame.ani = <FrameEffect>{ isEffect: false, isHit: false, hitType: 0, offsetX: 0, offsetY: 0, layLevel: 0, copyIndex: indx, indxId: indx, isBlank: false }
+            frame.ani = <FrameEffect>{ isEffect: false, isHit: false, hitXY: [0, 0], offsetX: 0, offsetY: 0, layLevel: 0, copyIndex: indx, indxId: indx, isBlank: false }
         } else {
+            if ((<any>frame.ani)['hitType']) {
+                frame.ani.hitXY = [0, 0];
+                delete (<any>frame.ani)['hitType'];
+            }
+            frame.ani.hitXY = [0, 0];
             frame.ani.indxId = indx;
         }
 
@@ -130,9 +139,10 @@ let analyzeAtlasFile = (sender: WebContents, atlasPath: string) => {
     }
 
     if (aniInfo.images.length > 0) {
-        aniDict.set(aniName, aniInfo);
-        sender.send('drag-ani', aniInfo);
+        if (!isTest) aniDict.set(aniName, aniInfo);
+        return aniInfo;
     } else {
         sender.send('global-error', `${aniName}.atlas 图集解析失败`);
+        return null;
     }
 }

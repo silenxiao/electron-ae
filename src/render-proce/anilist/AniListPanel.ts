@@ -94,7 +94,8 @@ export default class LeftPanel extends ui.scene.AniListPanelUI {
     onSelect(index: number) {
         if (this.selectIndex != index && this.selectIndex != -1)
             this.renderList[this.selectIndex].select = false;
-        this.renderList[index].select = true;
+        if (index != -1)
+            this.renderList[index].select = true;
         this.selectIndex = index;
     }
 

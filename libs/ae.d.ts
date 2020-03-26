@@ -62,7 +62,7 @@ declare class SpriteSourceSize {
 declare class FrameEffect {
     isEffect: boolean;
     isHit: boolean;
-    hitType: number;
+    hitXY: number[];
     offsetX: number;
     offsetY: number;
     layLevel: number;

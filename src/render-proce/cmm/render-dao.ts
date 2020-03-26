@@ -8,7 +8,9 @@ export let globalDao = {
     curFrameIndex: 0,
     frameDrag: true,
     showSelected: true,
-    isCopyFrame: false
+    isCopyFrame: false,
+    isLoopPlay: true,
+    copyIndexRang: [0, 0],
 }
 
 /**通用的动画配置 */
@@ -18,7 +20,8 @@ export let aniEntityDict: Map<String, AniEntity> = new Map<String, AniEntity>();
 export let frameCopy = {
     isCopyFrame: false,
     copyAniName: '',
-    copyFrameIndex: 0,
+    beginIdx: 0,
+    endIdx: 0,
 }
 
 export let confParam: GlobalData = {

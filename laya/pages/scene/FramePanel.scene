@@ -1,11 +1,12 @@
 {
     "x":0,
     "type":"Scene",
-    "selectedBox":2,
+    "selectedBox":20,
+    "selecteID":50,
     "searchKey":"Scene",
     "props":{"y":0,"x":0,"width":860,"sceneColor":"#000000","runtime":"render-proce/frame/FramePanel.ts","height":310},
     "nodeParent":-1,
-    "maxID":49,
+    "maxID":51,
     "label":"Scene",
     "isOpen":true,
     "isDirectory":true,
@@ -153,10 +154,25 @@
                             "props":{"y":9,"x":436,"width":93,"var":"chkselect","skin":"comp/checkbox.png","selected":true,"labelSize":12,"labelPadding":"1","labelFont":"Microsoft YaHei","labelColors":"#cccccc,#ff0000,#32cc6b","label":"选中显示发光","height":19},
                             "nodeParent":4,
                             "label":"chkselect",
+                            "isOpen":true,
                             "isDirectory":false,
                             "isAniNode":true,
                             "hasChild":false,
                             "compId":12,
+                            "child":[
+                                ]
+                        },
+                        {
+                            "x":45,
+                            "type":"CheckBox",
+                            "searchKey":"CheckBox,chkLoop",
+                            "props":{"y":9,"x":534,"width":70,"var":"chkLoop","skin":"comp/checkbox.png","selected":true,"labelSize":12,"labelPadding":"1","labelFont":"Microsoft YaHei","labelColors":"#cccccc,#ff0000,#32cc6b","label":"循环播放","height":19},
+                            "nodeParent":4,
+                            "label":"chkLoop",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":49,
                             "child":[
                                 ]
                         },
@@ -505,6 +521,20 @@
                                             "$HIDDEN":false
                                         }],
                                     "$HIDDEN":false
+                                },
+                                {
+                                    "x":60,
+                                    "type":"Image",
+                                    "searchKey":"Image,imgSelectAll,imgSelectAll",
+                                    "props":{"y":0,"x":0,"var":"imgSelectAll","skin":"comp/img_select_all.png","name":"imgSelectAll","height":25},
+                                    "nodeParent":20,
+                                    "label":"imgSelectAll",
+                                    "isDirectory":false,
+                                    "isAniNode":false,
+                                    "hasChild":false,
+                                    "compId":50,
+                                    "child":[
+                                        ]
                                 }]
                         }]
                 },

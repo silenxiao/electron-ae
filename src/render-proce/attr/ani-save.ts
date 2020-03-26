@@ -36,7 +36,7 @@ export function aniSaveHandle(editor: AttrPanel) {
         aniEntity.setConfEffect(fileName, <FrameEffect[]>JSON.parse(framesDataStr));
     });
 
-    ipcRenderer.on('load-ani-conf', (event, fileName, framesDataStr) => {
+    ipcRenderer.on('m2r_load-ani-conf', (event, fileName, framesDataStr) => {
         addConf(fileName, framesDataStr);
     });
 
@@ -111,7 +111,7 @@ function onBtnAtlasClick() {
     if (globalDao.curAniName == '') return;
     let aniEntity: AniEntity = <AniEntity>aniEntityDict.get(globalDao.curAniName);
     aniEntity.saveFramesData();
-    ipcRenderer.send('save-atlas', globalDao.curAniName, aniEntity.frameEffects);
+    ipcRenderer.send('save-atlas', globalDao.curAniName, aniEntity.aniInfo.frameEffects);
 }
 
 function onBtnConfClick() {

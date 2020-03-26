@@ -23,6 +23,7 @@ export let AE_Event = {
     ANI_TO_PLAY: 'ani_to_play',
 
     ANI_SELECTED: 'ani_selected',
+    ANI_PLAYOVER: 'ani_playover',
 }
 
 export let ANI_FRAME_TYPE = {
@@ -36,4 +37,11 @@ export let ANI_FRAME_TYPE = {
     ANI_FRAME_EFFECT_SAVE: 'ani_frame_effect_save',
     ANI_FRAMES_RESET: 'ani_frames_reset',
     ANI_FRAMES_SAVE: 'ani_frames_save',
+}
+
+export enum ImportType {
+    Effect = 1,
+    Hit = 2,
+    Hero = 3,
+    Enemy = 4,
 }

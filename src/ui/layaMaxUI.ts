@@ -51,23 +51,33 @@ export module ui.scene {
 		public txtFramex:Laya.TextInput;
 		public txtFramey:Laya.TextInput;
 		public effectpanel:Laya.Panel;
-		public chkEffect:Laya.CheckBox;
-		public chkHit:Laya.CheckBox;
-		public grpHit:Laya.RadioGroup;
-		public cbbEffect:Laya.ComboBox;
-		public cbbHit:Laya.ComboBox;
-		public grpLayer:Laya.RadioGroup;
 		public btnEffSave:Laya.Button;
 		public btnEffReset:Laya.Button;
+		public chkEffect:Laya.CheckBox;
+		public btnEffect:Laya.Button;
+		public lblEffect:laya.display.Text;
+		public chkHit:Laya.CheckBox;
+		public btnHit:Laya.Button;
+		public lblHit:laya.display.Text;
 		public chkBlank:Laya.CheckBox;
+		public txtHitX:Laya.TextInput;
+		public txtHitY:Laya.TextInput;
+		public grpLayer:Laya.RadioGroup;
+		public panelshow:Laya.Panel;
+		public chkHero:Laya.CheckBox;
+		public btnHero:Laya.Button;
+		public lblHero:laya.display.Text;
+		public chkEnemy:Laya.CheckBox;
+		public btnEnemy:Laya.Button;
+		public lblEnemy:laya.display.Text;
+		public inpanel:Laya.Panel;
+		public cbbConf:Laya.ComboBox;
+		public btnOther:Laya.Button;
 		public outpanel:Laya.Panel;
 		public btnAtlas:Laya.Button;
 		public btnAE:Laya.Button;
 		public btnConf:Laya.Button;
 		public txtCurAni:laya.display.Text;
-		public inpanel:Laya.Panel;
-		public cbbConf:Laya.ComboBox;
-		public btnOther:Laya.Button;
         constructor(){ super()}
         createChildren():void {
             super.createChildren();
@@ -86,6 +96,7 @@ export module ui.scene {
 		public btnPlay:Laya.Button;
 		public btnStop:Laya.Button;
 		public chkselect:Laya.CheckBox;
+		public chkLoop:Laya.CheckBox;
 		public btnFrameReset:Laya.Button;
 		public btnFrameSave:Laya.Button;
 		public listAniName:Laya.List;
@@ -95,6 +106,7 @@ export module ui.scene {
 		public listActAni:Laya.List;
 		public listFrame:Laya.List;
 		public txtFrame:Laya.Label;
+		public imgSelectAll:Laya.Image;
 		public cursor:Laya.Panel;
         constructor(){ super()}
         createChildren():void {
@@ -103,7 +115,7 @@ export module ui.scene {
         }
     }
     REG("ui.scene.FramePanelUI",FramePanelUI);
-    export class StagePanelUI extends Laya.Scene {
+    export class StagePanelUI extends Scene {
 		public ani1:Laya.FrameAnimation;
 		public tab1:Laya.Panel;
 		public imagepanel:Laya.Panel;

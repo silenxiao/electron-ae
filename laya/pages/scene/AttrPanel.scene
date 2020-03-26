@@ -1,12 +1,12 @@
 {
     "x":0,
     "type":"Scene",
-    "selectedBox":16,
-    "selecteID":77,
+    "selectedBox":85,
+    "selecteID":93,
     "searchKey":"Scene",
     "props":{"width":265,"sceneColor":"#000000","runtime":"render-proce/attr/AttrPanel.ts","height":900},
     "nodeParent":-1,
-    "maxID":78,
+    "maxID":99,
     "label":"Scene",
     "isOpen":true,
     "isDirectory":true,
@@ -34,14 +34,13 @@
                     "props":{"y":13,"x":8,"width":259,"var":"bgattrpanel","height":94},
                     "nodeParent":3,
                     "label":"bgattrpanel",
-                    "isOpen":true,
+                    "isOpen":false,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
                     "compId":4,
                     "child":[
                         {
-                            "x":45,
                             "type":"Button",
                             "searchKey":"Button,btnBG",
                             "props":{"y":62,"x":10,"width":32,"var":"btnBG","stateNum":"2","skin":"comp/btn_folder.png","scaleY":0.6,"scaleX":0.6,"height":32},
@@ -55,7 +54,6 @@
                                 ]
                         },
                         {
-                            "x":45,
                             "type":"CheckBox",
                             "searchKey":"CheckBox,bgLock",
                             "props":{"y":3,"x":221,"width":28,"var":"bgLock","stateNum":"2","skin":"comp/btn_lock.png","selected":false,"scaleY":0.6,"scaleX":0.6,"labelSize":12,"labelPadding":"2","labelFont":"Microsoft YaHei","labelColors":"#cccccc","height":26},
@@ -70,7 +68,6 @@
                                 ]
                         },
                         {
-                            "x":45,
                             "type":"Button",
                             "searchKey":"Button,bgReset",
                             "props":{"y":2,"x":175,"width":44,"var":"bgReset","stateNum":"2","skin":"comp/btn_reset.png","scaleY":0.48,"scaleX":0.48,"height":40},
@@ -85,7 +82,6 @@
                                 ]
                         },
                         {
-                            "x":45,
                             "type":"Button",
                             "searchKey":"Button,bgSave",
                             "props":{"y":4,"x":200,"width":26,"var":"bgSave","stateNum":"2","skin":"comp/btn_save.png","scaleY":0.5,"scaleX":0.5,"height":28},
@@ -100,7 +96,6 @@
                                 ]
                         },
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image",
                             "props":{"y":6,"x":5,"width":14,"skin":"comp/arrow_right.png","scaleY":0.6,"scaleX":0.6,"height":18},
@@ -114,7 +109,6 @@
                                 ]
                         },
                         {
-                            "x":45,
                             "type":"Text",
                             "searchKey":"Text",
                             "props":{"y":6,"x":18,"text":"背景","fontSize":14,"font":"Microsoft YaHei","color":"#cccccc"},
@@ -128,7 +122,6 @@
                                 ]
                         },
                         {
-                            "x":45,
                             "type":"Text",
                             "searchKey":"Text",
                             "props":{"y":32,"x":16,"width":18,"text":"x","height":18,"fontSize":12,"font":"Microsoft YaHei","color":"#cccccc"},
@@ -142,7 +135,6 @@
                                 ]
                         },
                         {
-                            "x":45,
                             "type":"Text",
                             "searchKey":"Text",
                             "props":{"y":32,"x":136,"width":18,"text":"y","height":18,"fontSize":12,"font":"Microsoft YaHei","color":"#cccccc"},
@@ -157,7 +149,6 @@
                                 ]
                         },
                         {
-                            "x":45,
                             "type":"TextInput",
                             "searchKey":"TextInput,bgX",
                             "props":{"y":28,"x":31,"width":85,"var":"bgX","text":"20","height":20,"color":"#cccccc","bgColor":"#1f1f1f"},
@@ -171,7 +162,6 @@
                                 ]
                         },
                         {
-                            "x":45,
                             "type":"TextInput",
                             "searchKey":"TextInput,bgY",
                             "props":{"y":28,"x":151,"width":85,"var":"bgY","text":"-30","height":20,"color":"#cccccc","bgColor":"#1f1f1f"},
@@ -185,7 +175,6 @@
                                 ]
                         },
                         {
-                            "x":45,
                             "type":"TextInput",
                             "searchKey":"TextInput,txtBGUrl",
                             "props":{"y":60,"x":31,"width":205,"var":"txtBGUrl","valign":"middle","text":"scene.jpg","padding":"3","leading":0,"height":22,"editable":false,"color":"#cccccc","bgColor":"#1f1f1f","align":"left"},
@@ -198,7 +187,7 @@
                             "child":[
                                 ]
                         }],
-                    "$LOCKED":false
+                    "$LOCKED":true
                 },
                 {
                     "x":30,
@@ -207,14 +196,13 @@
                     "props":{"y":114,"x":8,"width":259,"var":"coordinatepanel","height":110},
                     "nodeParent":3,
                     "label":"coordinatepanel",
-                    "isOpen":true,
+                    "isOpen":false,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
                     "compId":16,
                     "child":[
                         {
-                            "x":45,
                             "type":"Button",
                             "searchKey":"Button,coordReset",
                             "props":{"y":2,"x":197,"width":44,"var":"coordReset","stateNum":"2","skin":"comp/btn_reset.png","scaleY":0.5,"scaleX":0.5,"height":40},
@@ -228,7 +216,6 @@
                                 ]
                         },
                         {
-                            "x":45,
                             "type":"Button",
                             "searchKey":"Button,coordSave",
                             "props":{"y":5,"x":222,"width":26,"var":"coordSave","stateNum":"2","skin":"comp/btn_save.png","scaleY":0.5,"scaleX":0.5,"height":28},
@@ -242,7 +229,6 @@
                                 ]
                         },
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image",
                             "props":{"y":6,"x":5,"width":14,"skin":"comp/arrow_right.png","scaleY":0.6,"scaleX":0.6,"height":18},
@@ -256,7 +242,6 @@
                                 ]
                         },
                         {
-                            "x":45,
                             "type":"Button",
                             "searchKey":"Button,btCurAniCoordReset",
                             "props":{"y":77,"x":31,"width":80,"var":"btCurAniCoordReset","skin":"comp/button.png","labelSize":12,"labelFont":"Microsoft YaHei","labelColors":"#c1c1c1","label":"当前","height":24},
@@ -271,7 +256,6 @@
                                 ]
                         },
                         {
-                            "x":45,
                             "type":"Button",
                             "searchKey":"Button,btAllAniCoordReset",
                             "props":{"y":77,"x":151,"width":80,"var":"btAllAniCoordReset","skin":"comp/button.png","labelSize":12,"labelFont":"Microsoft YaHei","labelColors":"#c1c1c1","label":"全部","height":24},
@@ -286,7 +270,6 @@
                                 ]
                         },
                         {
-                            "x":45,
                             "type":"Text",
                             "searchKey":"Text",
                             "props":{"y":5.5,"x":18,"text":"坐标系","fontSize":14,"font":"Microsoft YaHei","color":"#cccccc"},
@@ -300,7 +283,6 @@
                                 ]
                         },
                         {
-                            "x":45,
                             "type":"Text",
                             "searchKey":"Text",
                             "props":{"y":32,"x":16,"width":18,"text":"x","height":18,"fontSize":12,"font":"Microsoft YaHei","color":"#cccccc"},
@@ -314,7 +296,6 @@
                                 ]
                         },
                         {
-                            "x":45,
                             "type":"Text",
                             "searchKey":"Text",
                             "props":{"y":32,"x":136,"width":18,"text":"y","height":18,"fontSize":12,"font":"Microsoft YaHei","color":"#cccccc"},
@@ -329,7 +310,6 @@
                                 ]
                         },
                         {
-                            "x":45,
                             "type":"Text",
                             "searchKey":"Text",
                             "props":{"y":52,"x":30,"width":131,"valign":"middle","text":"同步坐标系的动画","height":22,"fontSize":12,"font":"Microsoft YaHei","color":"#cccccc"},
@@ -344,7 +324,6 @@
                                 ]
                         },
                         {
-                            "x":45,
                             "type":"TextInput",
                             "searchKey":"TextInput,txtCoordinateX",
                             "props":{"y":28,"x":31,"width":85,"var":"txtCoordinateX","text":"430","height":20,"color":"#cccccc","bgColor":"#1f1f1f"},
@@ -358,7 +337,6 @@
                                 ]
                         },
                         {
-                            "x":45,
                             "type":"TextInput",
                             "searchKey":"TextInput,txtCoordinateY",
                             "props":{"y":28,"x":151,"width":85,"var":"txtCoordinateY","text":"515","height":20,"color":"#cccccc","bgColor":"#1f1f1f"},
@@ -372,7 +350,6 @@
                                 ]
                         },
                         {
-                            "x":45,
                             "type":"CheckBox",
                             "searchKey":"CheckBox,btnHide",
                             "props":{"y":6,"x":176,"width":28,"var":"btnHide","stateNum":"2","skin":"comp/clip_hide.png","selected":false,"scaleY":0.6,"scaleX":0.6,"labelSize":12,"labelPadding":"2","labelFont":"Microsoft YaHei","labelColors":"#cccccc","height":26},
@@ -386,7 +363,7 @@
                             "child":[
                                 ]
                         }],
-                    "$LOCKED":false,
+                    "$LOCKED":true,
                     "$HIDDEN":false
                 },
                 {
@@ -604,7 +581,7 @@
                             "child":[
                                 ]
                         }],
-                    "$LOCKED":false
+                    "$LOCKED":true
                 },
                 {
                     "x":30,
@@ -618,13 +595,14 @@
                     "hasChild":false,
                     "compId":43,
                     "child":[
-                        ]
+                        ],
+                    "$LOCKED":true
                 },
                 {
                     "x":30,
                     "type":"Panel",
                     "searchKey":"Panel,effectpanel",
-                    "props":{"y":328,"x":8,"width":259,"var":"effectpanel","height":274},
+                    "props":{"y":328,"x":8,"width":259,"var":"effectpanel","height":109},
                     "nodeParent":3,
                     "label":"effectpanel",
                     "isOpen":true,
@@ -650,51 +628,6 @@
                         },
                         {
                             "x":45,
-                            "type":"CheckBox",
-                            "searchKey":"CheckBox,chkEffect",
-                            "props":{"y":31,"x":16,"var":"chkEffect","skin":"comp/checkbox.png","labelSize":12,"labelPadding":"1","labelFont":"Microsoft YaHei","labelColors":"#cccccc,#ff0000,#32cc6b","label":"Effect帧"},
-                            "nodeParent":44,
-                            "label":"chkEffect",
-                            "isOpen":true,
-                            "isDirectory":false,
-                            "isAniNode":true,
-                            "hasChild":false,
-                            "compId":46,
-                            "child":[
-                                ]
-                        },
-                        {
-                            "x":45,
-                            "type":"CheckBox",
-                            "searchKey":"CheckBox,chkHit",
-                            "props":{"y":30,"x":145,"var":"chkHit","skin":"comp/checkbox.png","labelSize":12,"labelPadding":"1","labelFont":"Microsoft YaHei","labelColors":"#cccccc,#ff0000,#32cc6b","label":"Hit帧"},
-                            "nodeParent":44,
-                            "label":"chkHit",
-                            "isOpen":true,
-                            "isDirectory":false,
-                            "isAniNode":true,
-                            "hasChild":false,
-                            "compId":47,
-                            "child":[
-                                ]
-                        },
-                        {
-                            "x":45,
-                            "type":"RadioGroup",
-                            "searchKey":"RadioGroup,grpHit",
-                            "props":{"y":82,"x":15,"var":"grpHit","space":12,"skin":"comp/radio.png","selectedIndex":0,"labels":"无效果,击飞,浮空,击退","labelSize":12,"labelPadding":"2","labelFont":"Microsoft YaHei","labelColors":"#cccccc,#ff0000,#32cc6b"},
-                            "nodeParent":44,
-                            "label":"grpHit",
-                            "isOpen":true,
-                            "isDirectory":false,
-                            "isAniNode":true,
-                            "hasChild":false,
-                            "compId":48,
-                            "child":[
-                                ]
-                        },
-                        {
-                            "x":45,
                             "type":"Text",
                             "searchKey":"Text",
                             "props":{"y":5,"x":18,"text":"常用效果","fontSize":14,"font":"Microsoft YaHei","color":"#cccccc","bold":false},
@@ -705,80 +638,6 @@
                             "isAniNode":true,
                             "hasChild":false,
                             "compId":49,
-                            "child":[
-                                ]
-                        },
-                        {
-                            "x":45,
-                            "type":"ComboBox",
-                            "searchKey":"ComboBox,cbbEffect",
-                            "props":{"y":49,"x":16,"width":95,"var":"cbbEffect","skin":"comp/combobox.png","selectedIndex":0,"labels":"绑定特效","labelSize":12,"labelPadding":"1,0,0,5","labelFont":"Microsoft YaHei","labelColors":"#000000","height":20},
-                            "nodeParent":44,
-                            "label":"cbbEffect",
-                            "isOpen":true,
-                            "isDirectory":false,
-                            "isAniNode":true,
-                            "hasChild":false,
-                            "compId":50,
-                            "child":[
-                                ]
-                        },
-                        {
-                            "x":45,
-                            "type":"ComboBox",
-                            "searchKey":"ComboBox,cbbHit",
-                            "props":{"y":48,"x":145,"width":95,"var":"cbbHit","skin":"comp/combobox.png","selectedIndex":0,"labels":"绑定特效","labelSize":12,"labelPadding":"1,0,0,5","labelFont":"Microsoft YaHei","labelColors":"#000000","height":20},
-                            "nodeParent":44,
-                            "label":"cbbHit",
-                            "isOpen":true,
-                            "isDirectory":false,
-                            "isAniNode":true,
-                            "hasChild":false,
-                            "compId":51,
-                            "child":[
-                                ]
-                        },
-                        {
-                            "x":45,
-                            "type":"RadioGroup",
-                            "searchKey":"RadioGroup,grpLayer",
-                            "props":{"y":131,"x":15,"var":"grpLayer","space":20,"skin":"comp/radio.png","selectedIndex":0,"labels":"人物上层,人物下层","labelSize":12,"labelPadding":"2","labelFont":"Microsoft YaHei","labelColors":"#cccccc,#ff0000,#32cc6b","direction":"horizontal"},
-                            "nodeParent":44,
-                            "label":"grpLayer",
-                            "isDirectory":false,
-                            "isAniNode":true,
-                            "hasChild":false,
-                            "compId":52,
-                            "child":[
-                                ]
-                        },
-                        {
-                            "x":45,
-                            "type":"ComboBox",
-                            "searchKey":"ComboBox",
-                            "props":{"y":151,"x":16,"width":95,"skin":"comp/combobox.png","selectedIndex":0,"labels":"绑定模型","labelSize":12,"labelPadding":"1,0,0,5","labelFont":"Microsoft YaHei","labelColors":"#000000","height":20},
-                            "nodeParent":44,
-                            "label":"ComboBox",
-                            "isOpen":true,
-                            "isDirectory":false,
-                            "isAniNode":true,
-                            "hasChild":false,
-                            "compId":53,
-                            "child":[
-                                ]
-                        },
-                        {
-                            "x":45,
-                            "type":"Text",
-                            "searchKey":"Text",
-                            "props":{"y":109,"x":18,"text":"层级关系","fontSize":14,"font":"Microsoft YaHei","color":"#cccccc","bold":false},
-                            "nodeParent":44,
-                            "label":"Text",
-                            "isOpen":true,
-                            "isDirectory":false,
-                            "isAniNode":true,
-                            "hasChild":false,
-                            "compId":54,
                             "child":[
                                 ]
                         },
@@ -813,16 +672,90 @@
                         },
                         {
                             "x":45,
-                            "type":"Image",
-                            "searchKey":"Image",
-                            "props":{"y":108,"x":5,"width":14,"skin":"comp/arrow_right.png","scaleY":0.6,"scaleX":0.6,"height":18},
+                            "type":"CheckBox",
+                            "searchKey":"CheckBox,chkEffect",
+                            "props":{"y":30,"x":16,"var":"chkEffect","skin":"comp/checkbox.png","labelSize":12,"labelPadding":"1","labelFont":"Microsoft YaHei","labelColors":"#cccccc,#ff0000,#32cc6b","label":"Effect帧"},
                             "nodeParent":44,
-                            "label":"Image",
+                            "label":"chkEffect",
                             "isOpen":true,
                             "isDirectory":false,
                             "isAniNode":true,
                             "hasChild":false,
-                            "compId":57,
+                            "compId":46,
+                            "child":[
+                                ]
+                        },
+                        {
+                            "x":45,
+                            "type":"Button",
+                            "searchKey":"Button,btnEffect",
+                            "props":{"y":24,"x":82,"var":"btnEffect","skin":"comp/button.png","labelSize":12,"labelFont":"Microsoft YaHei","labelColors":"#c1c1c1","label":"绑定特效"},
+                            "nodeParent":44,
+                            "label":"btnEffect",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":78,
+                            "child":[
+                                ]
+                        },
+                        {
+                            "x":45,
+                            "type":"Text",
+                            "searchKey":"Text,lblEffect",
+                            "props":{"y":30,"x":157,"var":"lblEffect","text":"特效名","fontSize":12,"font":"Microsoft YaHei","color":"#ff8247","bold":false},
+                            "nodeParent":44,
+                            "label":"lblEffect",
+                            "isOpen":true,
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":81,
+                            "child":[
+                                ]
+                        },
+                        {
+                            "x":45,
+                            "type":"CheckBox",
+                            "searchKey":"CheckBox,chkHit",
+                            "props":{"y":60,"x":16,"var":"chkHit","skin":"comp/checkbox.png","labelSize":12,"labelPadding":"1","labelFont":"Microsoft YaHei","labelColors":"#cccccc,#ff0000,#32cc6b","label":"Hit帧"},
+                            "nodeParent":44,
+                            "label":"chkHit",
+                            "isOpen":true,
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":47,
+                            "child":[
+                                ]
+                        },
+                        {
+                            "x":45,
+                            "type":"Button",
+                            "searchKey":"Button,btnHit",
+                            "props":{"y":53,"x":82,"var":"btnHit","skin":"comp/button.png","labelSize":12,"labelFont":"Microsoft YaHei","labelColors":"#c1c1c1","label":"绑定特效"},
+                            "nodeParent":44,
+                            "label":"btnHit",
+                            "isOpen":true,
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":80,
+                            "child":[
+                                ]
+                        },
+                        {
+                            "x":45,
+                            "type":"Text",
+                            "searchKey":"Text,lblHit",
+                            "props":{"y":58,"x":157,"var":"lblHit","text":"特效名","fontSize":12,"font":"Microsoft YaHei","color":"#ff8247","bold":false},
+                            "nodeParent":44,
+                            "label":"lblHit",
+                            "isOpen":true,
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":82,
                             "child":[
                                 ]
                         },
@@ -830,7 +763,7 @@
                             "x":45,
                             "type":"CheckBox",
                             "searchKey":"CheckBox,chkBlank",
-                            "props":{"y":206,"x":16,"width":57,"var":"chkBlank","skin":"comp/checkbox.png","labelSize":12,"labelPadding":"1","labelFont":"Microsoft YaHei","labelColors":"#cccccc,#ff0000,#32cc6b","label":"空白帧","height":15},
+                            "props":{"y":-89,"x":-16,"width":57,"var":"chkBlank","skin":"comp/checkbox.png","labelSize":12,"labelPadding":"1","labelFont":"Microsoft YaHei","labelColors":"#cccccc,#ff0000,#32cc6b","label":"空白帧","height":15},
                             "nodeParent":44,
                             "label":"chkBlank",
                             "isDirectory":false,
@@ -844,29 +777,129 @@
                             "x":45,
                             "type":"Text",
                             "searchKey":"Text",
-                            "props":{"y":185,"x":18,"text":"其他","fontSize":14,"font":"Microsoft YaHei","color":"#cccccc","bold":false},
+                            "props":{"y":89,"x":16,"width":55,"text":"Hit偏移量：","height":18,"fontSize":12,"font":"Microsoft YaHei","color":"#e29712","bold":true},
+                            "nodeParent":44,
+                            "label":"Text",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":98,
+                            "child":[
+                                ]
+                        },
+                        {
+                            "x":45,
+                            "type":"Text",
+                            "searchKey":"Text",
+                            "props":{"y":88,"x":82,"width":18,"text":"x","height":18,"fontSize":12,"font":"Microsoft YaHei","color":"#cccccc"},
                             "nodeParent":44,
                             "label":"Text",
                             "isOpen":true,
                             "isDirectory":false,
                             "isAniNode":true,
                             "hasChild":false,
-                            "compId":75,
+                            "compId":94,
                             "child":[
                                 ]
                         },
                         {
                             "x":45,
+                            "type":"Text",
+                            "searchKey":"Text",
+                            "props":{"y":89,"x":153,"width":18,"text":"y","height":18,"fontSize":12,"font":"Microsoft YaHei","color":"#cccccc"},
+                            "nodeParent":44,
+                            "label":"Text",
+                            "isOpen":false,
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":95,
+                            "child":[
+                                ]
+                        },
+                        {
+                            "x":45,
+                            "type":"TextInput",
+                            "searchKey":"TextInput,txtHitX",
+                            "props":{"y":84,"x":96,"width":45,"var":"txtHitX","text":"0","height":20,"color":"#cccccc","bgColor":"#1f1f1f"},
+                            "nodeParent":44,
+                            "label":"txtHitX",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":96,
+                            "child":[
+                                ]
+                        },
+                        {
+                            "x":45,
+                            "type":"TextInput",
+                            "searchKey":"TextInput,txtHitY",
+                            "props":{"y":84,"x":167,"width":45,"var":"txtHitY","text":"0","height":20,"color":"#cccccc","bgColor":"#1f1f1f"},
+                            "nodeParent":44,
+                            "label":"txtHitY",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":97,
+                            "child":[
+                                ]
+                        }]
+                },
+                {
+                    "x":30,
+                    "type":"Panel",
+                    "searchKey":"Panel",
+                    "props":{"y":440,"x":8,"width":259,"height":49},
+                    "nodeParent":3,
+                    "label":"Panel",
+                    "isOpen":true,
+                    "isDirectory":true,
+                    "isAniNode":true,
+                    "hasChild":true,
+                    "compId":84,
+                    "child":[
+                        {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image",
-                            "props":{"y":185,"x":5,"width":14,"skin":"comp/arrow_right.png","scaleY":0.6,"scaleX":0.6,"height":18},
-                            "nodeParent":44,
+                            "props":{"y":6,"x":5,"width":14,"skin":"comp/arrow_right.png","scaleY":0.6,"scaleX":0.6,"height":18},
+                            "nodeParent":84,
                             "label":"Image",
                             "isOpen":true,
                             "isDirectory":false,
                             "isAniNode":true,
                             "hasChild":false,
-                            "compId":76,
+                            "compId":57,
+                            "child":[
+                                ]
+                        },
+                        {
+                            "x":45,
+                            "type":"Text",
+                            "searchKey":"Text",
+                            "props":{"y":5,"x":18,"text":"层级关系","fontSize":14,"font":"Microsoft YaHei","color":"#cccccc","bold":false},
+                            "nodeParent":84,
+                            "label":"Text",
+                            "isOpen":true,
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":54,
+                            "child":[
+                                ]
+                        },
+                        {
+                            "x":45,
+                            "type":"RadioGroup",
+                            "searchKey":"RadioGroup,grpLayer",
+                            "props":{"y":26,"x":15,"var":"grpLayer","space":20,"skin":"comp/radio.png","selectedIndex":0,"labels":"人物上层,人物下层","labelSize":12,"labelPadding":"2","labelFont":"Microsoft YaHei","labelColors":"#cccccc,#ff0000,#32cc6b","direction":"horizontal"},
+                            "nodeParent":84,
+                            "label":"grpLayer",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":52,
                             "child":[
                                 ]
                         }]
@@ -875,7 +908,156 @@
                     "x":30,
                     "type":"Image",
                     "searchKey":"Image,line2",
-                    "props":{"y":624,"x":5,"width":255,"skin":"comp/line3.png","name":"line2","height":1},
+                    "props":{"y":494,"x":5,"width":255,"skin":"comp/line3.png","name":"line2","height":1},
+                    "nodeParent":3,
+                    "label":"line2",
+                    "isOpen":true,
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":88,
+                    "child":[
+                        ]
+                },
+                {
+                    "x":30,
+                    "type":"Panel",
+                    "searchKey":"Panel,panelshow",
+                    "props":{"y":502,"x":8,"width":259,"var":"panelshow","height":109},
+                    "nodeParent":3,
+                    "label":"panelshow",
+                    "isOpen":true,
+                    "isDirectory":true,
+                    "isAniNode":true,
+                    "hasChild":true,
+                    "compId":85,
+                    "child":[
+                        {
+                            "x":45,
+                            "type":"Image",
+                            "searchKey":"Image",
+                            "props":{"y":6,"x":5,"width":14,"skin":"comp/arrow_right.png","scaleY":0.6,"scaleX":0.6,"height":18},
+                            "nodeParent":85,
+                            "label":"Image",
+                            "isOpen":true,
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":86,
+                            "child":[
+                                ]
+                        },
+                        {
+                            "x":45,
+                            "type":"Text",
+                            "searchKey":"Text",
+                            "props":{"y":5,"x":18,"text":"效果演示","fontSize":14,"font":"Microsoft YaHei","color":"#cccccc","bold":false},
+                            "nodeParent":85,
+                            "label":"Text",
+                            "isOpen":true,
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":87,
+                            "child":[
+                                ]
+                        },
+                        {
+                            "x":45,
+                            "type":"CheckBox",
+                            "searchKey":"CheckBox,chkHero",
+                            "props":{"y":30,"x":16,"var":"chkHero","skin":"comp/checkbox.png","labelSize":12,"labelPadding":"1","labelFont":"Microsoft YaHei","labelColors":"#cccccc,#ff0000,#32cc6b","label":"绑定模型"},
+                            "nodeParent":85,
+                            "label":"chkHero",
+                            "isOpen":true,
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":83,
+                            "child":[
+                                ]
+                        },
+                        {
+                            "x":45,
+                            "type":"Button",
+                            "searchKey":"Button,btnHero",
+                            "props":{"y":53,"x":15,"var":"btnHero","skin":"comp/button.png","labelSize":12,"labelFont":"Microsoft YaHei","labelColors":"#c1c1c1","label":"导入"},
+                            "nodeParent":85,
+                            "label":"btnHero",
+                            "isOpen":true,
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":89,
+                            "child":[
+                                ]
+                        },
+                        {
+                            "x":45,
+                            "type":"Text",
+                            "searchKey":"Text,lblHero",
+                            "props":{"y":85,"x":16,"var":"lblHero","text":"模型名","fontSize":12,"font":"Microsoft YaHei","color":"#ff8247","bold":false},
+                            "nodeParent":85,
+                            "label":"lblHero",
+                            "isOpen":true,
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":92,
+                            "child":[
+                                ]
+                        },
+                        {
+                            "x":45,
+                            "type":"CheckBox",
+                            "searchKey":"CheckBox,chkEnemy",
+                            "props":{"y":30,"x":162,"var":"chkEnemy","skin":"comp/checkbox.png","labelSize":12,"labelPadding":"1","labelFont":"Microsoft YaHei","labelColors":"#cccccc,#ff0000,#32cc6b","label":"显示受击方"},
+                            "nodeParent":85,
+                            "label":"chkEnemy",
+                            "isOpen":false,
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":90,
+                            "child":[
+                                ]
+                        },
+                        {
+                            "x":45,
+                            "type":"Button",
+                            "searchKey":"Button,btnEnemy",
+                            "props":{"y":53,"x":161,"var":"btnEnemy","skin":"comp/button.png","labelSize":12,"labelFont":"Microsoft YaHei","labelColors":"#c1c1c1","label":"导入"},
+                            "nodeParent":85,
+                            "label":"btnEnemy",
+                            "isOpen":true,
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":91,
+                            "child":[
+                                ]
+                        },
+                        {
+                            "x":45,
+                            "type":"Text",
+                            "searchKey":"Text,lblEnemy",
+                            "props":{"y":85,"x":162,"var":"lblEnemy","text":"模型名","fontSize":12,"font":"Microsoft YaHei","color":"#ff8247","bold":false},
+                            "nodeParent":85,
+                            "label":"lblEnemy",
+                            "isOpen":true,
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":93,
+                            "child":[
+                                ]
+                        }]
+                },
+                {
+                    "x":30,
+                    "type":"Image",
+                    "searchKey":"Image,line2",
+                    "props":{"y":618,"x":5,"width":255,"skin":"comp/line3.png","name":"line2","height":1},
                     "nodeParent":3,
                     "label":"line2",
                     "isOpen":true,
@@ -885,6 +1067,102 @@
                     "compId":58,
                     "child":[
                         ]
+                },
+                {
+                    "x":30,
+                    "type":"Panel",
+                    "searchKey":"Panel,inpanel",
+                    "props":{"y":626,"x":8,"width":259,"var":"inpanel","height":59},
+                    "nodeParent":3,
+                    "label":"inpanel",
+                    "isOpen":false,
+                    "isDirectory":true,
+                    "isAniNode":true,
+                    "hasChild":true,
+                    "compId":67,
+                    "child":[
+                        {
+                            "type":"Image",
+                            "searchKey":"Image",
+                            "props":{"y":7,"x":5,"width":14,"skin":"comp/arrow_right.png","scaleY":0.6,"scaleX":0.6,"height":18},
+                            "nodeParent":67,
+                            "label":"Image",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":68,
+                            "child":[
+                                ]
+                        },
+                        {
+                            "type":"ComboBox",
+                            "searchKey":"ComboBox,cbbConf",
+                            "props":{"y":27,"x":71,"width":105,"var":"cbbConf","skin":"comp/combobox.png","selectedIndex":0,"labels":"不使用配置","labelSize":12,"labelPadding":"1,0,0,5","labelFont":"Microsoft YaHei","labelColors":"#000000","height":20},
+                            "nodeParent":67,
+                            "label":"cbbConf",
+                            "isOpen":true,
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":69,
+                            "child":[
+                                ]
+                        },
+                        {
+                            "type":"Button",
+                            "searchKey":"Button,btnOther",
+                            "props":{"y":25,"x":184,"width":65,"var":"btnOther","skin":"comp/button.png","labelSize":12,"labelFont":"Microsoft YaHei","labelColors":"#c1c1c1","label":"其他","height":24},
+                            "nodeParent":67,
+                            "label":"btnOther",
+                            "isOpen":true,
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":70,
+                            "child":[
+                                ]
+                        },
+                        {
+                            "type":"Text",
+                            "searchKey":"Text",
+                            "props":{"y":32,"x":16,"text":"通用配置","fontSize":12,"font":"Microsoft YaHei","color":"#cccccc","bold":false},
+                            "nodeParent":67,
+                            "label":"Text",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":71,
+                            "child":[
+                                ]
+                        },
+                        {
+                            "type":"Text",
+                            "searchKey":"Text",
+                            "props":{"y":7,"x":18,"text":"导入","fontSize":14,"font":"Microsoft YaHei","color":"#cccccc","bold":false},
+                            "nodeParent":67,
+                            "label":"Text",
+                            "isOpen":true,
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":72,
+                            "child":[
+                                ]
+                        },
+                        {
+                            "type":"Text",
+                            "searchKey":"Text",
+                            "props":{"y":31,"x":75,"fontSize":14,"font":"Microsoft YaHei","color":"#ff8247","bold":true},
+                            "nodeParent":67,
+                            "label":"Text",
+                            "isOpen":true,
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":73,
+                            "child":[
+                                ]
+                        }]
                 },
                 {
                     "x":30,
@@ -999,108 +1277,6 @@
                             "isAniNode":true,
                             "hasChild":false,
                             "compId":66,
-                            "child":[
-                                ]
-                        }]
-                },
-                {
-                    "x":30,
-                    "type":"Panel",
-                    "searchKey":"Panel,inpanel",
-                    "props":{"y":625,"x":8,"width":259,"var":"inpanel","height":59},
-                    "nodeParent":3,
-                    "label":"inpanel",
-                    "isOpen":true,
-                    "isDirectory":true,
-                    "isAniNode":true,
-                    "hasChild":true,
-                    "compId":67,
-                    "child":[
-                        {
-                            "x":45,
-                            "type":"Image",
-                            "searchKey":"Image",
-                            "props":{"y":7,"x":5,"width":14,"skin":"comp/arrow_right.png","scaleY":0.6,"scaleX":0.6,"height":18},
-                            "nodeParent":67,
-                            "label":"Image",
-                            "isDirectory":false,
-                            "isAniNode":true,
-                            "hasChild":false,
-                            "compId":68,
-                            "child":[
-                                ]
-                        },
-                        {
-                            "x":45,
-                            "type":"ComboBox",
-                            "searchKey":"ComboBox,cbbConf",
-                            "props":{"y":27,"x":71,"width":105,"var":"cbbConf","skin":"comp/combobox.png","selectedIndex":0,"labels":"不使用配置","labelSize":12,"labelPadding":"1,0,0,5","labelFont":"Microsoft YaHei","labelColors":"#000000","height":20},
-                            "nodeParent":67,
-                            "label":"cbbConf",
-                            "isOpen":true,
-                            "isDirectory":false,
-                            "isAniNode":true,
-                            "hasChild":false,
-                            "compId":69,
-                            "child":[
-                                ]
-                        },
-                        {
-                            "x":45,
-                            "type":"Button",
-                            "searchKey":"Button,btnOther",
-                            "props":{"y":25,"x":184,"width":65,"var":"btnOther","skin":"comp/button.png","labelSize":12,"labelFont":"Microsoft YaHei","labelColors":"#c1c1c1","label":"其他","height":24},
-                            "nodeParent":67,
-                            "label":"btnOther",
-                            "isOpen":true,
-                            "isDirectory":false,
-                            "isAniNode":true,
-                            "hasChild":false,
-                            "compId":70,
-                            "child":[
-                                ]
-                        },
-                        {
-                            "x":45,
-                            "type":"Text",
-                            "searchKey":"Text",
-                            "props":{"y":32,"x":16,"text":"通用配置","fontSize":12,"font":"Microsoft YaHei","color":"#cccccc","bold":false},
-                            "nodeParent":67,
-                            "label":"Text",
-                            "isDirectory":false,
-                            "isAniNode":true,
-                            "hasChild":false,
-                            "compId":71,
-                            "child":[
-                                ]
-                        },
-                        {
-                            "x":45,
-                            "type":"Text",
-                            "searchKey":"Text",
-                            "props":{"y":7,"x":18,"text":"导入","fontSize":14,"font":"Microsoft YaHei","color":"#cccccc","bold":false},
-                            "nodeParent":67,
-                            "label":"Text",
-                            "isOpen":true,
-                            "isDirectory":false,
-                            "isAniNode":true,
-                            "hasChild":false,
-                            "compId":72,
-                            "child":[
-                                ]
-                        },
-                        {
-                            "x":45,
-                            "type":"Text",
-                            "searchKey":"Text",
-                            "props":{"y":31,"x":75,"fontSize":14,"font":"Microsoft YaHei","color":"#ff8247","bold":true},
-                            "nodeParent":67,
-                            "label":"Text",
-                            "isOpen":true,
-                            "isDirectory":false,
-                            "isAniNode":true,
-                            "hasChild":false,
-                            "compId":73,
                             "child":[
                                 ]
                         }]

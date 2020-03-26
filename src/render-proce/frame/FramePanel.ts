@@ -12,7 +12,8 @@ export default class FramePanel extends ui.scene.FramePanelUI {
     curAniEnity: AniEntity;
     dragItem: ActAniNameRender;
     aniSelectedIndex: number = 0;
-    renderList: ActAniNameRender[] = [];
+    nameRenderList: ActAniNameRender[] = [];
+    aniRenderList: ActAniRender[] = [];
     lastPosY: number;
     lastPosX: number;
     constructor() {
@@ -31,6 +32,7 @@ export default class FramePanel extends ui.scene.FramePanelUI {
         this.btnStop.on(Laya.Event.CLICK, this, this.onBtnStop);
 
         this.chkselect.on(Laya.Event.CHANGE, this, this.onChkSelected);
+        this.chkLoop.on(Laya.Event.CHANGE, this, this.onChkLoop);
 
 
         this.listgradua.renderHandler = Laya.Handler.create(this, this.onGraduaRender, null, false);
@@ -92,7 +94,7 @@ export default class FramePanel extends ui.scene.FramePanelUI {
     //当前帧后查一帧
     onBtnInsertClick() {
         if (this.curAniEnity == null) return;
-        this.curAniEnity.insertFrame();
+        this.curAniEnity.insertFrame(globalDao.curFrameIndex);
         this.listActAni.changeItem(this.aniSelectedIndex, this.curAniEnity.aniInfo.aniName);
     }
 
@@ -116,6 +118,9 @@ export default class FramePanel extends ui.scene.FramePanelUI {
         if (this.curAniEnity == null) return;
         this.curAniEnity.showFilter();
     }
+    onChkLoop() {
+        globalDao.isLoopPlay = this.chkLoop.selected;
+    }
 
     //刻度显示
     onGraduaRender(cell: Laya.Box, index: number) {
@@ -128,15 +133,16 @@ export default class FramePanel extends ui.scene.FramePanelUI {
 
     onAniNameRender(cell: ActAniNameRender, index: number) {
         cell.setData(cell.dataSource, index);
-        this.renderList[index] = cell;
+        this.nameRenderList[index] = cell;
         if (this.listAniName.selectedIndex == -1) {
             this.listAniName.selectedIndex = 0;
         }
     }
 
     //设置帧参数
-    onListAniRender(cell: ActAniRender) {
+    onListAniRender(cell: ActAniRender, index: number) {
         cell.setData(cell.dataSource);
+        this.aniRenderList[index] = cell;
     }
 
     onListAniSelect(index: number) {
@@ -173,12 +179,13 @@ export default class FramePanel extends ui.scene.FramePanelUI {
     onAniSelected(aniName: string) {
         let index = this.dataList.indexOf(aniName);
         if (this.aniSelectedIndex != index) {
-            this.renderList[this.aniSelectedIndex].selected = false;
+            this.nameRenderList[this.aniSelectedIndex].selected = false;
+            this.aniRenderList[this.aniSelectedIndex].resetSelect();
             if (this.curAniEnity)
                 this.curAniEnity.selected = false;
         }
         if (index >= 0) {
-            this.renderList[index].selected = true;
+            this.nameRenderList[index].selected = true;
             this.aniSelectedIndex = index;
             if (!this.curAniEnity) {
                 this.curAniEnity = aniEntityDict.get(this.dataList[index]) as AniEntity;
@@ -217,19 +224,19 @@ export default class FramePanel extends ui.scene.FramePanelUI {
                 console.log('超界了');
             } else {
                 if (newPosY < 0 && this.dragItem.renderIndex != 0) {
-                    switchCell(this.dragItem, this.renderList[0])
+                    switchCell(this.dragItem, this.nameRenderList[0])
                 } else {
                     let i = 0;
-                    let n = this.renderList.length;
+                    let n = this.nameRenderList.length;
                     let needMove = false;
                     for (; i < n; i++) {
-                        let cell = this.renderList[i];
+                        let cell = this.nameRenderList[i];
                         if (cell.dataSource == this.dragItem.dataSource) {
                             continue;
                         }
                         if (newPosY > cell.y) {
                             if (i + 1 < n) {
-                                let nextCell = this.renderList[i + 1];
+                                let nextCell = this.nameRenderList[i + 1];
                                 if (newPosY < nextCell.y) {
                                     if (newPosY > this.lastPosY)
                                         switchCell(this.dragItem, cell);
@@ -243,7 +250,7 @@ export default class FramePanel extends ui.scene.FramePanelUI {
                     }
 
                     if (i == n && needMove) {
-                        switchCell(this.dragItem, this.renderList[n - 1])
+                        switchCell(this.dragItem, this.nameRenderList[n - 1])
                     }
                 }
             }

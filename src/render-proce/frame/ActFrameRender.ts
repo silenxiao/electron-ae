@@ -22,6 +22,7 @@ export default class ActFrameRender extends Laya.Box {
     }
 
     setData(val: FrameEffect) {
+        if (!val) return;
         this.frameEff.visible = val.isEffect;
         this.frameHit.visible = val.isHit;
         this.frameLayer.visible = (val.layLevel != 0);

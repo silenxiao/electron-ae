@@ -38,9 +38,9 @@ export module utils {
         var dstPath = path.join(dstPath, ('00' + imgIndex).slice(-3) + '.png');
         var srcImg;
         if (srcPath == '')
-            srcImg = Images(srcPath);
-        else
             srcImg = Images(2, 2);
+        else
+            srcImg = Images(srcPath);
         dst.draw(srcImg, x + 512 - pivot.x, y + 512 - pivot.y).save(dstPath);
     }
 }

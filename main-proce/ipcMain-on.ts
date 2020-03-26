@@ -3,7 +3,7 @@ import fs from "fs";
 import path from "path";
 import { utils } from "./utils";
 import { exportAtlas } from "./export-altas"
-import { analyzeDragFile } from "./analyze-dragfile";
+import { analyzeDragFile, analyzeAtlasFile } from "./analyze-dragfile";
 import { aniDict, ENV_PATH, globalParam } from "./main-dao";
 
 //监听拖拽文件
@@ -94,7 +94,7 @@ ipcMain.on('read-ani-confs', (event) => {
                 if (extname == ".json") {
                     let confName = path.basename(filePath, '.json');
                     let framesDataStr = fs.readFileSync(filePath).toString();
-                    event.sender.send('load-ani-conf', confName, framesDataStr);
+                    event.sender.send('m2r_load-ani-conf', confName, framesDataStr);
                 }
             }
         })
@@ -102,12 +102,27 @@ ipcMain.on('read-ani-confs', (event) => {
 })
 
 //读取背景参数
-ipcMain.on('save-conf-data', (event, val) => {
+ipcMain.on('r2m_save-conf', (event, val) => {
     globalParam.frameRate = val.frameRate;
     globalParam.bgParam = val.bgParam;
     globalParam.frameIntev = val.frameIntev;
 })
 
-ipcMain.on('read-conf-data', (event) => {
-    event.sender.send('read-conf-data', globalParam);
+ipcMain.on('r2m_read-conf', (event) => {
+    event.sender.send('m2r_read-conf', globalParam);
 })
+
+//导入绑定特效和模型
+ipcMain.on('r2m_import-atlas', (event, type) => {
+    let files = dialog.showOpenDialogSync({
+        title: '读取动画配置',
+        defaultPath: app.getPath('desktop'),
+        filters: [
+            { name: 'atlas文件', extensions: ['atlas'] }
+        ]
+    })
+    if (files) {
+        let filePath = files[0];
+        event.sender.send('m2r_import-atlas', type, analyzeAtlasFile(event.sender, filePath, true));
+    }
+});
