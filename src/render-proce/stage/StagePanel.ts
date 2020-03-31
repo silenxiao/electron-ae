@@ -108,8 +108,10 @@ export default class StagePanel extends ui.scene.StagePanelUI {
     }
 
     onKeyDown(evt: Laya.Event) {
+
+        if (evt.target instanceof Laya.Input) return;
         //删除当前帧
-        if (evt.keyCode == Laya.Keyboard.DELETE && !(evt.target instanceof Laya.Input)) {
+        if (evt.keyCode == Laya.Keyboard.DELETE) {
             ///todo
             delCurFrame(this.getCurAniEntity());
             return;
