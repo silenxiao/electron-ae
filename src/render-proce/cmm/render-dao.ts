@@ -10,6 +10,7 @@ export let globalDao = {
     showSelected: true,
     isCopyFrame: false,
     isLoopPlay: true,
+    isPlay: false,
     copyIndexRang: [0, 0],
 }
 
@@ -40,5 +41,6 @@ export let confParam: GlobalData = {
         die_s: 3,
         hit_s: 4,
         run_s: 2
-    }
+    },
+    tinify_key: 'fHWleyCjV8lBEde9QWYFcmzMg7ns8fMb'
 }

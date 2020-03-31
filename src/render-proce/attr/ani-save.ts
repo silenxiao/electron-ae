@@ -3,7 +3,7 @@ import AniEntity from '../cmm/AniEntity';
 import AttrPanel from './AttrPanel';
 import { ipcRenderer, remote, shell } from 'electron';
 
-let confNames = "不使用配置";
+let confNames = "使用配置";
 let cbbConf: Laya.ComboBox;
 let txtCurAni: Laya.Text;
 export function aniSaveHandle(editor: AttrPanel) {

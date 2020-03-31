@@ -4,6 +4,7 @@ import { aniEntityDict, confParam } from "../cmm/render-dao";
 import AniListRender from "./AniListRender";
 import { EvtCenter, AE_Event } from "../cmm/EvtCenter";
 import { ui } from "../../ui/layaMaxUI";
+import { addAniToComboBox, delAniToComboBox } from "../attr/ani-frame-effect";
 
 export default class LeftPanel extends ui.scene.AniListPanelUI {
     dataList: string[] = [];
@@ -55,6 +56,7 @@ export default class LeftPanel extends ui.scene.AniListPanelUI {
             aniEntityDict.set(aniInfo.aniName, new AniEntity(aniInfo));
             this.dataList.push(aniInfo.aniName);
             this.aniList.refresh();
+            addAniToComboBox(aniInfo.aniName);
             this.aniList.selectedIndex = this.selectIndex;
         })
     }
@@ -83,6 +85,7 @@ export default class LeftPanel extends ui.scene.AniListPanelUI {
             aniEntityDict.delete(aniName);
         }
         this.aniList.refresh();
+        delAniToComboBox(aniName);
         ipcRenderer.send('ani-del', aniName);
     }
 

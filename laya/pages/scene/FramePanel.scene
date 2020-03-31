@@ -1,12 +1,12 @@
 {
     "x":0,
     "type":"Scene",
-    "selectedBox":20,
-    "selecteID":50,
+    "selectedBox":25,
+    "selecteID":51,
     "searchKey":"Scene",
     "props":{"y":0,"x":0,"width":860,"sceneColor":"#000000","runtime":"render-proce/frame/FramePanel.ts","height":310},
     "nodeParent":-1,
-    "maxID":51,
+    "maxID":52,
     "label":"Scene",
     "isOpen":true,
     "isDirectory":true,
@@ -441,13 +441,14 @@
                                             "props":{"y":0,"x":0,"width":18,"runtime":"render-proce/frame/ActFrameRender.ts","renderType":"render","height":25},
                                             "nodeParent":24,
                                             "label":"Box",
-                                            "isOpen":false,
+                                            "isOpen":true,
                                             "isDirectory":true,
                                             "isAniNode":false,
                                             "hasChild":true,
                                             "compId":25,
                                             "child":[
                                                 {
+                                                    "x":90,
                                                     "type":"Image",
                                                     "searchKey":"Image",
                                                     "props":{"y":0,"x":0,"width":18,"skin":"comp/frame_bg.png","height":25},
@@ -463,6 +464,7 @@
                                                     "$HIDDEN":false
                                                 },
                                                 {
+                                                    "x":90,
                                                     "type":"Image",
                                                     "searchKey":"Image,frameHit",
                                                     "props":{"y":0,"x":0,"width":18,"skin":"comp/ani_hit.png","name":"frameHit","height":25},
@@ -478,6 +480,7 @@
                                                     "$HIDDEN":false
                                                 },
                                                 {
+                                                    "x":90,
                                                     "type":"Image",
                                                     "searchKey":"Image,frameEff",
                                                     "props":{"y":0,"x":0,"width":18,"skin":"comp/ani_effect.png","name":"frameEff","height":25},
@@ -492,11 +495,13 @@
                                                     "$HIDDEN":false
                                                 },
                                                 {
+                                                    "x":90,
                                                     "type":"Image",
                                                     "searchKey":"Image,frameLayer",
                                                     "props":{"y":0,"x":0,"width":18,"skin":"comp/ani_layout.png","name":"frameLayer","height":25},
                                                     "nodeParent":25,
                                                     "label":"frameLayer",
+                                                    "isOpen":true,
                                                     "isDirectory":false,
                                                     "isAniNode":false,
                                                     "hasChild":false,
@@ -505,6 +510,21 @@
                                                         ]
                                                 },
                                                 {
+                                                    "x":90,
+                                                    "type":"Image",
+                                                    "searchKey":"Image,frameUdef",
+                                                    "props":{"y":0,"x":0,"width":18,"skin":"comp/ani_udef.png","name":"frameUdef","height":25},
+                                                    "nodeParent":25,
+                                                    "label":"frameUdef",
+                                                    "isDirectory":false,
+                                                    "isAniNode":false,
+                                                    "hasChild":false,
+                                                    "compId":51,
+                                                    "child":[
+                                                        ]
+                                                },
+                                                {
+                                                    "x":90,
                                                     "type":"Label",
                                                     "searchKey":"Label,txtFrame,txtFrame",
                                                     "props":{"y":6,"x":0,"width":16,"var":"txtFrame","valign":"middle","text":"12","name":"txtFrame","height":16,"fontSize":12,"font":"Microsoft YaHei","color":"#000000","align":"center"},

@@ -2,8 +2,9 @@ import fs from "fs";
 import path from "path";
 import childProcess from 'child_process';
 import { utils } from "./utils";
-import { ENV_PATH, aniDict } from "./main-dao"
+import { ENV_PATH, aniDict, globalParam } from "./main-dao"
 import { WebContents } from "electron";
+import tinify from 'tinify'
 
 //导出AE
 export let exportAtlas = (sender: WebContents, aniName: string, images: string[], frameEffects: FrameEffect[], outputpath: string) => {
@@ -29,6 +30,12 @@ export let exportAtlas = (sender: WebContents, aniName: string, images: string[]
             if (err) {
                 sender.send('global-error', err.message);
             } else {
+                //压缩图片
+                tinify.key = globalParam.tinify_key;
+
+                let filePath = path.join(outputpath, `${aniName}.png`);
+                const source = tinify.fromFile(filePath);
+                source.toFile(filePath);
                 mergeAtlasConf(outputpath, aniName, frameEffects, indexToPng)
                 sender.send('save-atlas-succ', aniName, outputpath);
             }
@@ -99,11 +106,33 @@ function mergeAtlasConf(dirname: string, aniName: string, frameEffects: FrameEff
             frameEffect.copyIndex = indexToPng[frameEffect.copyIndex];
             frameDatas[i].ani = frameEffect;
         }
+        if (frameEffect.offset[0] == 0 && frameEffect.offset[1] == 0)
+            frameEffect.offset = [];
         delete frameEffect['isBlank'];
+        delete frameEffect['copyIndex'];
+        delete frameEffect['indxId'];
+
+        if (!checkFrameExsitEffect(frameEffect)) {
+            delete frameDatas[i].ani
+        }
     }
     fs.writeFileSync(filePath, JSON.stringify(atlasInfo));
 }
 
+/** 检查帧效果是否存在修改的数据 */
+function checkFrameExsitEffect(frameEffect: FrameEffect): boolean {
+    if (frameEffect.hitXY.length > 0)
+        return true;
+    if (frameEffect.isEffect == 1)
+        return true;
+    if (frameEffect.layLevel > 0)
+        return true;
+    if (frameEffect.lblName != '')
+        return true;
+    if (frameEffect.offset.length > 0)
+        return true;
+    return false;
+}
 
 function copyFile(frameEffects: FrameEffect[], images: string[], tempFolder: string): number[] {
     let isBlankInxs = [];

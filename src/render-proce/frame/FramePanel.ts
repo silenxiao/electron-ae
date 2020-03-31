@@ -2,7 +2,7 @@ import { EvtCenter, AE_Event, ANI_FRAME_TYPE } from "../cmm/EvtCenter";
 import AniEntity from "../cmm/AniEntity";
 import ActAniNameRender from "./ActAniNameRender";
 import { globalDao, aniEntityDict } from "../cmm/render-dao";
-import { aniFrameEdit, switchCell } from "./ani-frame-edit";
+import { aniFrameEdit, switchCell, updateFramePanelData } from "./ani-frame-edit";
 import { ui } from "../../ui/layaMaxUI";
 import ActAniRender from "./ActFrameListRender";
 import { setTxtCurAniName } from "../attr/ani-save";
@@ -99,6 +99,7 @@ export default class FramePanel extends ui.scene.FramePanelUI {
     }
 
     onAniToPlay(val: boolean) {
+        globalDao.isPlay = val;
         this.btnStop.visible = val;
         this.btnPlay.visible = !val;
     }
@@ -155,6 +156,8 @@ export default class FramePanel extends ui.scene.FramePanelUI {
             this.dataList.push(name);
             this.listAniName.refresh();
             this.listActAni.refresh();
+        } else {
+            updateFramePanelData(name);
         }
     }
 
@@ -184,16 +187,14 @@ export default class FramePanel extends ui.scene.FramePanelUI {
             if (this.curAniEnity)
                 this.curAniEnity.selected = false;
         }
+        globalDao.curAniName = aniName;
         if (index >= 0) {
             this.nameRenderList[index].selected = true;
             this.aniSelectedIndex = index;
-            if (!this.curAniEnity) {
-                this.curAniEnity = aniEntityDict.get(this.dataList[index]) as AniEntity;
-                this.curAniEnity.selected = true;
-                this.curAniEnity.sysFrameDataToPanel();
-            }
+            this.curAniEnity = aniEntityDict.get(this.dataList[index]) as AniEntity;
+            this.curAniEnity.selected = true;
+            this.curAniEnity.sysFrameDataToPanel();
         }
-        globalDao.curAniName = aniName;
         setTxtCurAniName(aniName);
     }
 

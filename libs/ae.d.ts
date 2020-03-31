@@ -60,16 +60,20 @@ declare class SpriteSourceSize {
 
 /** 帧效果 */
 declare class FrameEffect {
-    isEffect: boolean;
-    isHit: boolean;
+    isEffect: number;
     hitXY: number[];
-    offsetX: number;
-    offsetY: number;
+    offset: number[];
     layLevel: number;
     /**复制的图片序列id */
     copyIndex: number;
+    lblName: string;
+
     /** 唯一id */
     indxId: number;
+    /**
+     * @deprecated 弃用
+     *是否是空白帧，不导出 
+     */
     isBlank: boolean;
 }
 
@@ -85,6 +89,8 @@ declare class GlobalData {
 
     bgParam: BGParam;
     frameIntev: FrameIntev;
+
+    tinify_key: string;
 }
 
 /** 背景参数 */

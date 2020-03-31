@@ -2,6 +2,7 @@ export default class ActFrameRender extends Laya.Box {
     frameEff: Laya.Image;
     frameHit: Laya.Image;
     frameLayer: Laya.Image;
+    frameUdef: Laya.Image;
     txtFrame: Laya.Label;
 
     constructor() {
@@ -18,15 +19,18 @@ export default class ActFrameRender extends Laya.Box {
         this.frameLayer = this.getChildByName('frameLayer') as Laya.Image;
         this.frameLayer.visible = false;
 
+        this.frameUdef = this.getChildByName('frameUdef') as Laya.Image;
+        this.frameUdef.visible = false;
+
         this.txtFrame = this.getChildByName('txtFrame') as Laya.Label;
     }
 
     setData(val: FrameEffect) {
         if (!val) return;
-        this.frameEff.visible = val.isEffect;
-        this.frameHit.visible = val.isHit;
+        this.frameEff.visible = (val.isEffect != 0);
+        this.frameHit.visible = (val.hitXY.length > 0);
         this.frameLayer.visible = (val.layLevel != 0);
-
+        this.frameUdef.visible = (val.lblName != '');
         if (val.isBlank) {
             this.txtFrame.text = '•';
         } else {

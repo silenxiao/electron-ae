@@ -11,6 +11,7 @@ export default class ActAniNameRender extends Laya.Box {
         this.txtAniName = this.getChildByName('txtAniName') as Laya.Label;
         this.imgSelect = this.getChildByName('imgSelect') as Laya.Image;
         this.imgOn = this.getChildByName('imgOn') as Laya.Image;
+        this.imgOn.visible = false;
         this.imgSelect.visible = false;
         this.on(Laya.Event.MOUSE_OVER, this, this.onOver);
         this.on(Laya.Event.MOUSE_OUT, this, this.onOut);

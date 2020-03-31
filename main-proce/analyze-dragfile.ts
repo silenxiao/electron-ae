@@ -46,7 +46,7 @@ let analyzeDirectory = (sender: WebContents, rootPath: string): AniInfo => {
             if (extname == ".jpg" || extname == ".png") {
                 aniInfo.images.push(filePath);
                 aniInfo.frameIndxs.push(indx);
-                aniInfo.frameEffects.push({ isEffect: false, isHit: false, hitXY: [0, 0], offsetX: 0, offsetY: 0, layLevel: 0, copyIndex: indx, indxId: indx, isBlank: false });
+                aniInfo.frameEffects.push({ isEffect: 0, hitXY: [], offset: [0, 0], layLevel: 0, copyIndex: indx, indxId: indx, isBlank: false, lblName: "" });
                 indx++;
                 aniInfo.pivot.x = Images(filePath).size().width >> 1;
                 aniInfo.pivot.y = Images(filePath).size().height >> 1;
@@ -101,31 +101,58 @@ export let analyzeAtlasFile = (sender: WebContents, atlasPath: string, isTest: b
 
     let indx: number = 0;
     let pivotx: number = 0, pivoty: number = 0;
+    let imgCheck: any = {};
+    let imgIndx = 0;
     for (let index in atlasInfo.frames) {
         let frame = atlasInfo.frames[index];
         if (!frame.ani) {
-            frame.ani = <FrameEffect>{ isEffect: false, isHit: false, hitXY: [0, 0], offsetX: 0, offsetY: 0, layLevel: 0, copyIndex: indx, indxId: indx, isBlank: false }
+            frame.ani = <FrameEffect>{ isEffect: 0, hitXY: [], offset: [0, 0], layLevel: 0, copyIndex: indx, indxId: indx, isBlank: false, lblName: "" }
         } else {
-            if ((<any>frame.ani)['hitType']) {
-                frame.ani.hitXY = [0, 0];
+            if ('isHit' in (<any>frame.ani)) {
+                if ((<any>frame.ani)['isHit'])
+                    frame.ani.hitXY = [0, 0];
+                else
+                    frame.ani.hitXY = [];
+                delete (<any>frame.ani)['isHit'];
+            }
+            if ('hitType' in (<any>frame.ani)) {
                 delete (<any>frame.ani)['hitType'];
             }
-            frame.ani.hitXY = [0, 0];
+            if ('offsetX' in (<any>frame.ani)) {
+                frame.ani.offset = [(<any>frame.ani)['offsetX'], (<any>frame.ani)['offsetY']];
+                delete (<any>frame.ani)['offsetX'];
+                delete (<any>frame.ani)['offsetY'];
+            }
+            if (frame.ani.isEffect) frame.ani.isEffect = 1;
+            else frame.ani.isEffect = 0;
+            if (frame.ani.offset.length == 0)
+                frame.ani.offset = [0, 0];
+            if (!('lblName' in (<any>frame.ani))) {
+                frame.ani.lblName = "";
+            }
             frame.ani.indxId = indx;
         }
 
-        let frameIndx = frame.ani.copyIndex;
+        var rect = frame.frame;
+        let rectStr = [rect.x, rect.y, rect.w, rect.h].join(',');
+        if (isNaN(imgCheck[rectStr])) {
+            imgCheck[rectStr] = imgIndx;
+            imgIndx++;
+        }
+        let frameIndx = imgCheck[rectStr]
         //当前帧未生成图片
         if (!aniInfo.images[frameIndx] && !frame.ani.isBlank) {
+            imgCheck[rect.toString()] = true;
             pivotx = Number(frame.sourceSize.w) >> 1;
             pivoty = Number(frame.sourceSize.h) >> 1;
             var dst = Images(frame.sourceSize.w, frame.sourceSize.h);
-            var rect = frame.frame;
             var dstImgPath = path.join(tmp, ('00' + frameIndx).slice(-3) + '.png');
             dst.draw(Images(srcImg, rect.x, rect.y, rect.w, rect.h), frame.spriteSourceSize.x, frame.spriteSourceSize.y)
                 .save(dstImgPath);
             aniInfo.images[frameIndx] = dstImgPath;
         }
+        frame.ani.copyIndex = frameIndx;
+        frame.ani.indxId = indx;
         indx++;
         aniInfo.frameEffects.push(frame.ani);
         aniInfo.frameIndxs.push(frameIndx);

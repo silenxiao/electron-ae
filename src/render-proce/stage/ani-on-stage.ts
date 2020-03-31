@@ -9,8 +9,10 @@ import StagePanel from "./StagePanel";
 let container: Laya.Panel;
 
 let showList: Map<string, AniEntity>;
+let sortList: string[];
 export function aniToStageHandle(view: StagePanel) {
     showList = view.showList;
+    sortList = view.sortList;
     container = view.container;
 }
 
@@ -31,8 +33,8 @@ export function switchAniOnStage(srcAniName: string, dstAniName: string) {
  * @param {帧数} frameIndex 
  */
 export function setAllAniFrameIndex(index: number) {
-    showList.forEach((val) => {
-        val.setTexture(index);
+    sortList.forEach(val => {
+        showList.get(val).setTexture(index);
     })
 }
 
@@ -61,4 +63,12 @@ export function changeAniLayoutOnStage(val: number) {
     if (index < 1) index = 1;
     if (index >= container.numChildren) index = container.numChildren;
     container.addChildAt(showList.get(aniName), index)
+}
+
+export function setAniFirstPlay(aniName: string) {
+    let index = sortList.indexOf(aniName);
+    if (index > 0) {
+        sortList.splice(index, 0);
+        sortList.unshift(aniName);
+    }
 }

@@ -33,7 +33,7 @@ export module utils {
     }
 
     //保存 图片
-    export let saveAEImg = (dstPath: string, imgIndex: number, pivot: Point, srcPath: string, x: number, y: number) => {
+    export let saveAEImg = (dstPath: string, imgIndex: number, pivot: Point, srcPath: string, xy: number[]) => {
         var dst = Images(1024, 1024);
         var dstPath = path.join(dstPath, ('00' + imgIndex).slice(-3) + '.png');
         var srcImg;
@@ -41,6 +41,6 @@ export module utils {
             srcImg = Images(2, 2);
         else
             srcImg = Images(srcPath);
-        dst.draw(srcImg, x + 512 - pivot.x, y + 512 - pivot.y).save(dstPath);
+        dst.draw(srcImg, xy[0] + 512 - pivot.x, xy[1] + 512 - pivot.y).save(dstPath);
     }
 }

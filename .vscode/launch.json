@@ -7,6 +7,15 @@
         {
             "type": "node",
             "request": "launch",
+            "name": "node Program",
+            "program": "${workspaceFolder}/test.js",
+            "skipFiles": [
+                "<node_internals>/**"
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
             "name": "Launch Program",
             "cwd": "${workspaceFolder}",
             "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/electron",

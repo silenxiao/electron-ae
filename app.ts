@@ -65,4 +65,8 @@ if (fs.existsSync(path.join(ENV_PATH.ROOT_PATH, 'data/config.json'))) {
     globalParam.frameRate = conf.frameRate;
     globalParam.bgParam = conf.bgParam;
     globalParam.frameIntev = conf.frameIntev;
+    if (conf.tinify_key)
+        globalParam.tinify_key = conf.tinify_key;
+    else
+        globalParam.tinify_key = 'fHWleyCjV8lBEde9QWYFcmzMg7ns8fMb';
 } 

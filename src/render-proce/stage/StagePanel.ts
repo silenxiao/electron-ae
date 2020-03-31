@@ -17,6 +17,8 @@ export default class StagePanel extends ui.scene.StagePanelUI {
     focusTarget: Laya.Sprite;
     isPlay: boolean;
     frameIndex: number = 0;
+    sortList: string[] = [];
+    /**刻度容器 */
     scaleContain: Laya.Sprite;
     constructor() {
         super();
@@ -46,11 +48,10 @@ export default class StagePanel extends ui.scene.StagePanelUI {
         if (!this.showList.has(name)) {
             let aniEntity = aniEntityDict.get(name);
             this.showList.set(name, aniEntity);
+            this.sortList.push(name);
             aniEntity.pos(globalDao.coordinateX, globalDao.coordinateY);
             this.container.addChild(aniEntity);
             aniEntity.setTexture(globalDao.curFrameIndex)
-        } else {
-            remote.dialog.showErrorBox('警告', `场景中存在相同的动画名:${name}`);
         }
     }
 
@@ -60,6 +61,9 @@ export default class StagePanel extends ui.scene.StagePanelUI {
             this.showList.delete(name);
             this.playOver(name);
         }
+
+        let index = this.sortList.indexOf(name);
+        if (index >= 0) this.sortList.splice(index, 1);
     }
 
     playOver(val: string) {
@@ -105,7 +109,7 @@ export default class StagePanel extends ui.scene.StagePanelUI {
 
     onKeyDown(evt: Laya.Event) {
         //删除当前帧
-        if (evt.keyCode == Laya.Keyboard.DELETE) {
+        if (evt.keyCode == Laya.Keyboard.DELETE && !(evt.target instanceof Laya.Input)) {
             ///todo
             delCurFrame(this.getCurAniEntity());
             return;

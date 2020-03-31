@@ -42,8 +42,8 @@ ipcMain.on('save-ae', (event, aniName, frameEffects: FrameEffect[]) => {
     for (let i = 0; i < total; i++) {
         let frameEffect = frameEffects[i];
         if (frameEffect.isBlank)
-            utils.saveAEImg(savePath, imgIndex, aniInfo.pivot, '', frameEffect.offsetX, frameEffect.offsetY);
-        else utils.saveAEImg(savePath, imgIndex, aniInfo.pivot, aniInfo.images[frameEffect.copyIndex], frameEffect.offsetX, frameEffect.offsetY);
+            utils.saveAEImg(savePath, imgIndex, aniInfo.pivot, '', frameEffect.offset);
+        else utils.saveAEImg(savePath, imgIndex, aniInfo.pivot, aniInfo.images[frameEffect.copyIndex], frameEffect.offset);
         imgIndex++;
     }
     event.sender.send('save-ae-succ', aniName, savePath);
@@ -111,18 +111,3 @@ ipcMain.on('r2m_save-conf', (event, val) => {
 ipcMain.on('r2m_read-conf', (event) => {
     event.sender.send('m2r_read-conf', globalParam);
 })
-
-//导入绑定特效和模型
-ipcMain.on('r2m_import-atlas', (event, type) => {
-    let files = dialog.showOpenDialogSync({
-        title: '读取动画配置',
-        defaultPath: app.getPath('desktop'),
-        filters: [
-            { name: 'atlas文件', extensions: ['atlas'] }
-        ]
-    })
-    if (files) {
-        let filePath = files[0];
-        event.sender.send('m2r_import-atlas', type, analyzeAtlasFile(event.sender, filePath, true));
-    }
-});
