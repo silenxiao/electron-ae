@@ -18,6 +18,7 @@ export default class ActAniNameRender extends Laya.Box {
     }
 
     setData(val: string, index: number) {
+        //this.txtAniName.align = 'right';
         this.txtAniName.text = val;
         this.renderIndex = index;
     }

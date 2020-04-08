@@ -42,5 +42,6 @@ export let confParam: GlobalData = {
         hit_s: 4,
         run_s: 2
     },
-    tinify_key: 'fHWleyCjV8lBEde9QWYFcmzMg7ns8fMb'
+    tinify_key: 'fHWleyCjV8lBEde9QWYFcmzMg7ns8fMb',
+    move_y: 20,
 }

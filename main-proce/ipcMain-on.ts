@@ -6,6 +6,9 @@ import { exportAtlas } from "./export-altas"
 import { analyzeDragFile, analyzeAtlasFile } from "./analyze-dragfile";
 import { aniDict, ENV_PATH, globalParam } from "./main-dao";
 
+ipcMain.on('reload', (event) => {
+    aniDict.clear();
+})
 //监听拖拽文件
 ipcMain.on('ondragstart', (event, dragPath) => {
     analyzeDragFile(event.sender, dragPath)

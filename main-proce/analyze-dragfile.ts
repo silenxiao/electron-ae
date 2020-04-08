@@ -46,7 +46,7 @@ let analyzeDirectory = (sender: WebContents, rootPath: string): AniInfo => {
             if (extname == ".jpg" || extname == ".png") {
                 aniInfo.images.push(filePath);
                 aniInfo.frameIndxs.push(indx);
-                aniInfo.frameEffects.push({ isEffect: 0, hitXY: [], offset: [0, 0], layLevel: 0, copyIndex: indx, indxId: indx, isBlank: false, lblName: "" });
+                aniInfo.frameEffects.push({ isEffect: 0, hitXY: [], offset: [0, 0], fireXY: [], layLevel: 0, copyIndex: indx, indxId: indx, isBlank: false, lblName: "" });
                 indx++;
                 aniInfo.pivot.x = Images(filePath).size().width >> 1;
                 aniInfo.pivot.y = Images(filePath).size().height >> 1;
@@ -106,7 +106,7 @@ export let analyzeAtlasFile = (sender: WebContents, atlasPath: string, isTest: b
     for (let index in atlasInfo.frames) {
         let frame = atlasInfo.frames[index];
         if (!frame.ani) {
-            frame.ani = <FrameEffect>{ isEffect: 0, hitXY: [], offset: [0, 0], layLevel: 0, copyIndex: indx, indxId: indx, isBlank: false, lblName: "" }
+            frame.ani = { isEffect: 0, hitXY: [], offset: [0, 0], fireXY: [], layLevel: 0, copyIndex: indx, indxId: indx, isBlank: false, lblName: "" }
         } else {
             if ('isHit' in (<any>frame.ani)) {
                 if ((<any>frame.ani)['isHit'])
@@ -123,6 +123,9 @@ export let analyzeAtlasFile = (sender: WebContents, atlasPath: string, isTest: b
                 delete (<any>frame.ani)['offsetX'];
                 delete (<any>frame.ani)['offsetY'];
             }
+            if (!('fireXY' in (<any>frame.ani))) {
+                frame.ani.fireXY = [];
+            }
             if (frame.ani.isEffect) frame.ani.isEffect = 1;
             else frame.ani.isEffect = 0;
             if (frame.ani.offset.length == 0)
@@ -134,7 +137,7 @@ export let analyzeAtlasFile = (sender: WebContents, atlasPath: string, isTest: b
         }
 
         var rect = frame.frame;
-        let rectStr = [rect.x, rect.y, rect.w, rect.h].join(',');
+        let rectStr = [rect.x, rect.y, rect.w, rect.h, frame.spriteSourceSize.x, frame.spriteSourceSize.y].join(',');
         if (isNaN(imgCheck[rectStr])) {
             imgCheck[rectStr] = imgIndx;
             imgIndx++;
@@ -142,7 +145,6 @@ export let analyzeAtlasFile = (sender: WebContents, atlasPath: string, isTest: b
         let frameIndx = imgCheck[rectStr]
         //当前帧未生成图片
         if (!aniInfo.images[frameIndx] && !frame.ani.isBlank) {
-            imgCheck[rect.toString()] = true;
             pivotx = Number(frame.sourceSize.w) >> 1;
             pivoty = Number(frame.sourceSize.h) >> 1;
             var dst = Images(frame.sourceSize.w, frame.sourceSize.h);

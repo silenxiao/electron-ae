@@ -41,8 +41,6 @@ export module ui.scene {
 		public txtCoordinateX:Laya.TextInput;
 		public txtCoordinateY:Laya.TextInput;
 		public btnHide:Laya.CheckBox;
-		public grpLayer:Laya.RadioGroup;
-		public chkFollow:Laya.CheckBox;
 		public btnUp:Laya.Button;
 		public btnDown:Laya.Button;
 		public btnOffsetReset:Laya.Button;
@@ -62,7 +60,12 @@ export module ui.scene {
 		public chkBlank:Laya.CheckBox;
 		public txtHitX:Laya.TextInput;
 		public txtHitY:Laya.TextInput;
+		public chkFire:Laya.CheckBox;
+		public txtFireX:Laya.TextInput;
+		public txtFireY:Laya.TextInput;
 		public lblUdef:Laya.TextInput;
+		public grpLayer:Laya.RadioGroup;
+		public chkFollow:Laya.CheckBox;
 		public panelshow:Laya.Panel;
 		public cbbModel:Laya.ComboBox;
 		public lblHitXY:laya.display.Text;

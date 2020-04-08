@@ -22,7 +22,6 @@ let txtCoordinateY: Laya.TextInput;
 let btnHide: Laya.CheckBox;
 let isBGLocked = false;
 
-
 export function imgBGHandle(mainUI: StagePanel) {
 
     imgBG = mainUI.imgBG;
@@ -227,7 +226,7 @@ function buildScale() {
         t.y = coordinateY.y - 9;
         t.x = i;
     }
-    for (let i = coordX + 30; i < 860; i += 30) {
+    for (let i = coordX + 30; i < 930; i += 30) {
         let t = new CoorScale(false);
         c.addChild(t);
         t.setScalVal((i - coordX).toString());

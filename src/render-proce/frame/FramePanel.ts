@@ -30,6 +30,7 @@ export default class FramePanel extends ui.scene.FramePanelUI {
 
         this.btnPlay.on(Laya.Event.CLICK, this, this.onBtnPlay);
         this.btnStop.on(Laya.Event.CLICK, this, this.onBtnStop);
+        this.btnStop.visible = false;
 
         this.chkselect.on(Laya.Event.CHANGE, this, this.onChkSelected);
         this.chkLoop.on(Laya.Event.CHANGE, this, this.onChkLoop);

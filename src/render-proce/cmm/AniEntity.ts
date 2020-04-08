@@ -1,5 +1,5 @@
 import { ANI_FRAME_TYPE, EvtCenter, AE_Event } from "./EvtCenter";
-import { globalDao, cmmAniConf, aniEntityDict } from "./render-dao";
+import { globalDao, cmmAniConf, aniEntityDict, confParam } from "./render-dao";
 import { setCurFrameIndex, updateFramePanelData } from "../frame/ani-frame-edit";
 import { sysAniFrameOffset } from "../attr/ani-frame-offset";
 import { sysAniFrameEffect } from "../attr/ani-frame-effect";
@@ -37,9 +37,9 @@ export default class AniEntity extends Laya.Sprite {
 
     glowFilter = new Laya.GlowFilter("#ff0000", 5, 0, 0);
     //技能效果
-    effects: Map<number, string>;
+    effects: string[];
     //命中效果
-    hits: Map<number, string>;
+    hits: string[];
 
     totalFrameNum: number;
     //aniFrameNum: number;
@@ -55,8 +55,8 @@ export default class AniEntity extends Laya.Sprite {
     constructor(val: AniInfo) {
         super()
         this.aniInfo = val;
-        this.effects = new Map<number, string>();
-        this.hits = new Map<number, string>();
+        this.effects = [];
+        this.hits = [];
 
         this.frameIndxs = JSON.parse(JSON.stringify(val.frameIndxs));
         this.indxId = this.frameIndxs.length;
@@ -147,9 +147,9 @@ export default class AniEntity extends Laya.Sprite {
     //获取帧的效果数据
     private getFrameEffect(frameIndx: number): FrameEffect {
         if (frameIndx >= this.totalFrameNum)
-            this.frameEffects[frameIndx] = { isEffect: 0, hitXY: [], offset: [0, 0], layLevel: 0, copyIndex: -1, indxId: frameIndx, isBlank: false, lblName: '' };
+            this.frameEffects[frameIndx] = { isEffect: 0, hitXY: [], offset: [0, 0], fireXY: [], layLevel: 0, copyIndex: -1, indxId: frameIndx, isBlank: false, lblName: '' };
         if (!this.frameEffects[frameIndx])
-            this.frameEffects[frameIndx] = { isEffect: 0, hitXY: [], offset: [0, 0], layLevel: 0, copyIndex: frameIndx, indxId: frameIndx, isBlank: false, lblName: '' }
+            this.frameEffects[frameIndx] = { isEffect: 0, hitXY: [], offset: [0, 0], fireXY: [], layLevel: 0, copyIndex: frameIndx, indxId: frameIndx, isBlank: false, lblName: '' }
         return this.frameEffects[frameIndx];
     }
 
@@ -174,7 +174,7 @@ export default class AniEntity extends Laya.Sprite {
         } else {
             for (let i = this.blankNum; i < num; i++) {
                 this.frameIndxs.splice(0, 0, -1);
-                this.frameEffects.splice(0, 0, { isEffect: 0, hitXY: [], offset: [0, 0], layLevel: 0, copyIndex: -1, indxId: this.indxId, isBlank: true, lblName: '' });
+                this.frameEffects.splice(0, 0, { isEffect: 0, hitXY: [], offset: [0, 0], fireXY: [], layLevel: 0, copyIndex: -1, indxId: this.indxId, isBlank: true, lblName: '' });
                 this.indxId++;
             }
         }
@@ -487,7 +487,7 @@ export default class AniEntity extends Laya.Sprite {
         //this.aniFrameNum = 
         this.totalFrameNum = this.frameIndxs.length;
         let total = this.totalFrameNum - 1;
-        if (this.curFrameIndex > total) {
+        if (this.curFrameIndex > total && globalDao.curAniName == this.aniInfo.aniName) {
             this.setTexture(total);
             setCurFrameIndex(total, this)
         }
@@ -568,6 +568,9 @@ export default class AniEntity extends Laya.Sprite {
                 delete (<any>frameEffect)['offsetX'];
                 delete (<any>frameEffect)['offsetY'];
             }
+            if (!('fireXY' in (<any>frameEffect))) {
+                frameEffect.fireXY = [];
+            }
             if (frameEffect.isEffect) frameEffect.isEffect = 1;
             else frameEffect.isEffect = 0;
             if (frameEffect.offset.length == 0)
@@ -589,17 +592,17 @@ export default class AniEntity extends Laya.Sprite {
      * @param aniName
      */
     bindEffect(aniName: string) {
-        let oldAniName = this.effects.get(this.curFrameIndex);
+        let oldAniName = this.effects[this.curFrameIndex];
         let aniEntity = aniEntityDict.get(oldAniName);
         if (aniEntity) aniEntity.bindTarget = "";
 
         aniEntity = aniEntityDict.get(aniName);
         if (aniEntity) {
             aniEntity.bindTarget = this.aniInfo.aniName;
-            this.effects.set(this.curFrameIndex, aniName);
+            this.effects[this.curFrameIndex] = aniName;
             aniEntity.addBlankFrame(this.curFrameIndex);
         } else {
-            this.effects.delete(this.curFrameIndex);
+            delete this.effects[this.curFrameIndex];
         }
         this.updateAtkTarget();
     }
@@ -609,7 +612,7 @@ export default class AniEntity extends Laya.Sprite {
      * @param frameIndex 第几帧
      */
     getEffectName(frameIndex: number) {
-        let aniName = this.effects.get(frameIndex);
+        let aniName = this.effects[frameIndex];
         if (aniName) {
             return aniName;
         }
@@ -621,17 +624,17 @@ export default class AniEntity extends Laya.Sprite {
      * @param aniName 动画名
      */
     bindHit(aniName: string) {
-        let oldAniName = this.hits.get(this.curFrameIndex);
+        let oldAniName = this.hits[this.curFrameIndex];
         let aniEntity = aniEntityDict.get(oldAniName);
         if (aniEntity) aniEntity.bindTarget = "";
 
         aniEntity = aniEntityDict.get(aniName);
         if (aniEntity) {
             aniEntity.bindTarget = this.aniInfo.aniName;
-            this.hits.set(this.curFrameIndex, aniName);
+            this.hits[this.curFrameIndex] = aniName;
             aniEntity.addBlankFrame(this.curFrameIndex);
         } else {
-            this.hits.delete(this.curFrameIndex);
+            delete this.hits[this.curFrameIndex];
         }
         this.updateAtkTarget();
     }
@@ -641,7 +644,7 @@ export default class AniEntity extends Laya.Sprite {
      * @param frameIndex 第几帧
      */
     getHitName(frameIndex: number) {
-        let aniName = this.hits.get(frameIndex);
+        let aniName = this.hits[frameIndex];
         if (aniName) {
             return aniName;
         }
@@ -663,6 +666,7 @@ export default class AniEntity extends Laya.Sprite {
     updateAtkTarget() {
         if (this.atkTarget == "") return;
         let entity = aniEntityDict.get(this.atkTarget);
+        if (!entity) return;
         entity.bindTarget = this.aniInfo.aniName;
         entity.isFollow = false;
         entity.resetFramesData();
@@ -694,7 +698,8 @@ export default class AniEntity extends Laya.Sprite {
                     entity.setHitXY(i, frameEffect.hitXY);
                 }
             }
-        })
+        });
+        entity.downToFloor();
     }
 
     lastStepX: number = 0;
@@ -710,14 +715,10 @@ export default class AniEntity extends Laya.Sprite {
         let a = hitXY[0];
         let b = hitXY[1];
         if (this.image.scaleX == 1) a = -a;
-        this.lastA = a;
         let k = 0;
         if (a != 0) {
             k = b / (a * a)
         }
-        let offsetX = a / num;
-        let offsetY = -b / num;
-
         if (this.blankNum == 0) {
             this.addBlankFrame(frameIdx);
             this.lastStepX = 0;
@@ -725,40 +726,44 @@ export default class AniEntity extends Laya.Sprite {
         } else {
             let needToInsert = frameIdx - this.totalFrameNum;
             if (needToInsert >= 0) {
-                //this.lastKAB = [k, a, b];
                 let lastOffset = this.frameEffects[this.totalFrameNum - 1].offset;
                 let lastFrameFlyPoint = this.flyPoint[this.totalFrameNum - 1];
                 let ta, tb = 0;
                 if (lastFrameFlyPoint) {
-                    ta = lastFrameFlyPoint.x + lastOffset[0];
+                    ta = lastFrameFlyPoint.x;// + lastOffset[0];
                     tb = lastFrameFlyPoint.y + lastOffset[1];
                 }
                 this.lastStepX = ta;
                 this.lastStepY = tb;
-                let offsetX = ta / num;
-                let offsetY = -tb / num;
-                let k = 0;
-                if (ta != 0) k = Math.abs(tb / (ta * ta))
+                let lastPosX = this.lastStepX + this.lastA;
+                let offsetX = 0;
+                if (tb != 0)
+                    offsetX = -this.lastA * confParam.move_y / tb;
+
                 //根据上次的击退偏移量，掉落
-                for (let i = 0; i < needToInsert; i++) {//掉落
+                let i = 0;
+                for (; i < needToInsert; i++) {//掉落
                     let insertFrame = this.insertFrameOnPos(this.totalFrameNum - 1, this.totalFrameNum);
                     insertFrame.offset = [0, 0];
+                    this.lastStepY += confParam.move_y;
 
-                    if (k != 0 && this.lastA != 0) {
-                        this.lastStepX = this.lastStepX + offsetX;
-                        this.lastStepY = k * ((this.lastStepX - ta) * (this.lastStepX - ta)) + tb;
-                    } else {
-                        this.lastStepY += offsetY;
-                    }
+                    this.lastStepX += offsetX;
 
-                    this.lastStepX = this.lastStepX >> 0;
-                    this.lastStepY = this.lastStepY >> 0;
-                    if (this.lastStepY > 0) {
+                    if (Math.abs(this.lastStepX) - Math.abs(lastPosX) > 0) this.lastStepX = lastPosX;
+
+                    if (this.lastStepY > -confParam.move_y / 2) {
                         this.flyPoint[this.totalFrameNum - 1] = { x: this.lastStepX >> 0, y: 0 };
                         this.lastStepY = 0;
+                        i++;
+                        break;
                     } else {
                         this.flyPoint[this.totalFrameNum - 1] = { x: this.lastStepX >> 0, y: this.lastStepY >> 0 };
                     }
+                }
+                for (; i < needToInsert; i++) {
+                    let insertFrame = this.insertFrameOnPos(this.totalFrameNum - 1, this.totalFrameNum);
+                    insertFrame.offset = [0, 0];
+                    this.flyPoint[this.totalFrameNum - 1] = { x: this.lastStepX >> 0, y: 0 };
                 }
             } else {
                 for (let i = needToInsert; i < 0; i++) {
@@ -770,8 +775,8 @@ export default class AniEntity extends Laya.Sprite {
                     this.lastStepY = lastFrameFlyPoint.y;
                 }
             }
-            a = a + this.lastStepX;
-            b = b - this.lastStepY;
+            //a = a + this.lastStepX
+            //b = b - this.lastStepY;
             /*if (a != 0) {
                 this.lastStepX += offsetX;
                 this.lastStepY = k * (this.lastStepX - a) * (this.lastStepX - a) - b;
@@ -781,18 +786,60 @@ export default class AniEntity extends Laya.Sprite {
             //插入复制帧
             this.insertOriginFrameOnPos(this.totalFrameNum);
         }
+        this.lastA = a;
+        let offsetX = a / num;
+        //let offsetY = -b / num;
+        a = a + this.lastStepX
+        b = b - this.lastStepY;
         for (let i = frameIdx; i <= frameIdx + num; i++) {
-            this.flyPoint[i] = { x: this.lastStepX, y: this.lastStepY };
-            if (a != 0) {
-                this.lastStepX += offsetX;
-                this.lastStepY = k * (this.lastStepX - a) * (this.lastStepX - a) - b;
+            this.flyPoint[i] = { x: this.lastStepX >> 0, y: this.lastStepY >> 0 };
+            if (offsetX != 0) {
+                if (k == 0) {
+                    this.lastStepX += a * (frameIdx + num - i) * 2 / ((num + 1) * num);
+                    this.lastStepY = 0;
+                } else {
+                    this.lastStepX += offsetX;
+                    this.lastStepY = k * (this.lastStepX - a) * (this.lastStepX - a) - b;
+                }
             } else {
-                this.lastStepY += offsetY;
+                //this.lastStepY += offsetY;
+
+                this.lastStepY += -b * (frameIdx + num - i) * 2 / ((num + 1) * num);
             }
-            this.lastStepX = this.lastStepX >> 0;
-            this.lastStepY = this.lastStepY >> 0;
         }
         //this.lastK = k;
+    }
+
+    private downToFloor() {
+        let lastOffset = this.frameEffects[this.totalFrameNum - 1].offset;
+        let lastFrameFlyPoint = this.flyPoint[this.totalFrameNum - 1];
+        let ta, tb = 0;
+        if (lastFrameFlyPoint) {
+            ta = lastFrameFlyPoint.x;// + lastOffset[0];
+            tb = lastFrameFlyPoint.y + lastOffset[1];
+        }
+        this.lastStepX = ta;
+        this.lastStepY = tb;
+        let offsetX = 0;
+        if (tb != 0)
+            offsetX = -this.lastA * confParam.move_y / tb;
+
+        let lastPosX = this.lastStepX + this.lastA;
+
+        while (this.lastStepY < 0) {
+            let insertFrame = this.insertFrameOnPos(this.totalFrameNum - 1, this.totalFrameNum);
+            insertFrame.offset = [0, 0];
+            this.lastStepY += confParam.move_y;
+
+            this.lastStepX += offsetX;
+            if (Math.abs(this.lastStepX) - Math.abs(lastPosX) > 0) this.lastStepX = lastPosX;
+            if (this.lastStepY > -confParam.move_y / 2) {
+                this.flyPoint[this.totalFrameNum - 1] = { x: this.lastStepX >> 0, y: 0 };
+                this.lastStepY = 0;
+            } else {
+                this.flyPoint[this.totalFrameNum - 1] = { x: this.lastStepX >> 0, y: this.lastStepY >> 0 };
+            }
+        }
     }
 
     resetHitXY() {

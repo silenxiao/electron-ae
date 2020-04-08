@@ -9,7 +9,7 @@ let mainWindow: BrowserWindow;
 let createWindow = () => {
     mainWindow = new
         BrowserWindow({
-            width: 1418,
+            width: 1483,
             height: 964,
             titleBarStyle: 'hidden',
             useContentSize: false,
@@ -64,7 +64,12 @@ if (fs.existsSync(path.join(ENV_PATH.ROOT_PATH, 'data/config.json'))) {
     let conf = JSON.parse(fs.readFileSync(path.join(ENV_PATH.ROOT_PATH, 'data/config.json'), { encoding: 'UTF-8' }));
     globalParam.frameRate = conf.frameRate;
     globalParam.bgParam = conf.bgParam;
+    if (globalParam.bgParam.url == 'scene.jpg') {
+        globalParam.bgParam.posX = 145;
+        globalParam.bgParam.coordinateX = 465;
+    }
     globalParam.frameIntev = conf.frameIntev;
+    globalParam.move_y = conf.move_y;
     if (conf.tinify_key)
         globalParam.tinify_key = conf.tinify_key;
     else

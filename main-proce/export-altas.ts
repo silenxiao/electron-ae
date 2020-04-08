@@ -31,11 +31,11 @@ export let exportAtlas = (sender: WebContents, aniName: string, images: string[]
                 sender.send('global-error', err.message);
             } else {
                 //压缩图片
-                tinify.key = globalParam.tinify_key;
+                //tinify.key = globalParam.tinify_key;
 
-                let filePath = path.join(outputpath, `${aniName}.png`);
-                const source = tinify.fromFile(filePath);
-                source.toFile(filePath);
+                //let filePath = path.join(outputpath, `${aniName}.png`);
+                //const source = tinify.fromFile(filePath);
+                //source.toFile(filePath);
                 mergeAtlasConf(outputpath, aniName, frameEffects, indexToPng)
                 sender.send('save-atlas-succ', aniName, outputpath);
             }
@@ -106,6 +106,7 @@ function mergeAtlasConf(dirname: string, aniName: string, frameEffects: FrameEff
             frameEffect.copyIndex = indexToPng[frameEffect.copyIndex];
             frameDatas[i].ani = frameEffect;
         }
+        frameDatas[i].frame.id = frameEffect['copyIndex'];
         if (frameEffect.offset[0] == 0 && frameEffect.offset[1] == 0)
             frameEffect.offset = [];
         delete frameEffect['isBlank'];
@@ -131,6 +132,8 @@ function checkFrameExsitEffect(frameEffect: FrameEffect): boolean {
         return true;
     if (frameEffect.offset.length > 0)
         return true;
+    if (frameEffect.fireXY.length > 0)
+        return true;
     return false;
 }
 
@@ -155,7 +158,7 @@ function copyFile(frameEffects: FrameEffect[], images: string[], tempFolder: str
 
 function genBlankFrame(mWidth: number, mHight: number, frameEffect: FrameEffect) {
     let blankFrame = <FrameData>{};
-    let frame = { h: 1, idx: 0, w: 1, x: 0, y: 0 };
+    let frame = { h: 1, idx: 0, w: 1, x: 0, y: 0, id: 0 };
     let sourceSize = { h: mHight, w: mWidth };
     let spriteSourceSize = { x: 0, y: 0 };
     blankFrame.frame = frame;

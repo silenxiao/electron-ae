@@ -45,6 +45,7 @@ declare class Frame {
     y: number;
     w: number;
     h: number;
+    id: number;
 }
 
 /** 动画的大小 */
@@ -61,13 +62,18 @@ declare class SpriteSourceSize {
 /** 帧效果 */
 declare class FrameEffect {
     isEffect: number;
+    /** hit点的受击方的击飞距离 */
     hitXY: number[];
+    /** 帧的偏移距离 */
     offset: number[];
+    /** 投掷道具的发射点  */
+    fireXY: number[];
+    /** 特效的层级 0：人物上层，1：人物下层 */
     layLevel: number;
     /**复制的图片序列id */
     copyIndex: number;
+    /**特殊的帧事件 */
     lblName: string;
-
     /** 唯一id */
     indxId: number;
     /**
@@ -91,6 +97,7 @@ declare class GlobalData {
     frameIntev: FrameIntev;
 
     tinify_key: string;
+    move_y: number;
 }
 
 /** 背景参数 */

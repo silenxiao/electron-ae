@@ -22,6 +22,7 @@ export let globalParam: GlobalData = {
         run_s: 2
     },
     tinify_key: 'fHWleyCjV8lBEde9QWYFcmzMg7ns8fMb',
+    move_y: 20,
 }
 
 export let aniDict: Map<string, AniInfo> = new Map();

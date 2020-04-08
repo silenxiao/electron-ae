@@ -25,6 +25,9 @@ let hitNames = "绑定受击特效";
 let modNames = "绑定受击模型";
 let aniName: string[] = [];
 let lblHitXY: Laya.Text;
+let txtFireX: Laya.TextInput;
+let txtFireY: Laya.TextInput;
+let chkFire: Laya.CheckBox;
 export function aniFrameEffectHandle(editor: AttrPanel) {
 
     let btnEffReset = editor.btnEffReset;
@@ -49,7 +52,6 @@ export function aniFrameEffectHandle(editor: AttrPanel) {
     chkFollow = editor.chkFollow;
     chkFollow.on(Laya.Event.CHANGE, null, onChkFollow);
 
-
     txtUdef = editor.lblUdef;
     txtUdef.on(Laya.Event.INPUT, null, onUdefInput);
 
@@ -71,6 +73,14 @@ export function aniFrameEffectHandle(editor: AttrPanel) {
     cbbModel.selectHandler = Laya.Handler.create(null, onCbbModel, [cbbModel], false);
 
     lblHitXY = editor.lblHitXY;
+
+    chkFire = editor.chkFire;
+    chkFire.on(Laya.Event.CHANGE, null, onChkFire);
+
+    txtFireX = editor.txtFireX;
+    txtFireX.on(Laya.Event.INPUT, null, onFireXInput);
+    txtFireY = editor.txtFireY;
+    txtFireY.on(Laya.Event.INPUT, null, onFireYInput);
 }
 
 /**
@@ -156,16 +166,26 @@ export function sysAniFrameEffect(_frameEffect: FrameEffect, effectName: string,
         txtHitX.text = '0';
         txtHitY.text = '0';
     }
+
+    chkFire.selected = frameEffect.fireXY.length != 0;
+    if (frameEffect.fireXY.length > 0) {
+        txtFireX.text = frameEffect.fireXY[0].toString();
+        txtFireY.text = frameEffect.fireXY[1].toString();
+    } else {
+        txtFireX.text = '0';
+        txtFireY.text = '0';
+    }
+
     grpLayer.selectedIndex = frameEffect.layLevel;
     //chkBlank.selected = frameEffect.isBlank;
     txtUdef.text = _frameEffect.lblName;
 
-    if (effectName == "")
+    if (effectName == "" || cbbEffect.labels.indexOf(effectName) < 0)
         cbbEffect.selectedIndex = 0;
     else
         cbbEffect.selectedLabel = effectName;
 
-    if (hitName == "")
+    if (hitName == "" || cbbHit.labels.indexOf(hitName) < 0)
         cbbHit.selectedIndex = 0;
     else
         cbbHit.selectedLabel = hitName;
@@ -179,7 +199,7 @@ export function sysAniFrameEffect(_frameEffect: FrameEffect, effectName: string,
     if (hitXY)
         lblHitXY.text = [hitXY.x, hitXY.y].join(', ')
     else
-        lblHitXY.text = '0, 0'
+        lblHitXY.text = '0, 0';
 }
 
 function onChkEffect() {
@@ -251,12 +271,24 @@ function onHitYInput() {
     }
 }
 
+function onFireXInput() {
+    if (globalDao.curAniName == "") return;
+    let x = Number(txtFireX.text);
+    frameEffect.fireXY[0] = x;
+}
+
+function onFireYInput() {
+    if (globalDao.curAniName == "") return;
+    let y = Number(txtFireY.text);
+    frameEffect.fireXY[1] = y;
+}
+
 function onCbbModel(cbb: Laya.ComboBox) {
     if (globalDao.curAniName == "" || globalDao.curAniName == cbb.selectedLabel) return;
     let entity = aniEntityDict.get(globalDao.curAniName);
     if (!entity) return;
     if (entity.atkTarget == cbb.selectedLabel) return;
-    if (entity.atkTarget != '') {
+    if (aniEntityDict.get(entity.atkTarget)) {
         aniEntityDict.get(entity.atkTarget).resetHitXY();
     }
     if (cbb.selectedIndex > 0) {
@@ -292,6 +324,13 @@ function onGrpLayer() {
     }
 }
 
+function onChkFire() {
+    if (globalDao.curAniName == "") return;
+    if (frameEffect.fireXY.length == 0 && chkFire.selected)
+        frameEffect.fireXY = [0, 0];
+    if (!chkFire.selected) frameEffect.fireXY = [];
+    updateFramePanelData(globalDao.curAniName);
+}
 
 function onChkBlank() {
     if (globalDao.curAniName == '') return;

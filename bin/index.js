@@ -32,7 +32,9 @@ dragDiv.ondragend = () => {
 dragDiv.ondrop = (evt) => {
     event.preventDefault()
     for (let f of evt.dataTransfer.files) {
-        console.log(f.path);
         ipcRenderer.send('ondragstart', f.path.replace(/\\/g, "/"));
     }
 }
+
+
+ipcRenderer.send('reload');

@@ -4,7 +4,7 @@
     "selectedBox":2,
     "selecteID":120,
     "searchKey":"Scene",
-    "props":{"y":0,"x":0,"width":1400,"sceneColor":"#ffffff","runtime":"render-proce/stage/StagePanel.ts","height":900},
+    "props":{"y":0,"x":0,"width":1465,"sceneColor":"#ffffff","runtime":"render-proce/stage/StagePanel.ts","height":900},
     "nodeParent":-1,
     "maxID":286,
     "label":"Scene",
@@ -18,7 +18,7 @@
             "x":15,
             "type":"Panel",
             "searchKey":"Panel,tab1",
-            "props":{"y":0,"x":0,"width":1400,"var":"tab1","height":900,"bgColor":"#1e1e1e"},
+            "props":{"y":0,"x":0,"width":1465,"var":"tab1","height":900,"bgColor":"#1e1e1e"},
             "nodeParent":2,
             "label":"tab1",
             "isOpen":true,
@@ -31,20 +31,19 @@
                     "x":30,
                     "type":"Panel",
                     "searchKey":"Panel,imagepanel",
-                    "props":{"y":0,"x":275,"width":860,"var":"imagepanel","height":900},
+                    "props":{"y":0,"x":270,"width":930,"var":"imagepanel","height":900},
                     "nodeParent":120,
                     "label":"imagepanel",
-                    "isOpen":true,
+                    "isOpen":false,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
                     "compId":14,
                     "child":[
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,imgBG",
-                            "props":{"y":-30,"x":110,"var":"imgBG","skin":"scene.jpg"},
+                            "props":{"y":-30,"x":145,"var":"imgBG","skin":"scene.jpg"},
                             "nodeParent":14,
                             "label":"imgBG",
                             "isDirectory":false,
@@ -55,10 +54,9 @@
                                 ]
                         },
                         {
-                            "x":45,
                             "type":"Panel",
                             "searchKey":"Panel,container,container",
-                            "props":{"y":0,"x":0,"width":860,"var":"container","name":"container","height":590},
+                            "props":{"y":0,"x":0,"width":930,"var":"container","name":"container","height":590},
                             "nodeParent":14,
                             "label":"container",
                             "isOpen":true,
@@ -70,10 +68,9 @@
                                 ]
                         },
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,coordinateX",
-                            "props":{"y":0,"x":430,"width":1,"var":"coordinateX","skin":"comp/line1.png","height":590},
+                            "props":{"y":0,"x":465,"width":1,"var":"coordinateX","skin":"comp/line1.png","height":590},
                             "nodeParent":14,
                             "label":"coordinateX",
                             "isOpen":true,
@@ -85,10 +82,9 @@
                                 ]
                         },
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,coordinateY",
-                            "props":{"y":515,"x":0,"width":860,"var":"coordinateY","skin":"comp/line2.png","height":1},
+                            "props":{"y":515,"x":0,"width":930,"var":"coordinateY","skin":"comp/line2.png","height":1},
                             "nodeParent":14,
                             "label":"coordinateY",
                             "isDirectory":false,
@@ -121,7 +117,7 @@
                     "type":"UIView",
                     "source":"scene/AttrPanel.scene",
                     "searchKey":"UIView,rightpanel",
-                    "props":{"y":0,"x":1135,"var":"rightpanel"},
+                    "props":{"y":0,"x":1200,"var":"rightpanel"},
                     "nodeParent":120,
                     "label":"rightpanel",
                     "isDirectory":false,
@@ -136,7 +132,7 @@
                     "type":"UIView",
                     "source":"scene/FramePanel.scene",
                     "searchKey":"UIView,framepanel",
-                    "props":{"y":590,"x":275,"var":"framepanel"},
+                    "props":{"y":590,"x":270,"var":"framepanel"},
                     "nodeParent":120,
                     "label":"framepanel",
                     "isDirectory":false,
@@ -144,7 +140,9 @@
                     "hasChild":false,
                     "compId":285,
                     "child":[
-                        ]
+                        ],
+                    "$LOCKED":false,
+                    "$HIDDEN":false
                 }],
             "$HIDDEN":false
         }],
