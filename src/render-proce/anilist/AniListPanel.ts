@@ -154,7 +154,7 @@ export default class LeftPanel extends ui.scene.AniListPanelUI {
     onPlay() {
         if (this.isPlaying) return;
         this.isPlaying = true;
-        Laya.timer.loop(1000 / confParam.frameRate, this, this.loop);
+        Laya.timer.frameLoop(2, this, this.loop);
         this.btnShowPlay.visible = false;
         this.btnShowStop.visible = true;
     }

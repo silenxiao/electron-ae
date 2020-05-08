@@ -94,7 +94,7 @@ export default class StagePanel extends ui.scene.StagePanelUI {
                 this.playList.push(key);
             });
             this.frameIndex = globalDao.curFrameIndex;
-            Laya.timer.loop(1000 / confParam.frameRate, this, this.loop);
+            Laya.timer.frameLoop(2, this, this.loop);
         }
         else {
             Laya.timer.clear(this, this.loop);

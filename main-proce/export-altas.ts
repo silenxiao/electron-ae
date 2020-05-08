@@ -107,8 +107,12 @@ function mergeAtlasConf(dirname: string, aniName: string, frameEffects: FrameEff
             frameDatas[i].ani = frameEffect;
         }
         frameDatas[i].frame.id = frameEffect['copyIndex'];
+        let lastFrame = frameEffects[i - 1];
         if (frameEffect.offset[0] == 0 && frameEffect.offset[1] == 0)
-            frameEffect.offset = [];
+            if (lastFrame && (lastFrame.offset.length > 0 && (lastFrame.offset[0] != 0 || lastFrame.offset[1] != 0)))
+                frameEffect.offset = [0, 0];
+            else
+                frameEffect.offset = [];
         delete frameEffect['isBlank'];
         delete frameEffect['copyIndex'];
         delete frameEffect['indxId'];
