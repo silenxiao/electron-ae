@@ -114,7 +114,7 @@ export module ui.scene {
         }
     }
     REG("ui.scene.FramePanelUI",FramePanelUI);
-    export class StagePanelUI extends Scene {
+    export class StagePanelUI extends Laya.Scene {
 		public ani1:Laya.FrameAnimation;
 		public tab1:Laya.Panel;
 		public imagepanel:Laya.Panel;

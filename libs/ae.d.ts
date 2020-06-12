@@ -81,6 +81,7 @@ declare class FrameEffect {
      *是否是空白帧，不导出 
      */
     isBlank: boolean;
+    isHide: boolean;
 }
 
 declare class Point {

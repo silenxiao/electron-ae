@@ -147,9 +147,9 @@ export default class AniEntity extends Laya.Sprite {
     //获取帧的效果数据
     private getFrameEffect(frameIndx: number): FrameEffect {
         if (frameIndx >= this.totalFrameNum)
-            this.frameEffects[frameIndx] = { isEffect: 0, hitXY: [], offset: [0, 0], fireXY: [], layLevel: 0, copyIndex: -1, indxId: frameIndx, isBlank: false, lblName: '' };
+            this.frameEffects[frameIndx] = { isEffect: 0, hitXY: [], offset: [0, 0], fireXY: [], layLevel: 0, copyIndex: -1, indxId: frameIndx, isBlank: false, lblName: '', isHide: false };
         if (!this.frameEffects[frameIndx])
-            this.frameEffects[frameIndx] = { isEffect: 0, hitXY: [], offset: [0, 0], fireXY: [], layLevel: 0, copyIndex: frameIndx, indxId: frameIndx, isBlank: false, lblName: '' }
+            this.frameEffects[frameIndx] = { isEffect: 0, hitXY: [], offset: [0, 0], fireXY: [], layLevel: 0, copyIndex: frameIndx, indxId: frameIndx, isBlank: false, lblName: '', isHide: false }
         return this.frameEffects[frameIndx];
     }
 
@@ -174,7 +174,7 @@ export default class AniEntity extends Laya.Sprite {
         } else {
             for (let i = this.blankNum; i < num; i++) {
                 this.frameIndxs.splice(0, 0, -1);
-                this.frameEffects.splice(0, 0, { isEffect: 0, hitXY: [], offset: [0, 0], fireXY: [], layLevel: 0, copyIndex: -1, indxId: this.indxId, isBlank: true, lblName: '' });
+                this.frameEffects.splice(0, 0, { isEffect: 0, hitXY: [], offset: [0, 0], fireXY: [], layLevel: 0, copyIndex: -1, indxId: this.indxId, isBlank: true, lblName: '', isHide: false });
                 this.indxId++;
             }
         }

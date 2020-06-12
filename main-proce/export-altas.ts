@@ -116,6 +116,7 @@ function mergeAtlasConf(dirname: string, aniName: string, frameEffects: FrameEff
         delete frameEffect['isBlank'];
         delete frameEffect['copyIndex'];
         delete frameEffect['indxId'];
+        delete frameEffect['isHide'];
 
         if (!checkFrameExsitEffect(frameEffect)) {
             delete frameDatas[i].ani

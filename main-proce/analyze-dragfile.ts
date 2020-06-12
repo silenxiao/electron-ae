@@ -46,7 +46,7 @@ let analyzeDirectory = (sender: WebContents, rootPath: string): AniInfo => {
             if (extname == ".jpg" || extname == ".png") {
                 aniInfo.images.push(filePath);
                 aniInfo.frameIndxs.push(indx);
-                aniInfo.frameEffects.push({ isEffect: 0, hitXY: [], offset: [0, 0], fireXY: [], layLevel: 0, copyIndex: indx, indxId: indx, isBlank: false, lblName: "" });
+                aniInfo.frameEffects.push({ isEffect: 0, hitXY: [], offset: [0, 0], fireXY: [], layLevel: 0, copyIndex: indx, indxId: indx, isBlank: false, lblName: "", isHide: false });
                 indx++;
                 aniInfo.pivot.x = Images(filePath).size().width >> 1;
                 aniInfo.pivot.y = Images(filePath).size().height >> 1;
@@ -106,7 +106,7 @@ export let analyzeAtlasFile = (sender: WebContents, atlasPath: string, isTest: b
     for (let index in atlasInfo.frames) {
         let frame = atlasInfo.frames[index];
         if (!frame.ani) {
-            frame.ani = { isEffect: 0, hitXY: [], offset: [0, 0], fireXY: [], layLevel: 0, copyIndex: indx, indxId: indx, isBlank: false, lblName: "" }
+            frame.ani = { isEffect: 0, hitXY: [], offset: [0, 0], fireXY: [], layLevel: 0, copyIndex: indx, indxId: indx, isBlank: false, lblName: "", isHide: false }
         } else {
             if ('isHit' in (<any>frame.ani)) {
                 if ((<any>frame.ani)['isHit'])

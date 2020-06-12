@@ -1,12 +1,12 @@
 {
     "x":0,
     "type":"Scene",
-    "selectedBox":2,
-    "selecteID":35,
+    "selectedBox":25,
+    "selecteID":51,
     "searchKey":"Scene",
     "props":{"y":0,"x":0,"width":930,"sceneColor":"#000000","runtime":"render-proce/frame/FramePanel.ts","height":310},
     "nodeParent":-1,
-    "maxID":53,
+    "maxID":55,
     "label":"Scene",
     "isOpen":true,
     "isDirectory":true,
@@ -535,6 +535,20 @@
                                                     "isAniNode":false,
                                                     "hasChild":false,
                                                     "compId":51,
+                                                    "child":[
+                                                        ]
+                                                },
+                                                {
+                                                    "x":90,
+                                                    "type":"Image",
+                                                    "searchKey":"Image,frameHide",
+                                                    "props":{"y":0,"x":0,"width":18,"skin":"comp/ani_hide.png","name":"frameHide","height":25},
+                                                    "nodeParent":25,
+                                                    "label":"frameHide",
+                                                    "isDirectory":false,
+                                                    "isAniNode":false,
+                                                    "hasChild":false,
+                                                    "compId":54,
                                                     "child":[
                                                         ]
                                                 },

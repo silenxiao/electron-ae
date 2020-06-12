@@ -1,11 +1,12 @@
 export default class ActFrameRender extends Laya.Box {
     frameEff: Laya.Image;
     frameHit: Laya.Image;
+    frameHide: Laya.Image;
     frameLayer: Laya.Image;
     frameUdef: Laya.Image;
     frameFire: Laya.Image;
     txtFrame: Laya.Label;
-
+    frameData: FrameEffect
     constructor() {
         super()
     }
@@ -26,11 +27,24 @@ export default class ActFrameRender extends Laya.Box {
         this.frameFire = this.getChildByName('frameFire') as Laya.Image;
         this.frameFire.visible = false;
 
+        this.frameHide = this.getChildByName('frameHide') as Laya.Image;
+        this.frameHide.visible = false;
+
         this.txtFrame = this.getChildByName('txtFrame') as Laya.Label;
+        this.on(Laya.Event.DOUBLE_CLICK, this, this.onClick)
+    }
+
+    onClick(evt: Laya.Event) {
+        if (this.frameData) {
+            this.frameData.isHide = !this.frameData.isHide;
+            this.frameHide.visible = this.frameData.isHide;
+        }
     }
 
     setData(val: FrameEffect) {
         if (!val) return;
+        this.frameData = val;
+        this.frameHide.visible = this.frameData.isHide;
         this.frameEff.visible = (val.isEffect != 0);
         this.frameHit.visible = (val.hitXY.length > 0);
         this.frameLayer.visible = (val.layLevel != 0);

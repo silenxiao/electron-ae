@@ -10,30 +10,30 @@ import StagePanel from "./render-proce/stage/StagePanel"
 /*
 * 游戏初始化配置;
 */
-export default class GameConfig {
-    static width: number = 1465;
-    static height: number = 900;
-    static scaleMode: string = "noscale";
-    static screenMode: string = "none";
-    static alignV: string = "middle";
-    static alignH: string = "center";
-    static startScene: any = "scene/StagePanel.scene";
-    static sceneRoot: string = "";
-    static debug: boolean = true;
-    static stat: boolean = true;
-    static physicsDebug: boolean = false;
-    static exportSceneToJson: boolean = true;
-    constructor() { }
-    static init() {
+export default class GameConfig{
+    static width:number=1465;
+    static height:number=900;
+    static scaleMode:string="noscale";
+    static screenMode:string="none";
+    static alignV:string="middle";
+    static alignH:string="center";
+    static startScene:any="scene/StagePanel.scene";
+    static sceneRoot:string="";
+    static debug:boolean=false;
+    static stat:boolean=false;
+    static physicsDebug:boolean=false;
+    static exportSceneToJson:boolean=true;
+    constructor(){}
+    static init(){
         var reg: Function = Laya.ClassUtils.regClass;
-        reg("render-proce/anilist/AniListPanel.ts", AniListPanel);
-        reg("render-proce/anilist/AniListRender.ts", AniListRender);
-        reg("render-proce/attr/AttrPanel.ts", AttrPanel);
-        reg("render-proce/frame/FramePanel.ts", FramePanel);
-        reg("render-proce/frame/ActAniNameRender.ts", ActAniNameRender);
-        reg("render-proce/frame/ActFrameListRender.ts", ActFrameListRender);
-        reg("render-proce/frame/ActFrameRender.ts", ActFrameRender);
-        reg("render-proce/stage/StagePanel.ts", StagePanel);
+        reg("render-proce/anilist/AniListPanel.ts",AniListPanel);
+        reg("render-proce/anilist/AniListRender.ts",AniListRender);
+        reg("render-proce/attr/AttrPanel.ts",AttrPanel);
+        reg("render-proce/frame/FramePanel.ts",FramePanel);
+        reg("render-proce/frame/ActAniNameRender.ts",ActAniNameRender);
+        reg("render-proce/frame/ActFrameListRender.ts",ActFrameListRender);
+        reg("render-proce/frame/ActFrameRender.ts",ActFrameRender);
+        reg("render-proce/stage/StagePanel.ts",StagePanel);
     }
 }
 GameConfig.init();
